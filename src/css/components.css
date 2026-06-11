@@ -1,0 +1,240 @@
+/* Others */
+.tag {
+  @apply rounded-md;
+  @apply text-xs;
+  @apply py-1;
+  @apply px-2;
+  @apply whitespace-nowrap;
+}
+
+/* Buttons */
+.btn {
+  @apply whitespace-nowrap;
+  @apply font-semibold;
+  @apply py-2;
+  @apply px-4;
+  @apply rounded-md;
+  @apply border-2;
+}
+.btn:focus {
+  @apply outline-none;
+}
+.btn:disabled {
+  @apply cursor-not-allowed;
+  @apply grayscale-70;
+  @apply opacity-70;
+}
+.btn > svg {
+  @apply align-text-bottom;
+}
+
+.btn-blue {
+  @apply border-blue-300;
+}
+.btn-blue:hover {
+  @apply border-blue-400;
+}
+.btn-blue:disabled:hover {
+  @apply border-blue-300;
+}
+.btn-blue > svg {
+  @apply text-blue-300;
+}
+.btn-blue:hover > svg {
+  @apply text-blue-400;
+}
+.btn-blue:disabled:hover > svg {
+  @apply text-blue-300;
+}
+
+.btn-white {
+  @apply border-zinc-300;
+}
+.btn-white:hover {
+  @apply border-zinc-400;
+}
+.btn-white:disabled:hover {
+  @apply border-zinc-300;
+}
+.btn-white > svg {
+  @apply text-zinc-300;
+}
+.btn-white:hover > svg {
+  @apply text-zinc-400;
+}
+.btn-white:disabled:hover > svg {
+  @apply text-zinc-300;
+}
+
+.btn-red {
+  @apply border-rose-400;
+}
+.btn-red:hover {
+  @apply border-rose-600;
+}
+.btn-red:disabled:hover {
+  @apply border-rose-400;
+}
+.btn-red > svg {
+  @apply text-rose-400;
+}
+.btn-red:hover > svg {
+  @apply text-rose-600;
+}
+.btn-red:disabled:hover > svg {
+  @apply text-rose-400;
+}
+
+.btn-sm {
+  @apply text-sm;
+  @apply font-normal;
+  @apply px-2;
+  @apply py-1;
+}
+
+.btn-group .btn {
+  @apply border-l-0;
+  @apply border-r-0;
+}
+.btn-group .btn:first-of-type {
+  @apply rounded-r-none;
+  @apply border-l-2;
+  @apply border-r;
+}
+.btn-group .btn:last-of-type {
+  @apply rounded-l-none;
+  @apply border-r-2;
+  @apply border-l;
+}
+.btn-group .btn:not(:first-of-type):not(:last-of-type) {
+  @apply rounded-none;
+  @apply border-x;
+}
+.btn-group .btn-blue {
+  @apply text-black;
+  @apply bg-blue-300;
+  @apply border-blue-300;
+}
+.btn-group .btn-blue:hover {
+  @apply bg-blue-400;
+  @apply border-blue-400;
+}
+
+/* Text Input */
+.input {
+  @apply appearance-none;
+  @apply rounded-md;
+  @apply p-1;
+  @apply my-1;
+  @apply text-black;
+  @apply bg-white;
+  @apply border;
+  @apply border-tertiary;
+}
+.input:hover {
+  @apply border-primary;
+}
+.input:read-only:hover {
+  @apply border-tertiary;
+  @apply cursor-default;
+}
+.input:focus {
+  @apply outline-none;
+  @apply border-primary;
+  box-shadow: 0 0 0 3px var(--color-shadow-primary);
+}
+
+.input:disabled {
+  @apply cursor-not-allowed;
+  @apply bg-gray-300;
+}
+
+.input-sm {
+  @apply py-0;
+}
+
+/* Select */
+.select {
+  @apply appearance-none;
+  @apply rounded-md;
+  @apply text-black;
+  @apply bg-white;
+  @apply border;
+  @apply border-tertiary;
+  @apply p-1;
+  @apply pr-8;
+}
+.select:hover {
+  @apply border-primary;
+}
+.select:disabled:hover {
+  @apply border-tertiary;
+}
+.select:focus {
+  @apply outline-none;
+  @apply border-primary;
+  box-shadow: 0 0 0 3px var(--color-shadow-primary);
+}
+
+/* Tooltips */
+.tooltip-parent {
+  @apply relative;
+}
+
+.tooltip {
+  @apply absolute;
+  @apply left-0;
+  @apply whitespace-nowrap;
+  @apply text-sm;
+  @apply bg-tertiary;
+  @apply rounded-lg;
+  @apply px-2;
+  @apply py-1;
+  @apply z-10;
+  @apply bottom-full;
+}
+
+.tooltip-parent .tooltip {
+  @apply hidden;  
+}
+.tooltip-parent:hover .tooltip {
+  @apply block;
+}
+.tooltip-parent:hover .tooltip:hover {
+  @apply hidden;
+}
+
+/* Table */
+.table {
+  @apply w-full;
+  @apply table-auto;
+}
+.table > thead {
+  @apply text-left;
+  @apply border-b-2;
+  @apply border-primary;
+}
+.table > tbody {
+  @apply select-none;
+}
+.table > tbody > tr {
+  @apply h-8;
+}
+.table > tbody > tr:not(:last-child) {
+  @apply border-b;
+  @apply border-secondary;
+}
+
+.table-striped > tbody > tr:nth-child(even) {
+  @apply bg-table-stripe;
+}
+.table > tbody > tr:hover {
+  @apply bg-tertiary;
+}
+
+.table-px th {
+  @apply px-3;
+}
+.table-px td {
+  @apply px-3;
+}

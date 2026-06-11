@@ -1,0 +1,36 @@
+a {
+  @apply text-link-primary;
+}
+
+a:hover {
+  @apply text-link-hover;
+}
+
+a:focus {
+  @apply outline-none;
+}
+
+h1 {
+  @apply text-4xl;
+  @apply font-bold;
+  @apply tracking-wide;
+}
+
+h2 {
+  @apply text-2xl;
+  @apply font-bold;
+}
+
+h3 {
+  @apply text-xl;
+  @apply font-bold;
+}
+
+h4 {
+  @apply text-lg;
+  @apply font-bold;
+}
+
+img {
+  @apply inline-block;
+}

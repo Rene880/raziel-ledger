@@ -1,0 +1,21 @@
+[project]
+name = "WikiParser"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Minimalist", email = "48999698+Minimalist3@users.noreply.github.com"},
+]
+dependencies = [
+    "mwparserfromhell",
+    "Pillow==9.0.1",
+    "psycopg2-binary",
+    "requests",
+    "selenium>=4.21.0",
+]
+requires-python = "==3.10.*"
+readme = "README.md"
+license = {text = "GPL3"}
+
+
+[tool.pdm]
+distribution = false

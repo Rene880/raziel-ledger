@@ -1,0 +1,3539 @@
+[
+  {
+    "class": "Fighter Origin",
+    "name": "Charge Conversion",
+    "ix": "ex1",
+    "family": "fighter",
+    "row": "0",
+    "ex": "1",
+    "icon": "Ability_m_2708_3.png"
+  },
+  {
+    "class": "Fighter Origin",
+    "name": "Dawnbreak",
+    "ix": "ex2",
+    "family": "fighter",
+    "row": "0",
+    "ex": "1",
+    "icon": "Ability_m_2709_1.png"
+  },
+  {
+    "class": "Fighter Origin",
+    "name": "Unlimited Boost",
+    "ix": "ex3",
+    "family": "fighter",
+    "row": "0",
+    "ex": "1",
+    "icon": "Ability_m_2712_3.png"
+  },
+  {
+    "class": "Fighter Origin",
+    "name": "Full Arsenal IV",
+    "ix": "s1",
+    "family": "fighter",
+    "row": "0",
+    "ex": "0",
+    "icon": "Ability_m_2710_3.png"
+  },
+  {
+    "class": "Enhancer",
+    "name": "Stall",
+    "ix": "s1",
+    "family": "enhancer",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Slow.png"
+  },
+  {
+    "class": "Enhancer",
+    "name": "Elemental Focus",
+    "ix": "s2",
+    "family": "enhancer",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Ability.png"
+  },
+  {
+    "class": "Fighter",
+    "name": "Full Arsenal",
+    "ix": "s1",
+    "family": "fighter",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Burst.png"
+  },
+  {
+    "class": "Fighter",
+    "name": "Rage",
+    "ix": "s2",
+    "family": "fighter",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Rage.png"
+  },
+  {
+    "class": "Grappler",
+    "name": "Counter",
+    "ix": "s1",
+    "family": "grappler",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Counter.png"
+  },
+  {
+    "class": "Grappler",
+    "name": "Taking Chances",
+    "ix": "s2",
+    "family": "grappler",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Sacrifice.png"
+  },
+  {
+    "class": "Harpist",
+    "name": "Overture",
+    "ix": "s1",
+    "family": "harpist",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Overture.png"
+  },
+  {
+    "class": "Harpist",
+    "name": "Angelic Voice",
+    "ix": "s2",
+    "family": "harpist",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_MusicPurple.png"
+  },
+  {
+    "class": "Knight",
+    "name": "Phalanx",
+    "ix": "s1",
+    "family": "knight",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Phalanx.png"
+  },
+  {
+    "class": "Knight",
+    "name": "Overdrive Surge",
+    "ix": "s2",
+    "family": "knight",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Drive.png"
+  },
+  {
+    "class": "Lancer",
+    "name": "Drive It In",
+    "ix": "s1",
+    "family": "lancer",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Lead.png"
+  },
+  {
+    "class": "Lancer",
+    "name": "Double Trouble",
+    "ix": "s2",
+    "family": "lancer",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Piercing.png"
+  },
+  {
+    "class": "Orologia (Summon)",
+    "name": "Transcendent Blue",
+    "ix": "s1",
+    "family": "summon",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_m_2516_3.png"
+  },
+  {
+    "class": "Priest",
+    "name": "Panacea",
+    "ix": "s1",
+    "family": "priest",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_HealAll.png"
+  },
+  {
+    "class": "Priest",
+    "name": "Grace",
+    "ix": "s2",
+    "family": "priest",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Aura.png"
+  },
+  {
+    "class": "Ranger",
+    "name": "Quick Step",
+    "ix": "s1",
+    "family": "ranger",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Evasion.png"
+  },
+  {
+    "class": "Ranger",
+    "name": "Rain of Arrows",
+    "ix": "s2",
+    "family": "ranger",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Arrow.png"
+  },
+  {
+    "class": "Thief",
+    "name": "Crack Shot",
+    "ix": "s1",
+    "family": "thief",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Assassin.png"
+  },
+  {
+    "class": "Thief",
+    "name": "Bounty Hunter",
+    "ix": "s2",
+    "family": "thief",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Treasure.png"
+  },
+  {
+    "class": "Wizard",
+    "name": "Aether Blast",
+    "ix": "s1",
+    "family": "wizard",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Elemental.png"
+  },
+  {
+    "class": "Wizard",
+    "name": "Fire",
+    "ix": "s2",
+    "family": "wizard",
+    "row": "1",
+    "ex": "0",
+    "icon": "Ability_Fire.png"
+  },
+  {
+    "class": "Arcana Dueler",
+    "name": "Stall",
+    "ix": "s1",
+    "family": "enhancer",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Slow.png"
+  },
+  {
+    "class": "Arcana Dueler",
+    "name": "Elemental Focus II",
+    "ix": "s2",
+    "family": "enhancer",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Ability.png"
+  },
+  {
+    "class": "Arcana Dueler",
+    "name": "Quick Strike",
+    "ix": "s3",
+    "family": "enhancer",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Quick.png"
+  },
+  {
+    "class": "Archer",
+    "name": "Quick Step",
+    "ix": "s1",
+    "family": "ranger",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Evasion.png"
+  },
+  {
+    "class": "Archer",
+    "name": "Rain of Arrows II",
+    "ix": "s2",
+    "family": "ranger",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Arrow.png"
+  },
+  {
+    "class": "Archer",
+    "name": "Hard Line",
+    "ix": "s3",
+    "family": "ranger",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Killstreak.png"
+  },
+  {
+    "class": "Bard",
+    "name": "Overture",
+    "ix": "s1",
+    "family": "harpist",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Overture.png"
+  },
+  {
+    "class": "Bard",
+    "name": "Angelic Voice II",
+    "ix": "s2",
+    "family": "harpist",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_MusicPurple.png"
+  },
+  {
+    "class": "Bard",
+    "name": "Bard Song",
+    "ix": "s3",
+    "family": "harpist",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Regen.png"
+  },
+  {
+    "class": "Cleric",
+    "name": "Panacea",
+    "ix": "s1",
+    "family": "priest",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_HealAll.png"
+  },
+  {
+    "class": "Cleric",
+    "name": "Clarity",
+    "ix": "s2",
+    "family": "priest",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_ClearAll.png"
+  },
+  {
+    "class": "Cleric",
+    "name": "Blessing",
+    "ix": "s3",
+    "family": "priest",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Light.png"
+  },
+  {
+    "class": "Dragoon",
+    "name": "Drive It In",
+    "ix": "s1",
+    "family": "lancer",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Lead.png"
+  },
+  {
+    "class": "Dragoon",
+    "name": "Double Trouble II",
+    "ix": "s2",
+    "family": "lancer",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Piercing.png"
+  },
+  {
+    "class": "Dragoon",
+    "name": "Battle Scar",
+    "ix": "s3",
+    "family": "lancer",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Pyre.png"
+  },
+  {
+    "class": "Kung Fu Artist",
+    "name": "Counter",
+    "ix": "s1",
+    "family": "grappler",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Counter.png"
+  },
+  {
+    "class": "Kung Fu Artist",
+    "name": "Taking Chances II",
+    "ix": "s2",
+    "family": "grappler",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Sacrifice.png"
+  },
+  {
+    "class": "Kung Fu Artist",
+    "name": "Chi Channeler",
+    "ix": "s3",
+    "family": "grappler",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Selfheal.png"
+  },
+  {
+    "class": "Raider",
+    "name": "Crack Shot",
+    "ix": "s1",
+    "family": "thief",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Assassin.png"
+  },
+  {
+    "class": "Raider",
+    "name": "Bounty Hunter II",
+    "ix": "s2",
+    "family": "thief",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Treasure.png"
+  },
+  {
+    "class": "Raider",
+    "name": "Tricky Moves",
+    "ix": "s3",
+    "family": "thief",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Duration.png"
+  },
+  {
+    "class": "Sentinel",
+    "name": "Phalanx",
+    "ix": "s1",
+    "family": "knight",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Phalanx.png"
+  },
+  {
+    "class": "Sentinel",
+    "name": "Overdrive Surge II",
+    "ix": "s2",
+    "family": "knight",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Drive.png"
+  },
+  {
+    "class": "Sentinel",
+    "name": "Centurion",
+    "ix": "s3",
+    "family": "knight",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Invincible.png"
+  },
+  {
+    "class": "Sorcerer",
+    "name": "Aether Blast",
+    "ix": "s1",
+    "family": "wizard",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Elemental.png"
+  },
+  {
+    "class": "Sorcerer",
+    "name": "Freeze",
+    "ix": "s2",
+    "family": "wizard",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Ice.png"
+  },
+  {
+    "class": "Sorcerer",
+    "name": "Blind",
+    "ix": "s3",
+    "family": "wizard",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Blind.png"
+  },
+  {
+    "class": "Warrior",
+    "name": "Full Arsenal",
+    "ix": "s1",
+    "family": "fighter",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Burst.png"
+  },
+  {
+    "class": "Warrior",
+    "name": "Rage II",
+    "ix": "s2",
+    "family": "fighter",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_Rage.png"
+  },
+  {
+    "class": "Warrior",
+    "name": "Armor Break",
+    "ix": "s3",
+    "family": "fighter",
+    "row": "2",
+    "ex": "0",
+    "icon": "Ability_ArmorBreak.png"
+  },
+  {
+    "class": "Bishop",
+    "name": "Veil",
+    "ix": "ex1",
+    "family": "priest",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_Veil.png"
+  },
+  {
+    "class": "Bishop",
+    "name": "White Wall",
+    "ix": "ex2",
+    "family": "priest",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_Barrier.png"
+  },
+  {
+    "class": "Bishop",
+    "name": "Panacea II",
+    "ix": "s1",
+    "family": "priest",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_HealAll.png"
+  },
+  {
+    "class": "Bishop",
+    "name": "Dispel",
+    "ix": "s2",
+    "family": "priest",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Dispel.png"
+  },
+  {
+    "class": "Bishop",
+    "name": "Revive",
+    "ix": "s3",
+    "family": "priest",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Revive.png"
+  },
+  {
+    "class": "Dark Fencer",
+    "name": "Quick Down",
+    "ix": "ex1",
+    "family": "enhancer",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_QuickDown.png"
+  },
+  {
+    "class": "Dark Fencer",
+    "name": "Blood Sword",
+    "ix": "ex2",
+    "family": "enhancer",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_Snatch.png"
+  },
+  {
+    "class": "Dark Fencer",
+    "name": "Stall II",
+    "ix": "s1",
+    "family": "enhancer",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Slow.png"
+  },
+  {
+    "class": "Dark Fencer",
+    "name": "Miserable Mist",
+    "ix": "s2",
+    "family": "enhancer",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Miserable.png"
+  },
+  {
+    "class": "Dark Fencer",
+    "name": "Gravity Wave",
+    "ix": "s3",
+    "family": "enhancer",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Gravity.png"
+  },
+  {
+    "class": "Gladiator",
+    "name": "Cross Guard",
+    "ix": "ex1",
+    "family": "gladiator",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_Phalanx.png"
+  },
+  {
+    "class": "Gladiator",
+    "name": "Chase Blade",
+    "ix": "ex2",
+    "family": "gladiator",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_Piercing.png"
+  },
+  {
+    "class": "Gladiator",
+    "name": "Blade Swap",
+    "ix": "s1",
+    "family": "gladiator",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability Blade Swap.png"
+  },
+  {
+    "class": "Gladiator",
+    "name": "Twin Coil",
+    "ix": "s2",
+    "family": "gladiator",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability Twin Coil.png"
+  },
+  {
+    "class": "Gladiator",
+    "name": "Decimate",
+    "ix": "s3",
+    "family": "gladiator",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability Decimate.png"
+  },
+  {
+    "class": "Hawkeye",
+    "name": "Extend Break",
+    "ix": "ex1",
+    "family": "thief",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability Lock.png"
+  },
+  {
+    "class": "Hawkeye",
+    "name": "Force Snatch",
+    "ix": "ex2",
+    "family": "thief",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability Snatch.png"
+  },
+  {
+    "class": "Hawkeye",
+    "name": "Crack Shot II",
+    "ix": "s1",
+    "family": "thief",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability Assassin.png"
+  },
+  {
+    "class": "Hawkeye",
+    "name": "Bounty Hunter III",
+    "ix": "s2",
+    "family": "thief",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability Treasure.png"
+  },
+  {
+    "class": "Hawkeye",
+    "name": "Lethal Aim",
+    "ix": "s3",
+    "family": "thief",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability Triple.png"
+  },
+  {
+    "class": "Hermit",
+    "name": "Bounce",
+    "ix": "ex1",
+    "family": "wizard",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_Killstreak.png"
+  },
+  {
+    "class": "Hermit",
+    "name": "Choke",
+    "ix": "ex2",
+    "family": "wizard",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_Choke.png"
+  },
+  {
+    "class": "Hermit",
+    "name": "Aether Blast II",
+    "ix": "s1",
+    "family": "wizard",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Elemental.png"
+  },
+  {
+    "class": "Hermit",
+    "name": "Venom",
+    "ix": "s2",
+    "family": "wizard",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Poison.png"
+  },
+  {
+    "class": "Hermit",
+    "name": "Laser Focus",
+    "ix": "s3",
+    "family": "wizard",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Focus.png"
+  },
+  {
+    "class": "Holy Saber",
+    "name": "Reflection",
+    "ix": "ex1",
+    "family": "knight",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_Reflect.png"
+  },
+  {
+    "class": "Holy Saber",
+    "name": "Testudo",
+    "ix": "ex2",
+    "family": "knight",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_Defend.png"
+  },
+  {
+    "class": "Holy Saber",
+    "name": "Phalanx II",
+    "ix": "s1",
+    "family": "knight",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Phalanx.png"
+  },
+  {
+    "class": "Holy Saber",
+    "name": "Overdrive Surge III",
+    "ix": "s2",
+    "family": "knight",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Drive.png"
+  },
+  {
+    "class": "Holy Saber",
+    "name": "Substitute",
+    "ix": "s3",
+    "family": "knight",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Cover.png"
+  },
+  {
+    "class": "Ogre",
+    "name": "Spirit of Training",
+    "ix": "ex1",
+    "family": "grappler",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_m_49_3.png"
+  },
+  {
+    "class": "Ogre",
+    "name": "Horizontal Solace",
+    "ix": "ex2",
+    "family": "grappler",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_Ichijigamae.png"
+  },
+  {
+    "class": "Ogre",
+    "name": "Counter II",
+    "ix": "s1",
+    "family": "grappler",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Counter.png"
+  },
+  {
+    "class": "Ogre",
+    "name": "Fighting Spirit",
+    "ix": "s2",
+    "family": "grappler",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_FightingSpirit.png"
+  },
+  {
+    "class": "Ogre",
+    "name": "Pandemonium",
+    "ix": "s3",
+    "family": "grappler",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Ougi.png"
+  },
+  {
+    "class": "Sidewinder",
+    "name": "Steady Aim",
+    "ix": "ex1",
+    "family": "ranger",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability Blind.png"
+  },
+  {
+    "class": "Sidewinder",
+    "name": "Change",
+    "ix": "ex2",
+    "family": "ranger",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability Switch.png"
+  },
+  {
+    "class": "Sidewinder",
+    "name": "Quick Step II",
+    "ix": "s1",
+    "family": "ranger",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Evasion.png"
+  },
+  {
+    "class": "Sidewinder",
+    "name": "Rain of Arrows III",
+    "ix": "s2",
+    "family": "ranger",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Arrow.png"
+  },
+  {
+    "class": "Sidewinder",
+    "name": "Bullseye Run",
+    "ix": "s3",
+    "family": "ranger",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Killstreak.png"
+  },
+  {
+    "class": "Superstar",
+    "name": "Sheep Song",
+    "ix": "ex1",
+    "family": "harpist",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_MusicPurple.png"
+  },
+  {
+    "class": "Superstar",
+    "name": "Tremor Round",
+    "ix": "ex2",
+    "family": "harpist",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_MusicRed.png"
+  },
+  {
+    "class": "Superstar",
+    "name": "Overture II",
+    "ix": "s1",
+    "family": "harpist",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Overture.png"
+  },
+  {
+    "class": "Superstar",
+    "name": "Soul Soloist",
+    "ix": "s2",
+    "family": "harpist",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Pilfer.png"
+  },
+  {
+    "class": "Superstar",
+    "name": "Sky Realm Song",
+    "ix": "s3",
+    "family": "harpist",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Quick.png"
+  },
+  {
+    "class": "Valkyrie",
+    "name": "Randgrith",
+    "ix": "ex1",
+    "family": "lancer",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_ArmorBreak_4.png"
+  },
+  {
+    "class": "Valkyrie",
+    "name": "Einherjar",
+    "ix": "ex2",
+    "family": "lancer",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability m 49 3.png"
+  },
+  {
+    "class": "Valkyrie",
+    "name": "Drive It In II",
+    "ix": "s1",
+    "family": "lancer",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Lead.png"
+  },
+  {
+    "class": "Valkyrie",
+    "name": "Double Trouble III",
+    "ix": "s2",
+    "family": "lancer",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Piercing.png"
+  },
+  {
+    "class": "Valkyrie",
+    "name": "Resonating Surge",
+    "ix": "s3",
+    "family": "lancer",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Killstreak.png"
+  },
+  {
+    "class": "Weapon Master",
+    "name": "Brave Soul",
+    "ix": "ex1",
+    "family": "fighter",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_Rage.png"
+  },
+  {
+    "class": "Weapon Master",
+    "name": "Power Raise",
+    "ix": "ex2",
+    "family": "fighter",
+    "row": "3",
+    "ex": "1",
+    "icon": "Ability_Critical.png"
+  },
+  {
+    "class": "Weapon Master",
+    "name": "Full Arsenal II",
+    "ix": "s1",
+    "family": "fighter",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Burst.png"
+  },
+  {
+    "class": "Weapon Master",
+    "name": "Rampage",
+    "ix": "s2",
+    "family": "fighter",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Rampage.png"
+  },
+  {
+    "class": "Weapon Master",
+    "name": "Rage III",
+    "ix": "s3",
+    "family": "fighter",
+    "row": "3",
+    "ex": "0",
+    "icon": "Ability_Rage.png"
+  },
+  {
+    "class": "Apsaras",
+    "name": "Swan Song",
+    "ix": "ex1",
+    "family": "lancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Swan Song.png"
+  },
+  {
+    "class": "Apsaras",
+    "name": "Dance of Zeal",
+    "ix": "ex2",
+    "family": "lancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Dance of Zeal.png"
+  },
+  {
+    "class": "Apsaras",
+    "name": "Springwater Robe",
+    "ix": "ex3",
+    "family": "lancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Springwater Robe.png"
+  },
+  {
+    "class": "Apsaras",
+    "name": "Crestfallen Flower",
+    "ix": "ex4",
+    "family": "lancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Crestfallen Flower.png"
+  },
+  {
+    "class": "Apsaras",
+    "name": "Lightning Strike",
+    "ix": "ex5",
+    "family": "lancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Lightning Strike.png"
+  },
+  {
+    "class": "Apsaras",
+    "name": "Thunder on the Water",
+    "ix": "s1",
+    "family": "lancer",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability_m_1594_1.png"
+  },
+  {
+    "class": "Apsaras",
+    "name": "Nyagrodha",
+    "ix": "umex1",
+    "family": "lancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 1980 1.png"
+  },
+  {
+    "class": "Apsaras",
+    "name": "Crowning Fluidity",
+    "ix": "umex2",
+    "family": "lancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 1981 3.png"
+  },
+  {
+    "class": "Apsaras",
+    "name": "Showstopper",
+    "ix": "umex3",
+    "family": "lancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 1982 3.png"
+  },
+  {
+    "class": "Bandit Tycoon",
+    "name": "Bounty Hunter IV",
+    "ix": "ex1",
+    "family": "thief",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_TreasureRed.png"
+  },
+  {
+    "class": "Bandit Tycoon",
+    "name": "White Smoke",
+    "ix": "ex2",
+    "family": "thief",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_WhiteSmoke.png"
+  },
+  {
+    "class": "Bandit Tycoon",
+    "name": "Rupie Flip",
+    "ix": "ex3",
+    "family": "thief",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_RupieFlip.png"
+  },
+  {
+    "class": "Bandit Tycoon",
+    "name": "Spring&#039;s Gate",
+    "ix": "ex4",
+    "family": "thief",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Spring&#039;s Gate.png"
+  },
+  {
+    "class": "Bandit Tycoon",
+    "name": "Crack Shot III",
+    "ix": "s1",
+    "family": "thief",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability_Assassin.png"
+  },
+  {
+    "class": "Bandit Tycoon",
+    "name": "Roll of the Dice",
+    "ix": "umex1",
+    "family": "thief",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2189_3.png"
+  },
+  {
+    "class": "Bandit Tycoon",
+    "name": "Sublime Springscape",
+    "ix": "umex2",
+    "family": "thief",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2190_1.png"
+  },
+  {
+    "class": "Bandit Tycoon",
+    "name": "Heart of Chivalry",
+    "ix": "umex3",
+    "family": "thief",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2191_3.png"
+  },
+  {
+    "class": "Berserker",
+    "name": "Armor Break II",
+    "ix": "ex1",
+    "family": "fighter",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_ArmorBreak.png"
+  },
+  {
+    "class": "Berserker",
+    "name": "Rage IV",
+    "ix": "ex2",
+    "family": "fighter",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_Rage.png"
+  },
+  {
+    "class": "Berserker",
+    "name": "Rampage II",
+    "ix": "ex3",
+    "family": "fighter",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_Rampage.png"
+  },
+  {
+    "class": "Berserker",
+    "name": "Ulfhedinn",
+    "ix": "ex4",
+    "family": "fighter",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Ulfhedinn.png"
+  },
+  {
+    "class": "Berserker",
+    "name": "Full Arsenal III",
+    "ix": "s1",
+    "family": "fighter",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability_Burst.png"
+  },
+  {
+    "class": "Berserker",
+    "name": "Ferocious Roar",
+    "ix": "umex1",
+    "family": "fighter",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 1977 3.png"
+  },
+  {
+    "class": "Berserker",
+    "name": "Beast Fang",
+    "ix": "umex2",
+    "family": "fighter",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 1978 1.png"
+  },
+  {
+    "class": "Berserker",
+    "name": "Bloodzerker",
+    "ix": "umex3",
+    "family": "fighter",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 1979 3.png"
+  },
+  {
+    "class": "Cavalier",
+    "name": "Dragphract",
+    "ix": "ex1",
+    "family": "cavalier",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Dragphract.png"
+  },
+  {
+    "class": "Cavalier",
+    "name": "Battering Ram",
+    "ix": "ex2",
+    "family": "cavalier",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Battering Ram.png"
+  },
+  {
+    "class": "Cavalier",
+    "name": "High Command",
+    "ix": "ex3",
+    "family": "cavalier",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability High Command.png"
+  },
+  {
+    "class": "Cavalier",
+    "name": "Horseman&#039;s Duty",
+    "ix": "s1",
+    "family": "cavalier",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability Horseman&#039;s Duty.png"
+  },
+  {
+    "class": "Cavalier",
+    "name": "Valorous Assault",
+    "ix": "umex1",
+    "family": "cavalier",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2260_1.png"
+  },
+  {
+    "class": "Cavalier",
+    "name": "Mounted Bulwark",
+    "ix": "umex2",
+    "family": "cavalier",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2261_3.png"
+  },
+  {
+    "class": "Cavalier",
+    "name": "Field Commander",
+    "ix": "umex3",
+    "family": "cavalier",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2262_3.png"
+  },
+  {
+    "class": "Chaos Ruler",
+    "name": "Uprising",
+    "ix": "ex1",
+    "family": "enhancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_Ougi.png"
+  },
+  {
+    "class": "Chaos Ruler",
+    "name": "Unpredictable",
+    "ix": "ex2",
+    "family": "enhancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_Pilfer.png"
+  },
+  {
+    "class": "Chaos Ruler",
+    "name": "Chaos",
+    "ix": "ex3",
+    "family": "enhancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_Chaos.png"
+  },
+  {
+    "class": "Chaos Ruler",
+    "name": "Absorption",
+    "ix": "ex4",
+    "family": "enhancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Absorption.png"
+  },
+  {
+    "class": "Chaos Ruler",
+    "name": "Stall III",
+    "ix": "s1",
+    "family": "enhancer",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability_Slow.png"
+  },
+  {
+    "class": "Chaos Ruler",
+    "name": "Bleak Disorder",
+    "ix": "umex1",
+    "family": "enhancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2005_1.png"
+  },
+  {
+    "class": "Chaos Ruler",
+    "name": "Flames of Chaos",
+    "ix": "umex2",
+    "family": "enhancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2006_4.png"
+  },
+  {
+    "class": "Chaos Ruler",
+    "name": "Malignity",
+    "ix": "umex3",
+    "family": "enhancer",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2007_4.png"
+  },
+  {
+    "class": "Chrysaor",
+    "name": "Dual Arts",
+    "ix": "ex1",
+    "family": "gladiator",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Dual Arts.png"
+  },
+  {
+    "class": "Chrysaor",
+    "name": "Diptych",
+    "ix": "ex2",
+    "family": "gladiator",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Diptych.png"
+  },
+  {
+    "class": "Chrysaor",
+    "name": "Aurum Flow",
+    "ix": "ex3",
+    "family": "gladiator",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Aurum Flow.png"
+  },
+  {
+    "class": "Chrysaor",
+    "name": "Blade Swap II",
+    "ix": "s1",
+    "family": "gladiator",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability Blade Swap.png"
+  },
+  {
+    "class": "Chrysaor",
+    "name": "Deuce Xiphos",
+    "ix": "umex1",
+    "family": "gladiator",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 2131_3.png"
+  },
+  {
+    "class": "Chrysaor",
+    "name": "Astrapste",
+    "ix": "umex2",
+    "family": "gladiator",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 2132_1.png"
+  },
+  {
+    "class": "Chrysaor",
+    "name": "Amber Edge",
+    "ix": "umex3",
+    "family": "gladiator",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 774_1.png"
+  },
+  {
+    "class": "Elysian",
+    "name": "Dirge for the Dead",
+    "ix": "ex1",
+    "family": "harpist",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_ArmorBreak_4.png"
+  },
+  {
+    "class": "Elysian",
+    "name": "Voice Unveiled",
+    "ix": "ex2",
+    "family": "harpist",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Voice Unveiled.png"
+  },
+  {
+    "class": "Elysian",
+    "name": "Call of the Abyss",
+    "ix": "ex3",
+    "family": "harpist",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Call of the Abyss.png"
+  },
+  {
+    "class": "Elysian",
+    "name": "Oratorio",
+    "ix": "ex4",
+    "family": "harpist",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Oratorio.png"
+  },
+  {
+    "class": "Elysian",
+    "name": "Concludere",
+    "ix": "s1",
+    "family": "harpist",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability Concludere.png"
+  },
+  {
+    "class": "Elysian",
+    "name": "Flageolet",
+    "ix": "umex1",
+    "family": "harpist",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2008_1.png"
+  },
+  {
+    "class": "Elysian",
+    "name": "Diatonic Harmony",
+    "ix": "umex2",
+    "family": "harpist",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2009_3.png"
+  },
+  {
+    "class": "Elysian",
+    "name": "Accelerando",
+    "ix": "umex3",
+    "family": "harpist",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2010_3.png"
+  },
+  {
+    "class": "Luchador",
+    "name": "Ring Ruler",
+    "ix": "ex1",
+    "family": "grappler",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Steroid.png"
+  },
+  {
+    "class": "Luchador",
+    "name": "Mic Hype",
+    "ix": "ex2",
+    "family": "grappler",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Mic Hype.png"
+  },
+  {
+    "class": "Luchador",
+    "name": "Tag Team",
+    "ix": "ex3",
+    "family": "grappler",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Tag Team.png"
+  },
+  {
+    "class": "Luchador",
+    "name": "Knifehand Strike",
+    "ix": "s1",
+    "family": "grappler",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability_Counter.png"
+  },
+  {
+    "class": "Luchador",
+    "name": "Lucha de Parejas",
+    "ix": "umex1",
+    "family": "grappler",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_1234_3.png"
+  },
+  {
+    "class": "Luchador",
+    "name": "Fight Song",
+    "ix": "umex2",
+    "family": "grappler",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2074_3.png"
+  },
+  {
+    "class": "Luchador",
+    "name": "Vez de Rudo",
+    "ix": "umex3",
+    "family": "grappler",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2075_3.png"
+  },
+  {
+    "class": "Lumberjack",
+    "name": "Laughing Logger",
+    "ix": "ex1",
+    "family": "lumberjack",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Laughing Logger.png"
+  },
+  {
+    "class": "Lumberjack",
+    "name": "Leaf Burning",
+    "ix": "ex2",
+    "family": "lumberjack",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Leaf Burning.png"
+  },
+  {
+    "class": "Lumberjack",
+    "name": "Dappled Sunlight",
+    "ix": "ex3",
+    "family": "lumberjack",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Dappled Sunlight.png"
+  },
+  {
+    "class": "Lumberjack",
+    "name": "Woodcutter&#039;s Song",
+    "ix": "s1",
+    "family": "lumberjack",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability Woodcutter&#039;s Song.png"
+  },
+  {
+    "class": "Lumberjack",
+    "name": "Verdant Melody",
+    "ix": "umex1",
+    "family": "lumberjack",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 637_3.png"
+  },
+  {
+    "class": "Lumberjack",
+    "name": "Birdsong of Balmy Breeze",
+    "ix": "umex2",
+    "family": "lumberjack",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 2147_3.png"
+  },
+  {
+    "class": "Lumberjack",
+    "name": "Log Lop",
+    "ix": "umex3",
+    "family": "lumberjack",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 2148_1.png"
+  },
+  {
+    "class": "Monk",
+    "name": "True Strike",
+    "ix": "ex1",
+    "family": "monk",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_1198_1.png"
+  },
+  {
+    "class": "Monk",
+    "name": "Unyielding Form",
+    "ix": "ex2",
+    "family": "monk",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_1199_1.png"
+  },
+  {
+    "class": "Monk",
+    "name": "Rock Crusher",
+    "ix": "ex3",
+    "family": "monk",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_1200_1.png"
+  },
+  {
+    "class": "Monk",
+    "name": "Ascetic Stance",
+    "ix": "s1",
+    "family": "monk",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability_m_1197_1.png"
+  },
+  {
+    "class": "Monk",
+    "name": "Mystic Restoration",
+    "ix": "umex1",
+    "family": "monk",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2186_3.png"
+  },
+  {
+    "class": "Monk",
+    "name": "Fervent Focus",
+    "ix": "umex2",
+    "family": "monk",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2187_3.png"
+  },
+  {
+    "class": "Monk",
+    "name": "Enlightened Fury",
+    "ix": "umex3",
+    "family": "monk",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2188_1.png"
+  },
+  {
+    "class": "Nighthound",
+    "name": "Tactical Relocation",
+    "ix": "ex1",
+    "family": "ranger",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Switch.png"
+  },
+  {
+    "class": "Nighthound",
+    "name": "Frequency Jam",
+    "ix": "ex2",
+    "family": "ranger",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_Frequency.png"
+  },
+  {
+    "class": "Nighthound",
+    "name": "Twilight Zone",
+    "ix": "ex3",
+    "family": "ranger",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Twilight Zone.png"
+  },
+  {
+    "class": "Nighthound",
+    "name": "Judicious Shot",
+    "ix": "ex4",
+    "family": "ranger",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Judicious Shot.png"
+  },
+  {
+    "class": "Nighthound",
+    "name": "Time On Target",
+    "ix": "ex5",
+    "family": "ranger",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Time On Target.png"
+  },
+  {
+    "class": "Nighthound",
+    "name": "Evasive Maneuvers",
+    "ix": "s1",
+    "family": "ranger",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability m 313_1.png"
+  },
+  {
+    "class": "Nighthound",
+    "name": "Homing Beacon",
+    "ix": "umex1",
+    "family": "ranger",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2180_4.png"
+  },
+  {
+    "class": "Nighthound",
+    "name": "Stealth Protocol",
+    "ix": "umex2",
+    "family": "ranger",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2181_3.png"
+  },
+  {
+    "class": "Nighthound",
+    "name": "Rearguard Relocation",
+    "ix": "umex3",
+    "family": "ranger",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2182_3.png"
+  },
+  {
+    "class": "Relic Buster",
+    "name": "Tactical Shield",
+    "ix": "ex1",
+    "family": "relicbuster",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_1417_3.png"
+  },
+  {
+    "class": "Relic Buster",
+    "name": "Limit Burst",
+    "ix": "ex2",
+    "family": "relicbuster",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_1418_3.png"
+  },
+  {
+    "class": "Relic Buster",
+    "name": "Blitz Raid",
+    "ix": "ex3",
+    "family": "relicbuster",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_1419_1.png"
+  },
+  {
+    "class": "Relic Buster",
+    "name": "Engage Augments",
+    "ix": "s1",
+    "family": "relicbuster",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability_m_1416_3.png"
+  },
+  {
+    "class": "Relic Buster",
+    "name": "Lightning Shot",
+    "ix": "umex1",
+    "family": "relicbuster",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2263_1.png"
+  },
+  {
+    "class": "Relic Buster",
+    "name": "Hypervelocity",
+    "ix": "umex2",
+    "family": "relicbuster",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2264_1.png"
+  },
+  {
+    "class": "Relic Buster",
+    "name": "Brutal Cell",
+    "ix": "umex3",
+    "family": "relicbuster",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2265_1.png"
+  },
+  {
+    "class": "Robin Hood",
+    "name": "Acrobatic Volley",
+    "ix": "ex1",
+    "family": "robinhood",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_1274_4.png"
+  },
+  {
+    "class": "Robin Hood",
+    "name": "Emerald Fog",
+    "ix": "ex2",
+    "family": "robinhood",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_1275_4.png"
+  },
+  {
+    "class": "Robin Hood",
+    "name": "Return of the Fox",
+    "ix": "ex3",
+    "family": "robinhood",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_1276_3.png"
+  },
+  {
+    "class": "Robin Hood",
+    "name": "Opening Shot",
+    "ix": "s1",
+    "family": "robinhood",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability_m_1273_1.png"
+  },
+  {
+    "class": "Robin Hood",
+    "name": "Thousand Arrows",
+    "ix": "umex1",
+    "family": "robinhood",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 2149_1.png"
+  },
+  {
+    "class": "Robin Hood",
+    "name": "Sweeping Arrow",
+    "ix": "umex1a",
+    "family": "robinhood",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability s 9 1.jpg"
+  },
+  {
+    "class": "Robin Hood",
+    "name": "Rebellion Shot",
+    "ix": "umex2",
+    "family": "robinhood",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 1204_1.png"
+  },
+  {
+    "class": "Robin Hood",
+    "name": "Deepshot Arrow",
+    "ix": "umex2a",
+    "family": "robinhood",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability s 9 2.jpg"
+  },
+  {
+    "class": "Robin Hood",
+    "name": "Rapid Nocking",
+    "ix": "umex3",
+    "family": "robinhood",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 2150_3.png"
+  },
+  {
+    "class": "Robin Hood",
+    "name": "Affliction Arrow",
+    "ix": "umex3a",
+    "family": "robinhood",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability s 9 3.jpg"
+  },
+  {
+    "class": "Sage",
+    "name": "Blessing II",
+    "ix": "ex1",
+    "family": "priest",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_Light.png"
+  },
+  {
+    "class": "Sage",
+    "name": "Dispel Deluge",
+    "ix": "ex2",
+    "family": "priest",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_Dispel.png"
+  },
+  {
+    "class": "Sage",
+    "name": "Peace of Mind",
+    "ix": "ex3",
+    "family": "priest",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_Clear.png"
+  },
+  {
+    "class": "Sage",
+    "name": "Panacea III",
+    "ix": "s1",
+    "family": "priest",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability_HealAll.png"
+  },
+  {
+    "class": "Sage",
+    "name": "Path Illuminated",
+    "ix": "umex1",
+    "family": "priest",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2011_1.png"
+  },
+  {
+    "class": "Sage",
+    "name": "Lapin Blanc",
+    "ix": "umex2",
+    "family": "priest",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2012_3.png"
+  },
+  {
+    "class": "Sage",
+    "name": "Cathedral&#039;s Benison",
+    "ix": "umex3",
+    "family": "priest",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2013_3.png"
+  },
+  {
+    "class": "Shieldsworn",
+    "name": "Assault Drive / Weapon Discharge",
+    "ix": "ex1",
+    "family": "shieldsworn",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2350_1.png,Ability_m_2351_1.png"
+  },
+  {
+    "class": "Shieldsworn",
+    "name": "Marshaling Shout",
+    "ix": "ex2",
+    "family": "shieldsworn",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2352_3.png"
+  },
+  {
+    "class": "Shieldsworn",
+    "name": "Regimented Formation",
+    "ix": "ex3",
+    "family": "shieldsworn",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2353_3.png"
+  },
+  {
+    "class": "Shieldsworn",
+    "name": "Shield of Valor",
+    "ix": "s1",
+    "family": "shieldsworn",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability_m_2349_3.png"
+  },
+  {
+    "class": "Shieldsworn",
+    "name": "Combat Shield",
+    "ix": "umex1",
+    "family": "shieldsworn",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 2562_3.png"
+  },
+  {
+    "class": "Shieldsworn",
+    "name": "Defiance",
+    "ix": "umex2",
+    "family": "shieldsworn",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 2563_3.png"
+  },
+  {
+    "class": "Shieldsworn",
+    "name": "Shield Hurl",
+    "ix": "umex3",
+    "family": "shieldsworn",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 2564_1.png"
+  },
+  {
+    "class": "Spartan",
+    "name": "Guardian",
+    "ix": "ex1",
+    "family": "knight",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_Attract.png"
+  },
+  {
+    "class": "Spartan",
+    "name": "Centurion II",
+    "ix": "ex2",
+    "family": "knight",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_Invincible.png"
+  },
+  {
+    "class": "Spartan",
+    "name": "Hardened Shield",
+    "ix": "ex3",
+    "family": "knight",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_Hardened_Shield.png"
+  },
+  {
+    "class": "Spartan",
+    "name": "Phalanx III",
+    "ix": "s1",
+    "family": "knight",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability_Phalanx.png"
+  },
+  {
+    "class": "Spartan",
+    "name": "Thermopylae",
+    "ix": "umex1",
+    "family": "knight",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2076_1.png"
+  },
+  {
+    "class": "Spartan",
+    "name": "Hoplite",
+    "ix": "umex2",
+    "family": "knight",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2077_3.png"
+  },
+  {
+    "class": "Spartan",
+    "name": "Molon Labe",
+    "ix": "umex3",
+    "family": "knight",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2078_3.png"
+  },
+  {
+    "class": "Warlock",
+    "name": "Dark Haze",
+    "ix": "ex1",
+    "family": "wizard",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_DarkHaze.png"
+  },
+  {
+    "class": "Warlock",
+    "name": "Aether Bane",
+    "ix": "ex2",
+    "family": "wizard",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability AetherBane.png"
+  },
+  {
+    "class": "Warlock",
+    "name": "Chaser",
+    "ix": "ex3",
+    "family": "wizard",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_Choke.png"
+  },
+  {
+    "class": "Warlock",
+    "name": "Resounding Chant",
+    "ix": "ex4",
+    "family": "wizard",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability Resounding Chant.png"
+  },
+  {
+    "class": "Warlock",
+    "name": "Aether Blast III",
+    "ix": "s1",
+    "family": "wizard",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability_Elemental.png"
+  },
+  {
+    "class": "Warlock",
+    "name": "Demonic Flare",
+    "ix": "umex1",
+    "family": "wizard",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 2144_1.png"
+  },
+  {
+    "class": "Warlock",
+    "name": "Arcane Field",
+    "ix": "umex2",
+    "family": "wizard",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 2145_3.png"
+  },
+  {
+    "class": "Warlock",
+    "name": "Crest Discharge",
+    "ix": "umex3",
+    "family": "wizard",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability m 2146_3.png"
+  },
+  {
+    "class": "Yamato",
+    "name": "Watch and Wound",
+    "ix": "ex1",
+    "family": "yamato",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_1965_1.png"
+  },
+  {
+    "class": "Yamato",
+    "name": "Whitehail Gust",
+    "ix": "ex2",
+    "family": "yamato",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_1966_3.png"
+  },
+  {
+    "class": "Yamato",
+    "name": "Seasplitter",
+    "ix": "ex3",
+    "family": "yamato",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_1967_1.png"
+  },
+  {
+    "class": "Yamato",
+    "name": "Take the Head",
+    "ix": "s1",
+    "family": "yamato",
+    "row": "4",
+    "ex": "0",
+    "icon": "Ability_m_1964_1.png"
+  },
+  {
+    "class": "Yamato",
+    "name": "Breath of the Serpent",
+    "ix": "umex1",
+    "family": "yamato",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2266_3.png"
+  },
+  {
+    "class": "Yamato",
+    "name": "Ameno Totsuka",
+    "ix": "umex2",
+    "family": "yamato",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2267_1.png"
+  },
+  {
+    "class": "Yamato",
+    "name": "Sanctifying Kagura",
+    "ix": "umex3",
+    "family": "yamato",
+    "row": "4",
+    "ex": "1",
+    "icon": "Ability_m_2268_3.png"
+  },
+  {
+    "class": "Boogeyman",
+    "name": "Blood Oath",
+    "ix": "ex1",
+    "family": "ranger",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2551_3.png"
+  },
+  {
+    "class": "Boogeyman",
+    "name": "Bespoke Tailoring",
+    "ix": "ex2",
+    "family": "ranger",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2552_3.png"
+  },
+  {
+    "class": "Boogeyman",
+    "name": "Sei Colpi",
+    "ix": "ex3",
+    "family": "ranger",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2550_4.png"
+  },
+  {
+    "class": "Boogeyman",
+    "name": "Parabellum Rain",
+    "ix": "s1",
+    "family": "ranger",
+    "row": "5",
+    "ex": "0",
+    "icon": "Ability_m_2553_1.png"
+  },
+  {
+    "class": "Iatromantis",
+    "name": "Amyntiko Fos",
+    "ix": "ex1",
+    "family": "priest",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_1818_3.png"
+  },
+  {
+    "class": "Iatromantis",
+    "name": "Pneuma",
+    "ix": "ex2",
+    "family": "priest",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_1819_3.png"
+  },
+  {
+    "class": "Iatromantis",
+    "name": "Megali Fotia",
+    "ix": "ex3",
+    "family": "priest",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_1820_1.png"
+  },
+  {
+    "class": "Iatromantis",
+    "name": "Vita Brevis",
+    "ix": "s1",
+    "family": "priest",
+    "row": "5",
+    "ex": "0",
+    "icon": "Ability_m_1817_2.png"
+  },
+  {
+    "class": "Manadiver",
+    "name": "Wild Magica",
+    "ix": "ex1",
+    "family": "wizard",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_1922_1.png"
+  },
+  {
+    "class": "Manadiver",
+    "name": "Secret Triad",
+    "ix": "ex2",
+    "family": "wizard",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_1923_3.png"
+  },
+  {
+    "class": "Manadiver",
+    "name": "Overtrance",
+    "ix": "ex3",
+    "family": "wizard",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_1924_3.png"
+  },
+  {
+    "class": "Manadiver",
+    "name": "Aether Siphon",
+    "ix": "s1",
+    "family": "wizard",
+    "row": "5",
+    "ex": "0",
+    "icon": "Ability_m_1921_1.png"
+  },
+  {
+    "class": "Mariachi",
+    "name": "Pizzicato",
+    "ix": "ex1",
+    "family": "harpist",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2622_1.png"
+  },
+  {
+    "class": "Mariachi",
+    "name": "Ensemble of Heroes",
+    "ix": "ex1a",
+    "family": "harpist",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_s_17_1.jpg"
+  },
+  {
+    "class": "Mariachi",
+    "name": "Despierta, Mi Bien",
+    "ix": "ex2",
+    "family": "harpist",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2623_2.png"
+  },
+  {
+    "class": "Mariachi",
+    "name": "Ensemble of Warriors",
+    "ix": "ex2a",
+    "family": "harpist",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_s_17_2.jpg"
+  },
+  {
+    "class": "Mariachi",
+    "name": "Ultimate Ensemble",
+    "ix": "ex3",
+    "family": "harpist",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2624_3.png"
+  },
+  {
+    "class": "Mariachi",
+    "name": "Empezar a Tocar",
+    "ix": "s1",
+    "family": "harpist",
+    "row": "5",
+    "ex": "0",
+    "icon": "Ability_m_2621_3.png"
+  },
+  {
+    "class": "Onmyoji",
+    "name": "Shikigami: Mizuchi",
+    "ix": "ex1",
+    "family": "enhancer",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2286_1.png"
+  },
+  {
+    "class": "Onmyoji",
+    "name": "Celestial Genesis",
+    "ix": "ex2",
+    "family": "enhancer",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2287_3.png"
+  },
+  {
+    "class": "Onmyoji",
+    "name": "Execration / Five-Phase Seal",
+    "ix": "ex3",
+    "family": "enhancer",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2288_4.png,Ability_m_2289_4.png"
+  },
+  {
+    "class": "Onmyoji",
+    "name": "Sealing Talisman",
+    "ix": "s1",
+    "family": "enhancer",
+    "row": "5",
+    "ex": "0",
+    "icon": "Ability_m_2285_3.png"
+  },
+  {
+    "class": "Paladin",
+    "name": "Noblesse Proteger",
+    "ix": "ex1",
+    "family": "knight",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_1721_3.png"
+  },
+  {
+    "class": "Paladin",
+    "name": "Boosted Resistance",
+    "ix": "ex2",
+    "family": "knight",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_1722_3.png"
+  },
+  {
+    "class": "Paladin",
+    "name": "Sacred Protection",
+    "ix": "ex3",
+    "family": "knight",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_1723_3.png"
+  },
+  {
+    "class": "Paladin",
+    "name": "Elemental Phalanx",
+    "ix": "s1",
+    "family": "knight",
+    "row": "5",
+    "ex": "0",
+    "icon": "Ability_m_1720_3.png"
+  },
+  {
+    "class": "Street King",
+    "name": "Couteau Royal",
+    "ix": "ex1",
+    "family": "thief",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2111_1.png"
+  },
+  {
+    "class": "Street King",
+    "name": "Parfait d&#039;Amour",
+    "ix": "ex2",
+    "family": "thief",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2112_3.png"
+  },
+  {
+    "class": "Street King",
+    "name": "Le Manteau du Roi",
+    "ix": "ex3",
+    "family": "thief",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2113_3.png"
+  },
+  {
+    "class": "Street King",
+    "name": "Aperitif",
+    "ix": "s1",
+    "family": "thief",
+    "row": "5",
+    "ex": "0",
+    "icon": "Ability_m_2110_3.png"
+  },
+  {
+    "class": "Sumaibito",
+    "name": "Ultimate Palm Strike",
+    "ix": "ex1",
+    "family": "grappler",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2375_1.png"
+  },
+  {
+    "class": "Sumaibito",
+    "name": "Sky Splitter",
+    "ix": "ex1a",
+    "family": "grappler",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability m 2423_1.png"
+  },
+  {
+    "class": "Sumaibito",
+    "name": "In the Face of Adversity",
+    "ix": "ex2",
+    "family": "grappler",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2421_3.png"
+  },
+  {
+    "class": "Sumaibito",
+    "name": "Salt of Cleansing Spirits",
+    "ix": "ex2a",
+    "family": "grappler",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability m 2424_2.png"
+  },
+  {
+    "class": "Sumaibito",
+    "name": "Sumai Meet",
+    "ix": "ex3",
+    "family": "grappler",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_2422_3.png"
+  },
+  {
+    "class": "Sumaibito",
+    "name": "Combat Spirit Infusion",
+    "ix": "ex3a",
+    "family": "grappler",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability m 2374_3.png"
+  },
+  {
+    "class": "Sumaibito",
+    "name": "Spirit Suppression",
+    "ix": "ex4a",
+    "family": "grappler",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability m 2425_4.png"
+  },
+  {
+    "class": "Sumaibito",
+    "name": "Shiranui Stance",
+    "ix": "s1",
+    "family": "grappler",
+    "row": "5",
+    "ex": "0",
+    "icon": "Ability_m_2420_1.png"
+  },
+  {
+    "class": "Viking",
+    "name": "Banahogg",
+    "ix": "ex1",
+    "family": "fighter",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_1706_1.png"
+  },
+  {
+    "class": "Viking",
+    "name": "Vinland",
+    "ix": "ex2",
+    "family": "fighter",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_1704_3.png"
+  },
+  {
+    "class": "Viking",
+    "name": "Jomsborg",
+    "ix": "ex3",
+    "family": "fighter",
+    "row": "5",
+    "ex": "1",
+    "icon": "Ability_m_1705_3.png"
+  },
+  {
+    "class": "Viking",
+    "name": "Norden Harr",
+    "ix": "s1",
+    "family": "fighter",
+    "row": "5",
+    "ex": "0",
+    "icon": "Ability_m_1703_3.png"
+  },
+  {
+    "class": "Alchemist",
+    "name": "Fury Capsule",
+    "ix": "ex1",
+    "family": "alchemist",
+    "row": "11",
+    "ex": "1",
+    "icon": "Ability Steroid.png"
+  },
+  {
+    "class": "Alchemist",
+    "name": "Alchemize Green Potion",
+    "ix": "s1",
+    "family": "alchemist",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability Potion.png"
+  },
+  {
+    "class": "Alchemist",
+    "name": "Just the Cure",
+    "ix": "s2",
+    "family": "alchemist",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability HealAll.png"
+  },
+  {
+    "class": "Alchemist",
+    "name": "A Little Pick-Me-Up",
+    "ix": "s3",
+    "family": "alchemist",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability Morale.png"
+  },
+  {
+    "class": "Assassin",
+    "name": "Conceal",
+    "ix": "ex1",
+    "family": "assassin",
+    "row": "11",
+    "ex": "1",
+    "icon": "Ability Conceal.png"
+  },
+  {
+    "class": "Assassin",
+    "name": "Selectively Skilled",
+    "ix": "s1",
+    "family": "assassin",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_Skilled.png"
+  },
+  {
+    "class": "Assassin",
+    "name": "Out of Sight",
+    "ix": "s2",
+    "family": "assassin",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_Misdirect.png"
+  },
+  {
+    "class": "Assassin",
+    "name": "Retaliation Reprise",
+    "ix": "s3",
+    "family": "assassin",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_Retaliate.png"
+  },
+  {
+    "class": "Dancer",
+    "name": "Pas Seul",
+    "ix": "ex1",
+    "family": "dancer",
+    "row": "11",
+    "ex": "1",
+    "icon": "Ability Pas Seul.png"
+  },
+  {
+    "class": "Dancer",
+    "name": "Spellbound Salsa",
+    "ix": "s1",
+    "family": "dancer",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_Evasion.png"
+  },
+  {
+    "class": "Dancer",
+    "name": "Classical Lead",
+    "ix": "s2",
+    "family": "dancer",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_ClassicalLead.png"
+  },
+  {
+    "class": "Dancer",
+    "name": "Two to Tango",
+    "ix": "s3",
+    "family": "dancer",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_TwoToTango.png"
+  },
+  {
+    "class": "Drum Master",
+    "name": "Resonate Rhythm",
+    "ix": "ex1",
+    "family": "drummaster",
+    "row": "11",
+    "ex": "1",
+    "icon": "Ability Clucky Doodle-doo.png"
+  },
+  {
+    "class": "Drum Master",
+    "name": "Drum Roll",
+    "ix": "s1",
+    "family": "drummaster",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_OugiDamage.png"
+  },
+  {
+    "class": "Drum Master",
+    "name": "Never Miss a Beat",
+    "ix": "s2",
+    "family": "drummaster",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_NeverMissABeat.png"
+  },
+  {
+    "class": "Drum Master",
+    "name": "Resounding Rhythm",
+    "ix": "s3",
+    "family": "drummaster",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_ResoundingRhythm.png"
+  },
+  {
+    "class": "Gunslinger",
+    "name": "Blitzburst",
+    "ix": "ex1",
+    "family": "gunslinger",
+    "row": "11",
+    "ex": "1",
+    "icon": "Ability Blitzburst.png"
+  },
+  {
+    "class": "Gunslinger",
+    "name": "Early Shot",
+    "ix": "s1",
+    "family": "gunslinger",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_Shoot.png"
+  },
+  {
+    "class": "Gunslinger",
+    "name": "Triple Threat",
+    "ix": "s2",
+    "family": "gunslinger",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_Trine.png"
+  },
+  {
+    "class": "Gunslinger",
+    "name": "Lock &#039;n&#039; Load",
+    "ix": "s3",
+    "family": "gunslinger",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_Reload.png"
+  },
+  {
+    "class": "Mechanic",
+    "name": "Actuation",
+    "ix": "ex1",
+    "family": "mechanic",
+    "row": "11",
+    "ex": "1",
+    "icon": "Ability Actuation.png"
+  },
+  {
+    "class": "Mechanic",
+    "name": "Activate",
+    "ix": "s1",
+    "family": "mechanic",
+    "row": "11",
+    "ex": "0",
+    "icon": "Status Activate.png"
+  },
+  {
+    "class": "Mechanic",
+    "name": "Customized Action",
+    "ix": "s2",
+    "family": "mechanic",
+    "row": "11",
+    "ex": "0",
+    "icon": "Status Customized Action.png"
+  },
+  {
+    "class": "Mechanic",
+    "name": "Refuel",
+    "ix": "s3",
+    "family": "mechanic",
+    "row": "11",
+    "ex": "0",
+    "icon": "Status Refuel.png"
+  },
+  {
+    "class": "Mystic",
+    "name": "Third Eye",
+    "ix": "ex1",
+    "family": "mystic",
+    "row": "11",
+    "ex": "1",
+    "icon": "Ability Third eye.png"
+  },
+  {
+    "class": "Mystic",
+    "name": "Omnipotent Eye",
+    "ix": "s1",
+    "family": "mystic",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability MysticEye.png"
+  },
+  {
+    "class": "Mystic",
+    "name": "Fate Foreseen",
+    "ix": "s2",
+    "family": "mystic",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_MysticFate.png"
+  },
+  {
+    "class": "Mystic",
+    "name": "Splitting Spirit",
+    "ix": "s3",
+    "family": "mystic",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_Convert.png"
+  },
+  {
+    "class": "Ninja",
+    "name": "Home-Made Bomb",
+    "ix": "ex1",
+    "family": "ninja",
+    "row": "11",
+    "ex": "1",
+    "icon": "Ability Home-Made Bomb.png"
+  },
+  {
+    "class": "Ninja",
+    "name": "Ninjutsu",
+    "ix": "s1",
+    "family": "ninja",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_Ninjutsu.png"
+  },
+  {
+    "class": "Ninja",
+    "name": "Fuma Shuriken",
+    "ix": "s2",
+    "family": "ninja",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_Shuriken.png"
+  },
+  {
+    "class": "Ninja",
+    "name": "Haze",
+    "ix": "s3",
+    "family": "ninja",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_Cloudy.png"
+  },
+  {
+    "class": "Samurai",
+    "name": "Into Thin Air",
+    "ix": "ex1",
+    "family": "samurai",
+    "row": "11",
+    "ex": "1",
+    "icon": "Ability_Evasion.png"
+  },
+  {
+    "class": "Samurai",
+    "name": "Finishing Touch",
+    "ix": "s1",
+    "family": "samurai",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability Hissatsu.png"
+  },
+  {
+    "class": "Samurai",
+    "name": "Self Reflection",
+    "ix": "s2",
+    "family": "samurai",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability Meditation.png"
+  },
+  {
+    "class": "Samurai",
+    "name": "Quiet Strategy",
+    "ix": "s3",
+    "family": "samurai",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability Aurora.png"
+  },
+  {
+    "class": "Sword Master",
+    "name": "Contrablade",
+    "ix": "ex1",
+    "family": "swordmaster",
+    "row": "11",
+    "ex": "1",
+    "icon": "Ability Counter.png"
+  },
+  {
+    "class": "Sword Master",
+    "name": "Awakening Blade",
+    "ix": "s1",
+    "family": "swordmaster",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_SwordRelease.png"
+  },
+  {
+    "class": "Sword Master",
+    "name": "Resonating Blade",
+    "ix": "s2",
+    "family": "swordmaster",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_SwordResonance.png"
+  },
+  {
+    "class": "Sword Master",
+    "name": "Energize",
+    "ix": "s3",
+    "family": "swordmaster",
+    "row": "11",
+    "ex": "0",
+    "icon": "Ability_SwordHeal.png"
+  },
+  {
+    "class": "Doctor",
+    "name": "Nutrients",
+    "ix": "ex1",
+    "family": "alchemist",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Nutrients.png"
+  },
+  {
+    "class": "Doctor",
+    "name": "Maddening Vitality",
+    "ix": "ex2",
+    "family": "alchemist",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Maddening Vitality.png"
+  },
+  {
+    "class": "Doctor",
+    "name": "Adrenaline Rush",
+    "ix": "ex3",
+    "family": "alchemist",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Adrenaline Rush.png"
+  },
+  {
+    "class": "Doctor",
+    "name": "Potion Refinement",
+    "ix": "s1",
+    "family": "alchemist",
+    "row": "12",
+    "ex": "0",
+    "icon": "Ability Potion Refinement.png"
+  },
+  {
+    "class": "Doctor",
+    "name": "Primary Care",
+    "ix": "umex1",
+    "family": "alchemist",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability m 2141_3.png"
+  },
+  {
+    "class": "Doctor",
+    "name": "Outperform",
+    "ix": "umex2",
+    "family": "alchemist",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability m 2142_3.png"
+  },
+  {
+    "class": "Doctor",
+    "name": "High Immunity",
+    "ix": "umex3",
+    "family": "alchemist",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability m 2143_3.png"
+  },
+  {
+    "class": "Glorybringer",
+    "name": "Espada",
+    "ix": "ex1",
+    "family": "swordmaster",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Espada.png"
+  },
+  {
+    "class": "Glorybringer",
+    "name": "Al Doble",
+    "ix": "ex2",
+    "family": "swordmaster",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Choke.png"
+  },
+  {
+    "class": "Glorybringer",
+    "name": "Colmillos",
+    "ix": "ex3",
+    "family": "swordmaster",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Colmillos.png"
+  },
+  {
+    "class": "Glorybringer",
+    "name": "Glory Arts",
+    "ix": "s1",
+    "family": "swordmaster",
+    "row": "12",
+    "ex": "0",
+    "icon": "Ability Glory Arts.png"
+  },
+  {
+    "class": "Glorybringer",
+    "name": "Glorious Vow",
+    "ix": "umex1",
+    "family": "swordmaster",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_2014_3.png"
+  },
+  {
+    "class": "Glorybringer",
+    "name": "Gloryblade",
+    "ix": "umex2",
+    "family": "swordmaster",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_960_1.png"
+  },
+  {
+    "class": "Glorybringer",
+    "name": "Mastery&#039;s Edge",
+    "ix": "umex3",
+    "family": "swordmaster",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_2016_3.png"
+  },
+  {
+    "class": "Kengo",
+    "name": "Eagle Reversal",
+    "ix": "ex1",
+    "family": "samurai",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_Counter.png"
+  },
+  {
+    "class": "Kengo",
+    "name": "No More Doubt",
+    "ix": "ex2",
+    "family": "samurai",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability No More Doubt.png"
+  },
+  {
+    "class": "Kengo",
+    "name": "Rending Flash",
+    "ix": "ex3",
+    "family": "samurai",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Rending Flash.png"
+  },
+  {
+    "class": "Kengo",
+    "name": "One with the Blade",
+    "ix": "s1",
+    "family": "samurai",
+    "row": "12",
+    "ex": "0",
+    "icon": "Ability One with the Blade.png"
+  },
+  {
+    "class": "Kengo",
+    "name": "Nocked Exorcism",
+    "ix": "umex1",
+    "family": "samurai",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability m 1983_1.png"
+  },
+  {
+    "class": "Kengo",
+    "name": "Secret Style: Blink Slash",
+    "ix": "umex2",
+    "family": "samurai",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_1984_1.png"
+  },
+  {
+    "class": "Kengo",
+    "name": "Intuition",
+    "ix": "umex3",
+    "family": "samurai",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_1985_3.png"
+  },
+  {
+    "class": "Masquerade",
+    "name": "Bounce Chasse",
+    "ix": "ex1",
+    "family": "dancer",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability m 1413 3.png \u200e"
+  },
+  {
+    "class": "Masquerade",
+    "name": "Non-Sequence",
+    "ix": "ex2",
+    "family": "dancer",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability m 1414 1.png \u200e"
+  },
+  {
+    "class": "Masquerade",
+    "name": "Shall We Dance",
+    "ix": "ex3",
+    "family": "dancer",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability m 1415 5.png \u200e"
+  },
+  {
+    "class": "Masquerade",
+    "name": "Bait Step",
+    "ix": "s1",
+    "family": "dancer",
+    "row": "12",
+    "ex": "0",
+    "icon": "Ability m 1412 3.png \u200e"
+  },
+  {
+    "class": "Masquerade",
+    "name": "On the Waltz",
+    "ix": "umex1",
+    "family": "dancer",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_2269_3.png"
+  },
+  {
+    "class": "Masquerade",
+    "name": "Spiral Turn",
+    "ix": "umex2",
+    "family": "dancer",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_2270_1.png"
+  },
+  {
+    "class": "Masquerade",
+    "name": "Martial Choreography",
+    "ix": "umex3",
+    "family": "dancer",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_2271_3.png"
+  },
+  {
+    "class": "Nekomancer",
+    "name": "Black Cat&#039;s Path",
+    "ix": "ex1",
+    "family": "mystic",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Black Cat&#039;s Path.png"
+  },
+  {
+    "class": "Nekomancer",
+    "name": "Moonshadow",
+    "ix": "ex2",
+    "family": "mystic",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Moonshadow.png"
+  },
+  {
+    "class": "Nekomancer",
+    "name": "Paws of Power",
+    "ix": "ex3",
+    "family": "mystic",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Special Bomb.png"
+  },
+  {
+    "class": "Nekomancer",
+    "name": "Cat&#039;s Meow",
+    "ix": "s1",
+    "family": "mystic",
+    "row": "12",
+    "ex": "0",
+    "icon": "Ability Cat&#039;s Meow.png"
+  },
+  {
+    "class": "Nekomancer",
+    "name": "Oculus Felis",
+    "ix": "umex1",
+    "family": "mystic",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability m 1986 3.png"
+  },
+  {
+    "class": "Nekomancer",
+    "name": "Matatabby",
+    "ix": "umex2",
+    "family": "mystic",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability m 1987 3.png"
+  },
+  {
+    "class": "Nekomancer",
+    "name": "Scratching Post",
+    "ix": "umex3",
+    "family": "mystic",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability m 1988 3.png"
+  },
+  {
+    "class": "Rising Force",
+    "name": "Mosh Pit",
+    "ix": "ex1",
+    "family": "drummaster",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Mosh Pit.png"
+  },
+  {
+    "class": "Rising Force",
+    "name": "Jet To Jet",
+    "ix": "ex2",
+    "family": "drummaster",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Jet To Jet.png"
+  },
+  {
+    "class": "Rising Force",
+    "name": "Unleash the Fury",
+    "ix": "ex3",
+    "family": "drummaster",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Unleash the Fury.png"
+  },
+  {
+    "class": "Rising Force",
+    "name": "Rising Force",
+    "ix": "s1",
+    "family": "drummaster",
+    "row": "12",
+    "ex": "0",
+    "icon": "Ability Rising Force.png"
+  },
+  {
+    "class": "Rising Force",
+    "name": "Fever Pitch",
+    "ix": "umex1",
+    "family": "drummaster",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_2183_3.png"
+  },
+  {
+    "class": "Rising Force",
+    "name": "Pinch Harmonics",
+    "ix": "umex2",
+    "family": "drummaster",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_2184_1.png"
+  },
+  {
+    "class": "Rising Force",
+    "name": "Everlasting Bonds",
+    "ix": "umex3",
+    "family": "drummaster",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_2185_3.png"
+  },
+  {
+    "class": "Runeslayer",
+    "name": "Mana Burst",
+    "ix": "ex1",
+    "family": "ninja",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Mana Burst.png"
+  },
+  {
+    "class": "Runeslayer",
+    "name": "Dragon Break",
+    "ix": "ex2",
+    "family": "ninja",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Dragon Break.png"
+  },
+  {
+    "class": "Runeslayer",
+    "name": "Spell Boost",
+    "ix": "ex3",
+    "family": "ninja",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Spell Boost.png"
+  },
+  {
+    "class": "Runeslayer",
+    "name": "Runeweaving",
+    "ix": "s1",
+    "family": "ninja",
+    "row": "12",
+    "ex": "0",
+    "icon": "Ability Runeweaving.png"
+  },
+  {
+    "class": "Runeslayer",
+    "name": "Multiplying Magic",
+    "ix": "umex1",
+    "family": "ninja",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability m 2017 3.png"
+  },
+  {
+    "class": "Runeslayer",
+    "name": "Circle of Coalescence",
+    "ix": "umex2",
+    "family": "ninja",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability m 2018 3.png"
+  },
+  {
+    "class": "Runeslayer",
+    "name": "Quadruple Hex",
+    "ix": "umex3",
+    "family": "ninja",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability m 2019 1.png"
+  },
+  {
+    "class": "Soldier",
+    "name": "Open Fire",
+    "ix": "ex1",
+    "family": "gunslinger",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Open Fire.png"
+  },
+  {
+    "class": "Soldier",
+    "name": "Fortitude",
+    "ix": "ex2",
+    "family": "gunslinger",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_Selfharm.png"
+  },
+  {
+    "class": "Soldier",
+    "name": "Guerrilla Tactics",
+    "ix": "ex3",
+    "family": "gunslinger",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Guerrilla Tactics.png"
+  },
+  {
+    "class": "Soldier",
+    "name": "Three-Round Burst",
+    "ix": "s1",
+    "family": "gunslinger",
+    "row": "12",
+    "ex": "0",
+    "icon": "Ability Three-Round Burst.png"
+  },
+  {
+    "class": "Soldier",
+    "name": "Combat Rations",
+    "ix": "umex1",
+    "family": "gunslinger",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_2079_3.png"
+  },
+  {
+    "class": "Soldier",
+    "name": "Immortal Operative",
+    "ix": "umex2",
+    "family": "gunslinger",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_1134_3.png"
+  },
+  {
+    "class": "Soldier",
+    "name": "Ammunition Belt",
+    "ix": "umex3",
+    "family": "gunslinger",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_2080_3.png"
+  },
+  {
+    "class": "Tormentor",
+    "name": "Devotion",
+    "ix": "ex1",
+    "family": "assassin",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Devotion.png"
+  },
+  {
+    "class": "Tormentor",
+    "name": "Recursive Nightmare",
+    "ix": "ex2",
+    "family": "assassin",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Recursive Nightmare.png"
+  },
+  {
+    "class": "Tormentor",
+    "name": "Barbed Wire",
+    "ix": "ex3",
+    "family": "assassin",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability Barbed Wire.png"
+  },
+  {
+    "class": "Tormentor",
+    "name": "Execute",
+    "ix": "s1",
+    "family": "assassin",
+    "row": "12",
+    "ex": "0",
+    "icon": "Ability Execute.png"
+  },
+  {
+    "class": "Tormentor",
+    "name": "Fatal Venom",
+    "ix": "umex1",
+    "family": "assassin",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_1768_1.png"
+  },
+  {
+    "class": "Tormentor",
+    "name": "Thousand Slices",
+    "ix": "umex2",
+    "family": "assassin",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_2081_4.png"
+  },
+  {
+    "class": "Tormentor",
+    "name": "Executing Blow",
+    "ix": "umex3",
+    "family": "assassin",
+    "row": "12",
+    "ex": "1",
+    "icon": "Ability_m_2082_3.png"
+  }
+]
