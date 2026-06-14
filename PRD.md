@@ -24,7 +24,7 @@ The original project is a Vue 2 SSR application (webpack + Express) backed by a 
 - Party Builder, Collection Tracker, Daily Grind, Spark, Teams, Search, Replicard, Friend Summons, Release Schedule, Room Name, and the other calculators (Bullets, GW, Dread, Event) are **not** ported.
 - No user accounts, login, signup, or JWT handling (G3).
 - No ads, analytics, or consent management.
-- No server-side rendering. Since v1.2.6 (§11) the social-preview/SEO meta tags (title, description, canonical, Open Graph, Twitter Card) are **static** in `index.html` so non-JS scrapers can read them; there is still no SSR and no runtime per-route meta.
+- No server-side rendering. Since v1.2.6 (§11) the social-preview/SEO meta tags (title, description, canonical, Open Graph, Twitter Card) are **static** in `index.html` so non-JS scrapers can read them; v1.2.8 (§12) added a runtime per-route `afterEach` hook, and v1.2.9 (§13) added build-time pre-rendered per-route HTML (`dist/calceternal`, `dist/calcevoker`) so scrapers get per-page cards — all without SSR.
 - No translation/JP-names toggle (the dropped pages were the main consumers; calculator data is English).
 
 ## 4. Users
@@ -126,6 +126,7 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 | 1.2.6 | 2026-06-14 | **Static SEO / social-preview meta.** Added static `<head>` tags to `index.html` — canonical URL, Open Graph (`og:type/url/title/description/image`), and Twitter Card (`summary_large_image`) — pointing at the production URL `https://rene880.github.io/raziel-ledger/`, plus a `1200×630` `public/img/og-preview.png` link-preview image. No SSR, no runtime per-route meta; scope deliberately excludes robots.txt/sitemap (a project-subpath `robots.txt` is not honored — crawlers read `https://rene880.github.io/robots.txt`, owned by the root user-page repo). See §11. |
 | 1.2.5 | 2026-06-14 | **WikiParser reduced to a standalone item-image fetcher.** Trimmed `WikiParser/data/` to `supplies.images`; deleted `db/`, `preview/`, and the now-orphaned upstream pipeline (`database.py`, `parse.py`, `bullets.py`, `migration.py`, `make_party_preview.py`, `optimize_img.py`, `config/`, `update.sh`, `pyproject.toml`, `pdm.lock`, preview assets); rewrote `update_img.py` as a config-free fetcher (manifest → `public/img/item/`, `download(manifest, dest_dir)` preserved for `/download-images`); trimmed `requirements.txt` to `requests`. **Redirects G4** ("preserve verbatim" → standalone fetcher). See §10. |
 | 1.2.8 | 2026-06-14 | **Per-route titles/meta + sitemap.** Added a vue-router `afterEach` hook (`src/router/index.js`) that sets a distinct `document.title`, `description`, `canonical`, and `og:`/`twitter:` title/description/url per route (Home, Eternals, Evokers, NotFound) from `route.meta`; the static `index.html` tags remain the scraper-facing defaults. Added `public/sitemap.xml` (the three real routes, absolute production URLs) for manual submission in Google Search Console — partially reversing 1.2.6's "no sitemap" scope (a subpath sitemap isn't auto-discovered but is valid when submitted directly). Removed a stray `</content>`/`</invoke>` artifact from PRD §9 and condensed §9. See §12. |
+| 1.2.9 | 2026-06-14 | **Per-route static social previews (build-time pre-render).** Fixed `/calceternal` and `/calcevoker` unfurling with **no** link-preview card: they were served from GitHub's `404.html` (no OG tags; the 1.2.8 JS `afterEach` can't help scrapers). Extracted the route SEO table into a shared plain module (`src/seo/meta.js`) consumed by both the router and a new `scripts/prerender-routes.js` (`postbuild`) that clones the built `dist/index.html` into `dist/calceternal/index.html` and `dist/calcevoker/index.html` with each route's static `<title>`/`title`/`description`/`canonical`/`og:`/`twitter:` title-description-url swapped in (OG **image** stays the sitewide `og-preview.png`). Those routes now serve a real **200** file with correct static tags; the rafgraph `404.html` redirect remains only for genuinely unknown paths. No new dependency, no SSR. See §13. |
 
 ### 8.1 Constraints that persist
 
@@ -144,33 +145,7 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 
 ## 10. Version 1.2.5 — WikiParser reduced to a standalone item-image fetcher (2026-06-14)
 
-### 10.1 Problem
-WikiParser still carried the full upstream GranblueParty pipeline (Postgres DB layer,
-wiki scraping for chara/summon/weapon, party-preview server) even though Raziel Ledger
-only ever uses it to download item icons from a hand-authored manifest. G4's "preserve
-unchanged" rule had frozen ~2,000 lines of dead Python and ~6 MB of unused data.
-
-### 10.2 Scope
-| # | Change |
-|---|--------|
-| A | Trim `WikiParser/data/` to `supplies.images` only (12 unused data files removed). |
-| B | Delete `WikiParser/db/` (Postgres seed CSVs) and `WikiParser/preview/` (party-preview server). |
-| C | Delete now-orphaned Python + tooling: `database.py`, `parse.py`, `bullets.py`, `migration.py`, `make_party_preview.py`, `optimize_img.py`, `config/`, `update.sh`, `pyproject.toml`, `pdm.lock`, and the preview assets (`NotoSans-Regular.ttf`, `star_{b,y}.png`). |
-| D | Rewrite `update_img.py` as a standalone fetcher: reads a `URL⇥dest` manifest (default `data/supplies.images`), downloads into `../public/img/item/` (both overridable via argv), skips existing files, writes only on HTTP 200. No `config` import, no previews. `download(manifest, dest_dir)` signature preserved for the `/download-images` skill. |
-| E | Trim `requirements.txt` to `requests`. |
-
-### 10.3 Notes & constraints
-- **G4 is redirected, not dropped:** WikiParser is now a standalone item-image fetcher, no
-  longer "preserved verbatim." The `/download-images` skill and PRD §6.2/§8.1/§7 are updated to match.
-- WikiParser remains GPL-3.0 (upstream attribution + `LICENSE` retained).
-- Item icons are still CDN-authoritative (v1.2.4); this version changes only the fetcher, not the manifest.
-
-### 10.4 Acceptance criteria
-1. `WikiParser/` contains only `update_img.py`, `data/supplies.images`, `requirements.txt`, `README.md`, `LICENSE`.
-2. `cd WikiParser && python3 update_img.py` re-downloads nothing (all icons present) and exits 0.
-3. `npm test` passes (every `supplies.js` item has its `public/img/item/<key>` icon — 316 items).
-4. No remaining repo reference tells the reader WikiParser `.py` is immutable.
-5. `package.json` `version` is `1.2.5`; `CLAUDE.md` and `README.md` reflect v1.2.5.
+*Condensed (older than the latest three releases — see the §8 changelog row and §8.1 constraints for the durable summary).* Stripped WikiParser from the full upstream GranblueParty pipeline (Postgres DB layer, wiki scraping, party-preview server — ~2,000 lines of dead Python and ~6 MB of unused data) down to a standalone item-image fetcher: trimmed `WikiParser/data/` to `supplies.images` only, deleted `db/`/`preview/` and the orphaned tooling (`database.py`, `parse.py`, `bullets.py`, `migration.py`, `make_party_preview.py`, `optimize_img.py`, `config/`, `update.sh`, `pyproject.toml`, `pdm.lock`, preview assets), trimmed `requirements.txt` to `requests`, and rewrote `update_img.py` as a config-free fetcher (manifest → `public/img/item/`, skips existing files, `download(manifest, dest_dir)` preserved for `/download-images`). **Redirects G4** ("preserve verbatim" → standalone fetcher); WikiParser stays GPL-3.0.
 
 ---
 
@@ -284,3 +259,68 @@ of scope (§3) — this is runtime/JS meta, which Googlebot renders, layered ove
    `https://rene880.github.io/raziel-ledger/sitemap.xml`.
 4. `npm test` still passes (316 item icons; sitemap not in scope of the check).
 5. `package.json` `version` is `1.2.8`; `CLAUDE.md` and `README.md` reflect v1.2.8.
+
+---
+
+## 13. Version 1.2.9 — Per-route static social previews (build-time pre-render) (2026-06-14)
+
+### 13.1 Problem
+
+`/calceternal` and `/calcevoker` unfurl with **no** link-preview card when shared (Discord, X,
+Slack, Facebook, iMessage), while the root `/` does show one. The cause is the interaction of two
+earlier decisions:
+
+- **The deep routes are served from GitHub's `404.html`** (§11.2 S5). A scraper requesting
+  `https://rene880.github.io/raziel-ledger/calceternal` gets GitHub Pages' `404.html` — which carries
+  **no** Open Graph / Twitter tags, only a rafgraph redirect script. Scrapers don't run JS, so the
+  redirect never fires and there is nothing to unfurl. Only `/` resolves to the real `index.html`.
+- **The 1.2.8 `afterEach` hook is JS-only** (§12.3). It updates per-route meta at runtime, which
+  Googlebot and the browser tab see, but link-preview crawlers never execute it.
+
+So 1.2.8 gave per-route titles to *JS-rendering* consumers but left non-JS scrapers with the single
+static `index.html` card for `/` and **nothing at all** for the two calculator deep links.
+
+SSR remains out of scope (§3). The fix is **build-time pre-rendering**: emit a real static HTML file
+per route so GitHub Pages serves a 200 document with route-specific static tags — no server needed.
+
+### 13.2 Scope
+
+| # | Change |
+|---|--------|
+| S1 | Extract the route SEO metadata out of `src/router/index.js` into a shared, dependency-free module `src/seo/meta.js`: `SITE_ORIGIN`, `SITE_NAME`, `DEFAULT_TITLE`, `DEFAULT_DESCRIPTION`, `OG_IMAGE`, and a `ROUTES` table of `{ path, title, description }` for Home / `/calceternal` / `/calcevoker` / NotFound. `router/index.js` imports from it and keeps its `afterEach` hook unchanged — single source of truth shared with the pre-render script. |
+| S2 | Add `scripts/prerender-routes.js`, run as a new `postbuild` npm script (after `vite build`). It reads the built `dist/index.html` and, for `/calceternal` and `/calcevoker`, writes `dist/<route>/index.html` with that route's static tags swapped in: `<title>`, `<meta name="title">`, `<meta name="description">`, `<link rel="canonical">`, `og:title`/`og:description`/`og:url`, and `twitter:title`/`twitter:description`. Plain string/regex replacement on the built HTML — no new dependency. |
+| S3 | The OG/Twitter **image** stays the single sitewide `public/img/og-preview.png` (resolved decision — only title/description/url differ per route). `og:type`, `og:image:width/height`, `twitter:card`, the rafgraph decode snippet, and the hashed asset references are copied through unchanged. |
+| S4 | Result: `/calceternal` and `/calcevoker` now serve a real **200** HTML file with correct static tags directly from GitHub Pages; they no longer fall through to `404.html`. The rafgraph `404.html` redirect (§11.2 S5) remains in place for genuinely unknown paths (→ NotFound). |
+| S5 | Bump `package.json` `version` to **1.2.9**; sync `CLAUDE.md` and `README.md`. |
+
+### 13.3 Notes & constraints
+
+- **No new dependency, no SSR.** The script is plain Node (the project is already `"type": "module"`)
+  doing text substitution on the built `index.html`; it imports the same `src/seo/meta.js` the router
+  uses, so titles can never drift between the JS hook and the pre-rendered files.
+- **Static tags are now per-route, not sitewide.** This supersedes the §12.3 note that scrapers "still
+  read the static `index.html` defaults (the Home values)" — that remains true for `/`, but
+  `/calceternal` and `/calcevoker` now have their own static cards. The 1.2.8 `afterEach` hook is still
+  useful (in-app tab title, client-side navigation, Googlebot) and is unchanged.
+- **Only the three real routes are pre-rendered.** NotFound is intentionally left to the `404.html`
+  path; there is no static file for arbitrary unknown URLs.
+- `og-preview.png` is hand-authored art, not a game asset; `check-item-images.js` is unaffected
+  (it only walks `supplies.js` items in `public/img/item/`).
+- `package.json` version stays the single source of truth (§8 versioning policy).
+
+### 13.4 Open question
+
+- **Version number** — proposed **1.2.9** (staying in the 1.2.x SEO line). Could be **1.3.0** since it
+  introduces build-time pre-rendering as a new build stage. Defaulting to 1.2.9 unless changed.
+
+### 13.5 Acceptance criteria
+
+1. After `npm run build`, `dist/calceternal/index.html` and `dist/calcevoker/index.html` exist, each
+   with its own `<title>`, `og:title`, `og:description`, and `og:url` (the route's absolute production URL).
+2. Pasting `https://rene880.github.io/raziel-ledger/calceternal` (and `…/calcevoker`) into a link-preview
+   validator (opengraph.xyz / Facebook Sharing Debugger) renders a card with the page-specific title and
+   description; the root `/` card is unchanged.
+3. Loading both deep links in `npm run preview` hydrates the SPA and routes to the correct calculator with
+   the clean URL (no `?/` redirect needed for these two paths).
+4. `npm test` still passes (316 item icons; pre-rendered HTML not in scope of the check).
+5. `package.json` `version` is `1.2.9`; `CLAUDE.md` and `README.md` reflect v1.2.9.

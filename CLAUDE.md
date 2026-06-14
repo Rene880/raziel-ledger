@@ -40,10 +40,13 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
 - `npm run dev` — local dev server
 - `npm run test` — runs `scripts/check-item-images.js`: fails if any `supplies.js` item lacks its
   icon in `public/img/item/<key>.<jpg|gif>` (since v1.2.3, PRD §8 changelog). There are no other tests or linters.
-- `npm run build` — runs the image check first (`prebuild`), then production build into `dist/`. Since
-  v1.2.6 the GitHub Pages SPA deep-link fallback is a dedicated rafgraph `public/404.html` redirect that
-  Vite copies to `dist/404.html` (pre-1.2.6 the build `cp`-ed `index.html`; PRD §11 S5). A missing item
-  icon fails the build.
+- `npm run build` — runs the image check first (`prebuild`), then production build into `dist/`, then a
+  `postbuild` pre-render (since v1.2.9). Since v1.2.6 the GitHub Pages SPA deep-link fallback is a dedicated
+  rafgraph `public/404.html` redirect that Vite copies to `dist/404.html` (pre-1.2.6 the build `cp`-ed
+  `index.html`; PRD §11 S5). A missing item icon fails the build. `postbuild` runs
+  `scripts/prerender-routes.js`, which clones `dist/index.html` into `dist/calceternal/index.html` and
+  `dist/calcevoker/index.html` with each route's static `<title>`/canonical/`og:`/`twitter:` tags so non-JS
+  link scrapers get a per-page card (OG image stays sitewide; PRD §13).
 - `npm run preview` — serve the production build locally
 - A committed `.githooks/pre-commit` runs `npm test` on every commit (since v1.2.3, PRD §8 changelog);
   it is wired by the `prepare` script (`git config core.hooksPath .githooks`) on `npm install`.
@@ -51,12 +54,17 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
 
 ## Architecture
 
-- `src/router/index.js` — vue-router (`createWebHistory(import.meta.env.BASE_URL)`). Each route carries
-  `meta: { title, description }`; a `router.afterEach` hook (since v1.2.8) sets `document.title` and updates
-  the in-document `<meta name="title|description">`, `<link rel="canonical">`, and `og:`/`twitter:`
-  title/description/url per route — JS-rendered, so it serves the browser tab + Googlebot, while the static
-  `index.html` tags stay the defaults that no-JS link scrapers read. No head library; the hook mutates
-  existing DOM tags. `public/sitemap.xml` (v1.2.8) lists the three routes for manual GSC submission. See PRD §12.
+- `src/router/index.js` — vue-router (`createWebHistory(import.meta.env.BASE_URL)`). Each route's
+  `meta: { title, description }` is pulled (by path) from the shared `src/seo/meta.js` `ROUTES` table; a
+  `router.afterEach` hook (since v1.2.8) sets `document.title` and updates the in-document
+  `<meta name="title|description">`, `<link rel="canonical">`, and `og:`/`twitter:` title/description/url per
+  route — JS-rendered, so it serves the browser tab + Googlebot, while the static `index.html` tags stay the
+  defaults that no-JS link scrapers read. No head library; the hook mutates existing DOM tags. `public/sitemap.xml`
+  (v1.2.8) lists the three routes for manual GSC submission. See PRD §12.
+- `src/seo/meta.js` (since v1.2.9) — dependency-free single source of truth for route SEO: `SITE_ORIGIN`,
+  `SITE_NAME`, defaults, `OG_IMAGE`, the `ROUTES` table (`{ path, title, description, prerender }`), and
+  `urlForPath()`. Imported by both `src/router/index.js` (runtime hook) and `scripts/prerender-routes.js`
+  (build-time pre-render) so the two can't drift. See PRD §13.
 - `src/pages/` — `Home`, `CalcEternal`, `CalcEvoker`, `NotFound`. The two calc pages own the progress
   state, persist it to `localStorage` (keys `CalcEternal-*` / `CalcEvoker-*` via `js/utils.js`
   `LocalStorageMgt`), and delegate all logic to `components/Calculator.vue`. `CalcEternal` has two
@@ -105,7 +113,11 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   Ledger" in Great Vibes on the dark theme bg) — like the lettering SVG it is hand-authored, **not** a game asset,
   and is not covered by `check-item-images.js`. No SSR. Since v1.2.8 there **is** runtime per-route meta (the
   `src/router/index.js` `afterEach` hook, above) layered over these static defaults, and a `public/sitemap.xml`
-  for **manual** GSC submission (PRD §12). `robots.txt` is still intentionally absent: a `public/robots.txt`
+  for **manual** GSC submission (PRD §12). Since v1.2.9 the static `index.html` defaults are no longer the only
+  per-route signal scrapers see: the `postbuild` `scripts/prerender-routes.js` emits `dist/calceternal/index.html`
+  and `dist/calcevoker/index.html` with their own static `<title>`/canonical/`og:`/`twitter:` tags (OG image stays
+  the sitewide `og-preview.png`), so those deep routes serve a real 200 file with a per-page card instead of
+  falling through to `404.html` (PRD §13). `robots.txt` is still intentionally absent: a `public/robots.txt`
   would deploy to `/raziel-ledger/robots.txt`, which crawlers ignore (they read
   `https://rene880.github.io/robots.txt`, owned by the separate user-page repo); the same non-discovery applies
   to the subpath sitemap, which is why it's submitted directly in Search Console rather than auto-found.

@@ -72,6 +72,15 @@ deploys to `https://rene880.github.io/raziel-ledger/sitemap.xml` for **manual** 
 Console. A `robots.txt` is still omitted: at a project subpath it isn't honored — crawlers only read
 `https://<user>.github.io/robots.txt`, served from your user/org page repo. See PRD §11–§12.
 
+Since v1.2.9, the deep routes get **static** per-page cards too, so link scrapers (which never run the
+runtime hook) unfurl a correct card for `/calceternal` and `/calcevoker` — not just `/`. A `postbuild`
+step, [scripts/prerender-routes.js](scripts/prerender-routes.js), clones the built `dist/index.html` into
+`dist/calceternal/index.html` and `dist/calcevoker/index.html`, swapping in each route's `<title>` /
+canonical / `og:` / `twitter:` title-description-url (the OG **image** stays the sitewide `og-preview.png`).
+The route SEO table lives in [src/seo/meta.js](src/seo/meta.js), shared by both the router hook and the
+pre-render script so they can't drift. These two routes now serve a real **200** file instead of falling
+through to `404.html`; the rafgraph redirect remains for genuinely unknown paths. See PRD §13.
+
 ## Project documentation
 
 See [PRD.md](PRD.md) for the product requirements of this rewrite.

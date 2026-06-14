@@ -1,6 +1,6 @@
 {
   "name": "raziel-ledger",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "Granblue Fantasy Eternals and Evokers material calculators",
   "private": true,
   "type": "module",
@@ -11,6 +11,7 @@
     "test": "node scripts/check-item-images.js",
     "prebuild": "node scripts/check-item-images.js",
     "build": "vite build",
+    "postbuild": "node scripts/prerender-routes.js",
     "preview": "vite preview"
   },
   "dependencies": {

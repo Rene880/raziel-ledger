@@ -1,12 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import {
+  SITE_NAME,
+  DEFAULT_TITLE,
+  DEFAULT_DESCRIPTION,
+  OG_IMAGE,
+  ROUTES,
+  urlForPath,
+} from '@/seo/meta'
 
-// Production origin used for canonical / Open Graph URLs (no trailing slash).
-// The Vite base is a subpath, so these must be absolute (see PRD §11/§12).
-const SITE_ORIGIN = 'https://rene880.github.io/raziel-ledger'
-const SITE_NAME = 'Raziel Ledger'
-const DEFAULT_TITLE = 'Raziel Ledger - Granblue Fantasy Calculators'
-const DEFAULT_DESCRIPTION = 'Material calculators for Granblue Fantasy Eternals and Evokers'
-const OG_IMAGE = `${SITE_ORIGIN}/img/og-preview.png`
+// Pull { title, description } for a route from the shared SEO table so the
+// router and the build-time pre-render script never drift (PRD §13 S1).
+function metaForPath(path) {
+  const entry = ROUTES.find((r) => r.path === path)
+  return {
+    title: entry?.title ?? DEFAULT_TITLE,
+    description: entry?.description ?? DEFAULT_DESCRIPTION,
+  }
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,39 +31,25 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('@/pages/Home.vue'),
-      meta: {
-        title: DEFAULT_TITLE,
-        description: DEFAULT_DESCRIPTION,
-      },
+      meta: metaForPath('/'),
     },
     {
       path: '/calceternal',
       name: 'calceternal',
       component: () => import('@/pages/CalcEternal.vue'),
-      meta: {
-        title: 'Eternals Calculator - Raziel Ledger',
-        description:
-          'Track the materials to recruit, transcend, and raise the Radiance of Granblue Fantasy Eternals.',
-      },
+      meta: metaForPath('/calceternal'),
     },
     {
       path: '/calcevoker',
       name: 'calcevoker',
       component: () => import('@/pages/CalcEvoker.vue'),
-      meta: {
-        title: 'Evokers Calculator - Raziel Ledger',
-        description:
-          'Track the materials to unlock and uncap Granblue Fantasy Evokers and their weapons.',
-      },
+      meta: metaForPath('/calcevoker'),
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('@/pages/NotFound.vue'),
-      meta: {
-        title: 'Page Not Found - Raziel Ledger',
-        description: DEFAULT_DESCRIPTION,
-      },
+      meta: metaForPath('/:pathMatch(.*)*'),
     },
   ]
 });
@@ -77,7 +73,7 @@ router.afterEach((to) => {
   const title = meta.title || DEFAULT_TITLE
   const description = meta.description || DEFAULT_DESCRIPTION
   const path = to.path === '/' ? '/' : to.path
-  const url = `${SITE_ORIGIN}${path}`
+  const url = urlForPath(path)
 
   document.title = title
   setMetaContent('meta[name="title"]', title)
