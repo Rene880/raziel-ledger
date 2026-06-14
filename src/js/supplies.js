@@ -40,6 +40,7 @@ const items = Object.freeze({
   abyssalwing: new Item('Abyssal Wing', Categories.quest),
   cunningdevilshorn: new Item('Cunning Devil\'s Horn', Categories.quest),
   eternitysand: new Item('Eternity Sand', Categories.quest),
+  terraadamant: new Item('Terra Adamant', Categories.quest),
   //: new Item('', Categories.quest),
   flawlessprism: new Item('Flawless Prism', Categories.quest),
   flawedprism: new Item('Flawed Prism', Categories.quest),
@@ -51,6 +52,7 @@ const items = Object.freeze({
   silvercentrum: new Item('Silver Centrum', Categories.quest),
   sunlightstone: new Item('Sunlight Stone', Categories.quest),
   genesisfragment: new Item('Genesis Fragment', Categories.quest),
+  immortalfragment: new Item('Immortal Fragment', Categories.quest),
   primevalhorn: new Item('Primeval Horn', Categories.quest),
   malicefragment: new Item('Malice Fragment', Categories.quest),
   verdantazurite: new Item('Verdant Azurite', Categories.quest),
@@ -316,6 +318,20 @@ const items = Object.freeze({
   windomega2omegaanima: new Item('Grimnir Omega Anima', Categories.anima),
   lightomega2omegaanima: new Item('Metatron Omega Anima', Categories.anima),
   darkomega2omegaanima: new Item('Avatar Omega Anima', Categories.anima),
+  // Ennead Omega Anima
+  fireenneadomegaanima: new Item('Atum Omega Anima', Categories.anima),
+  waterenneadomegaanima: new Item('Tefnut Omega Anima', Categories.anima),
+  earthenneadomegaanima: new Item('Bennu Omega Anima', Categories.anima),
+  windenneadomegaanima: new Item('Ra Omega Anima', Categories.anima),
+  lightenneadomegaanima: new Item('Horus Omega Anima', Categories.anima),
+  darkenneadomegaanima: new Item('Osiris Omega Anima', Categories.anima),
+  // Omega 3 Omega Anima
+  fireomega3omegaanima: new Item('Ira Omega Anima', Categories.anima),
+  wateromega3omegaanima: new Item('Mare Omega Anima', Categories.anima),
+  earthomega3omegaanima: new Item('Arbos Omega Anima', Categories.anima),
+  windomega3omegaanima: new Item('Aura Omega Anima', Categories.anima),
+  lightomega3omegaanima: new Item('Credo Omega Anima', Categories.anima),
+  darkomega3omegaanima: new Item('Ater Omega Anima', Categories.anima),
   // Six-Dragon Advent
   firesixdragon: new Item('Smoldering Rubble', Categories.anima),
   watersixdragon: new Item('Abyssal Tragedy', Categories.anima),
@@ -717,6 +733,24 @@ const groups = Object.freeze({
     wind: 'windomega2omegaanima',
     light: 'lightomega2omegaanima',
     dark: 'darkomega2omegaanima'
+  },
+  enneadomegaanima: {
+		type: GroupType.element,
+    fire: 'fireenneadomegaanima',
+    water: 'waterenneadomegaanima',
+    earth: 'earthenneadomegaanima',
+    wind: 'windenneadomegaanima',
+    light: 'lightenneadomegaanima',
+    dark: 'darkenneadomegaanima'
+  },
+  omega3omegaanima: {
+		type: GroupType.element,
+    fire: 'fireomega3omegaanima',
+    water: 'wateromega3omegaanima',
+    earth: 'earthomega3omegaanima',
+    wind: 'windomega3omegaanima',
+    light: 'lightomega3omegaanima',
+    dark: 'darkomega3omegaanima'
   },
   sixdragon: {
 		type: GroupType.element,

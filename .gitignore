@@ -12,6 +12,14 @@ dist
 dist-ssr
 *.local
 
+# Python (WikiParser) — generated artifacts, kept out of the verbatim tree
+__pycache__/
+*.pyc
+WikiParser/config/config.ini
+
+# Claude Code local (personal) settings
+.claude/settings.local.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

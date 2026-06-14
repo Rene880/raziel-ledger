@@ -194,3 +194,68 @@ outside `public/img/item/` are not audited in this version.
    `silvershardgauntlet.jpg` (renamed from `silvershardmelee.jpg`).
 7. Both calculators render every step of every unit without console errors or broken images.
 8. `npm run build` passes; README.md and CLAUDE.md reflect the changes (C3).
+
+---
+
+## 9. Version 1.2 — Eternals Radiance tab (signed off 2026-06-12)
+
+### 9.1 Problem
+
+The Eternals page covers recruit → uncap → 6★ transcendence, but not the newest progression,
+[Radiance of the Eternal](https://gbf.wiki/Radiance_of_the_Eternal) (Radiance levels 1–5), which an
+Eternal unlocks after reaching transcendence level 110. Players want to plan those materials in the
+same tool.
+
+### 9.2 Scope
+
+| # | Change |
+|---|--------|
+| R1 | Add a **`radiance`** material array to `ETERNALS_DATA` in `supplies-eternals.js` (5 steps, "Radiance Level 1"–"5"), as a sibling of `materials` — it does not alter the existing recruit/transcend data. |
+| R2 | Add the materials Radiance introduces to `supplies.js`: 14 new items + 2 element groups (`enneadomegaanima`, `omega3omegaanima`); see 9.4. Everything else Radiance needs already exists and is reused. |
+| R3 | Add a **tab switcher** to `CalcEternal.vue` ("Recruit & Transcend" / "Radiance"). The Radiance tab renders a **second `<calculator>` instance** bound to `{units, materials: radiance}`. `Calculator.vue` is generic and is **not** modified. |
+| R4 | The Radiance tab keeps its own progress object, persisted to `localStorage` under **`CalcEternal-radianceProgress`**; the existing `CalcEternal-progress` (recruit/transcend) is untouched, so current users lose nothing. Active tab persists under `CalcEternal-activeTab`. The `splitMats` / `hideCompletedMats` / `displayList` UI toggles are shared across both tabs. |
+| R5 | Download the 14 new item icons into `public/img/item/<itemKey>.jpg` (see 9.5). |
+| R6 | Docs sync: reflect R1–R5 in `CLAUDE.md` and `README.md`. |
+
+### 9.3 Radiance steps (materials per level)
+
+Required materials scale with the Eternal's element/weapon type, resolved through groups exactly as
+elsewhere. Source: the Radiance of the Eternal wiki page.
+
+- **Lvl 1:** Genesis Fragment ×100, Omega II Omega Anima ×50 (`omega2omegaanima`), Ennead Omega Anima ×40 (`enneadomegaanima`), Trial Fragment ×50 (`trialfragment`), Champion Merit ×50.
+- **Lvl 2:** Immortal Fragment ×70, Omega III Omega Anima ×25 (`omega3omegaanima`), Urn ×150 (`urns`), Elemental Halo ×15 (`halos`), True Dragon's Golden Scale ×30, Supreme Merit ×25.
+- **Lvl 3:** Six-Dragon Advent Unique Item ×30 (`sixdragon`), Six-Dragon Jewel ×100 (`sixdragonjewel`), Silver Relic Shard ×60 (`silvershards`), Luster ×20 (`luster`), Legendary Merit ×10.
+- **Lvl 4:** Revenant Weapon Fragment ×20 (`wfragment`), Weapon Stone ×500 (`weaponstones`), Quartz ×500 (`quartz`), Damascus Crystal ×10.
+- **Lvl 5:** Terra Adamant ×1.
+
+### 9.4 New data in `supplies.js`
+
+- **Items (standalone):** `immortalfragment` (Immortal Fragment), `terraadamant` (Terra Adamant).
+- **Group `enneadomegaanima`** (element): `fireenneadomegaanima` Atum / `waterenneadomegaanima` Tefnut / `earthenneadomegaanima` Bennu / `windenneadomegaanima` Ra / `lightenneadomegaanima` Horus / `darkenneadomegaanima` Osiris.
+- **Group `omega3omegaanima`** (element): `fireomega3omegaanima` Ira / `wateromega3omegaanima` Mare / `earthomega3omegaanima` Arbos / `windomega3omegaanima` Aura / `lightomega3omegaanima` Credo / `darkomega3omegaanima` Ater — all `Categories.anima`.
+
+Element assignment is **positional** (1st item = fire … 6th = dark), matching the order in the wiki
+material list and the existing `omega2omegaanima` convention (Shiva=fire … Avatar=dark).
+
+### 9.5 Image acquisition (constraint)
+
+WikiParser has **no item/material image code path** — `parse.py` only emits `.images` for
+characters, summons, and weapons, so the documented pipeline (even with PostgreSQL) cannot produce
+these material icons. Instead, the 14 icons are fetched from gbf.wiki via
+`https://gbf.wiki/Special:Redirect/file/<Name>_square.jpg` (the same source the existing icons came
+from — verified by the `File source:` comment embedded in `fireomega2omegaanima.jpg`), driven through
+WikiParser's own `download()` ([update_img.py](WikiParser/update_img.py)) using a hand-authored
+`WikiParser/data/radiance.images` (native `URL⇥dest` format). This keeps the new icons consistent
+with the §8 sweep rule (one `<itemKey>.jpg` per item).
+
+### 9.6 Acceptance criteria
+
+1. `/calceternal` shows two tabs; "Radiance" renders the 5 Radiance levels with correct
+   element/summon-resolved materials and no broken images.
+2. Editing quantities on either tab, switching tabs, and reloading restores both tabs' state
+   independently from `localStorage`.
+3. The recruit/transcend tab is byte-for-byte behavior-identical to v1.1 (its data and
+   `CalcEternal-progress` key are untouched).
+4. Every new item key has its `public/img/item/<key>.jpg`; reference walk reports 0 dangling
+   references.
+5. `npm run build` passes; CLAUDE.md and README.md reflect v1.2.
