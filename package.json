@@ -1,6 +1,6 @@
 {
   "name": "raziel-ledger",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "description": "Granblue Fantasy Eternals and Evokers material calculators",
   "private": true,
   "type": "module",

@@ -81,6 +81,14 @@ The route SEO table lives in [src/seo/meta.js](src/seo/meta.js), shared by both 
 pre-render script so they can't drift. These two routes now serve a real **200** file instead of falling
 through to `404.html`; the rafgraph redirect remains for genuinely unknown paths. See PRD §13.
 
+Since v1.2.10, the homepage hero font (Great Vibes) is **self-hosted** instead of fetched from Google
+Fonts. [public/fonts/great-vibes-subset.woff2](public/fonts/great-vibes-subset.woff2) (~6 KB, OFL,
+subset to the 11 glyphs in "Raziel Ledger") is declared in `index.html` via an inline `@font-face`
+(`font-display: swap`) plus a `<link rel="preload" as="font" crossorigin>`. This removed the old
+render-blocking `preconnect` + css2 stylesheet chain (~1.3 s cross-origin DNS/TLS for a 29.70 KiB woff2):
+the font now loads same-origin on the connection already open for the HTML, with no Google request. The
+pre-render step drops the preload from the calc routes (the font isn't used there). See PRD §14.
+
 ## Project documentation
 
 See [PRD.md](PRD.md) for the product requirements of this rewrite.

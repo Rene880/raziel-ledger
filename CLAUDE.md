@@ -103,9 +103,15 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   consumed by Tailwind config colors (`bg-primary`, `text-primary`, etc.).
 - `public/img/raziel-ledger-lettering.svg` — hand-authored calligraphy SVG (Great Vibes font, `fill: currentColor`);
   inlined in `Home.vue` with `class="text-primary"` so it inherits `--color-text-primary` and responds to all three
-  themes. Google Fonts (Great Vibes) is loaded globally in `index.html` (not in the SVG `@import`, which would be
-  blocked when the SVG is loaded as `<img>`). This file is **not** a game asset — never overwrite with `download()`.
-  See PRD §9.
+  themes. Since v1.2.10 (PRD §14) the Great Vibes hero font is **self-hosted**, not loaded from Google Fonts:
+  `public/fonts/great-vibes-subset.woff2` (~6 KB, OFL, subset to the 11 glyphs in "Raziel Ledger") is declared via an
+  inline `@font-face` (`font-display: swap`) + `<link rel="preload" as="font" crossorigin>` in `index.html`, both
+  referenced through `%BASE_URL%` (Vite does not rewrite `url()` inside an inline `<style>`). This replaced the old
+  render-blocking `preconnect`+css2 chain (~1.3 s cross-origin for a 29.70 KiB woff2); there is no Google Fonts request
+  at runtime. `scripts/prerender-routes.js` strips the preload from the calc-route pre-renders (font unused there; the
+  inert `@font-face` stays). The font file is **not** a game asset (outside `check-item-images.js`). The standalone
+  lettering SVG keeps its own now-unused Google Fonts `@import` but is not loaded by the app. This SVG file is **not**
+  a game asset — never overwrite with `download()`. See PRD §9, §14.
 - SEO / social previews (since v1.2.5… v1.2.6, PRD §11): `index.html` carries **static** `<head>` tags —
   `<link rel="canonical">`, Open Graph (`og:*`), and Twitter Card (`summary_large_image`) — all hardcoding the
   absolute production URL `https://rene880.github.io/raziel-ledger/` (scrapers don't run JS, and a subpath base
