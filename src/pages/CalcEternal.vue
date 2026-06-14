@@ -19,9 +19,30 @@
       </ul>
     </span>
 
+    <!-- Tabs -->
+    <div class="flex flex-row gap-2 mb-8">
+      <button class="btn" :class="activeTab === 0 ? 'btn-blue' : 'btn-white'" @click="activeTab = 0">
+        Recruit &amp; Transcend
+      </button>
+      <button class="btn" :class="activeTab === 1 ? 'btn-blue' : 'btn-white'" @click="activeTab = 1">
+        Radiance
+      </button>
+    </div>
+
     <calculator
+      v-show="activeTab === 0"
       :unitsProgress="progress"
       :unitsData="getEternalData"
+      unitsLabel="an Eternal"
+      v-model:unitsSplitMats="splitMats"
+      v-model:unitsHideCompletedMats="hideCompletedMats"
+      v-model:unitsDisplayList="displayList"
+    ></calculator>
+
+    <calculator
+      v-show="activeTab === 1"
+      :unitsProgress="radianceProgress"
+      :unitsData="getRadianceData"
       unitsLabel="an Eternal"
       v-model:unitsSplitMats="splitMats"
       v-model:unitsHideCompletedMats="hideCompletedMats"
@@ -47,6 +68,9 @@ export default {
     return {
       // { 2040236: new UnitProgress([{chaotichaze: 0, ...}, ...]), ... }
       progress: {},
+      // Same shape as progress, tracked separately for the Radiance tab
+      radianceProgress: {},
+      activeTab: 0,
       splitMats: true,
       hideCompletedMats: false,
       displayList: 0,
@@ -55,6 +79,12 @@ export default {
   computed: {
     getEternalData() {
       return supplies.ETERNALS_DATA;
+    },
+    getRadianceData() {
+      return {
+        units: supplies.ETERNALS_DATA.units,
+        materials: supplies.ETERNALS_DATA.radiance,
+      };
     }
   },
   watch: {
@@ -63,6 +93,15 @@ export default {
         lsMgt.setValue('progress', this);
       },
       deep: true
+    },
+    radianceProgress: {
+      handler() {
+        lsMgt.setValue('radianceProgress', this);
+      },
+      deep: true
+    },
+    activeTab() {
+      lsMgt.setValue('activeTab', this);
     },
     splitMats() {
       lsMgt.setValue('splitMats', this);
@@ -81,6 +120,8 @@ export default {
     });
 
     lsMgt.getValue(this, 'progress');
+    lsMgt.getValue(this, 'radianceProgress');
+    lsMgt.getValue(this, 'activeTab');
     lsMgt.getValue(this, 'splitMats');
     lsMgt.getValue(this, 'hideCompletedMats');
     lsMgt.getValue(this, 'displayList');

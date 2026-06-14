@@ -75,6 +75,26 @@ const ETERNALS_DATA = Object.freeze({
     new MaterialStep('Transcendence Stage 5',
       [{"item":"tearsoftheapocalypse","q":30},{"item":"abyssalwing","q":30},{"item":"cunningdevilshorn","q":30},{"item":"lapismerit","q":1}]
     ),
+  ],
+  radiance: [
+    new MaterialStep('Radiance Level 1',
+      [{"item":"genesisfragment","q":100},{"group":"omega2omegaanima","q":50},{"group":"enneadomegaanima","q":40},{"group":"trialfragment","q":50},{"item":"championmerit","q":50}]
+    ),
+    new MaterialStep('Radiance Level 2',
+      [{"item":"immortalfragment","q":70},{"group":"omega3omegaanima","q":25},{"group":"urns","q":150},{"group":"halos","q":15},{"item":"truedragonsgoldenscale","q":30},{"item":"suprememerit","q":25}]
+    ),
+    new MaterialStep('Radiance Level 3',
+      [{"group":"sixdragon","q":30},{"group":"sixdragonjewel","q":100},{"group":"silvershards","q":60},{"group":"luster","q":20},{"item":"legendarymerit","q":10}]
+    ),
+    new MaterialStep('Reduce 10 Revenant Weapon',
+      [{"item":"orblight","q":500},{"item":"scrolllight","q":500},{"item":"whorllight","q":500},{"item":"whitedragonscale","q":500},{"item":"championmerit","q":500},{"item":"crystal","q":1000},{"group":"revenantw","q":40},{"item":"flawedprism","q":2500},{"item":"trueanima","q":30},{"group":"rustedw","q":40},{"item":"whorl","q":2500},{"item":"loworb","q":2500}]
+    ),
+    new MaterialStep('Radiance Level 4',
+      [{"group":"wfragment","q":20},{"group":"weaponstones","q":500},{"group":"quartz","q":500},{"item":"damascuscrystal","q":10}]
+    ),
+    new MaterialStep('Radiance Level 5',
+      [{"item":"terraadamant","q":1}]
+    ),
   ]
 });
 

@@ -3,7 +3,7 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 Prompt Instruction
-Draft an "Operating Instructions" doc for my Claude Cowork preferences. Make you a sharp thinking partner, not a yes-machine. Cover:
+Make you a sharp thinking partner, not a yes-machine. Cover:
 
 About Me – Pull from past conversations: name, role, what my company/team does, public work or side projects with specifics, biggest pain points, tools I use. Missing something? Ask – don't guess.
 
@@ -43,14 +43,22 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
 
 - `src/pages/` — `Home`, `CalcEternal`, `CalcEvoker`, `NotFound`. The two calc pages own the progress
   state, persist it to `localStorage` (keys `CalcEternal-*` / `CalcEvoker-*` via `js/utils.js`
-  `LocalStorageMgt`), and delegate all logic to `components/Calculator.vue`.
+  `LocalStorageMgt`), and delegate all logic to `components/Calculator.vue`. `CalcEternal` has two
+  tabs (since v1.2, PRD §9): "Recruit & Transcend" and "Radiance", each rendered by its own
+  `Calculator` instance — recruit/transcend uses `ETERNALS_DATA.materials` (key `CalcEternal-progress`),
+  Radiance uses `ETERNALS_DATA.radiance` (key `CalcEternal-radianceProgress`); the split/hide/display
+  toggles are shared, the active tab persists under `CalcEternal-activeTab`.
 - `src/components/Calculator.vue` — generic step/material calculator driven by the data shape in
   `src/js/supplies-{eternals,evokers}.js`. Material "groups" resolve to concrete items per unit
   element/id using `src/js/supplies.js`.
 - `src/js/supplies*.js` — frozen game data from GranblueParty, trimmed in v1.1 to the items and
   groups the calculators reference (the unused `rustedweapon` item is a deliberate keep — see PRD
-  §8); `public/img/item/` is swept to one image per item. Regenerable by `WikiParser/` (Python,
-  not part of the web build — preserve it).
+  §8), then extended in v1.2 with the Radiance materials (`ETERNALS_DATA.radiance`, plus the
+  `enneadomegaanima` / `omega3omegaanima` groups and their items, `immortalfragment`, `terraadamant` —
+  PRD §9); `public/img/item/` is one image per item. WikiParser has no item-image code path (only
+  chara/summon/weapon), so the Radiance icons were fetched from `gbf.wiki` via its own `download()`
+  using a hand-authored `WikiParser/data/radiance.images` (PRD §9.5). Other data is regenerable by
+  `WikiParser/` (Python, not part of the web build — preserve it).
 - Components use the Options API, mirroring the upstream project; keep that style for consistency.
 - The Vite/router base is `/raziel-ledger/` (`vite.config.js`); asset URLs in code must be prefixed
   with `import.meta.env.BASE_URL` (item images live in `public/img/item/`).
