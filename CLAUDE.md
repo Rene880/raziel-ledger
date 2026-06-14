@@ -68,8 +68,9 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   the API dumps in the git-ignored `response-example/`); the 30 weapon-namespace items (rusted /
   silver relic / revenant) carry their weapon id instead (resolved on the CDN weapon path, not
   `item/article/s/`), and only the 4 animated `.gif` items have none (PRD §9). `public/img/item/` is
-  one image per item. WikiParser has no item-image code path (only chara/summon/weapon), so item
-  icons are fetched via its own `download()` using a hand-authored manifest. `WikiParser/data/supplies.images`
+  one image per item. WikiParser (since v1.2.5) is a standalone item-image fetcher: `update_img.py`
+  reads a `URL⇥dest` manifest and downloads icons into `public/img/item/` (skips existing files).
+  `WikiParser/data/supplies.images`
   is the manifest for every static (`.jpg`) item — since v1.2.4 the 282 items with an `itemId` point
   at the official CDN (`prd-game-a-granbluefantasy.akamaized.net/.../item/article/s/<itemId>.jpg`, with
   exceptions: `item/normal/s/` for `rupie`/`crystal`, and `item/evolution/s/` for `goldbrick`/`sunlightstone`). All 30 weapons carry their weapon id as `itemId`, on the
@@ -77,7 +78,9 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   revenant `1040…`; extracted from the manifest's weapon URLs); the 4 animated (`.gif`) items are
   excluded (different source). Full id reference: `About items.md`. `scripts/check-item-images.js`
   (npm `test` / `prebuild`) asserts every `supplies.js` item has its `public/img/item/<key>.<jpg|gif>`.
-  Other data is regenerable by `WikiParser/` (Python, not part of the web build — preserve it).
+  WikiParser is GPL-3.0, not part of the web build; in v1.2.5 it was reduced to just the fetcher
+  (`update_img.py` + `data/supplies.images` + `requirements.txt`) — the upstream DB/preview/wiki-scrape
+  pipeline was deleted. Run it with `cd WikiParser && python3 update_img.py`. See PRD §10.
 - Components use the Options API, mirroring the upstream project; keep that style for consistency.
 - The Vite/router base is `/raziel-ledger/` (`vite.config.js`); asset URLs in code must be prefixed
   with `import.meta.env.BASE_URL` (item images live in `public/img/item/`).
