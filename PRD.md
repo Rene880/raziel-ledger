@@ -183,7 +183,9 @@ outside `public/img/item/` are not audited in this version.
 ### 8.6 Acceptance criteria
 
 1. No `<link rel="icon">` tags in `index.html`; no `favicon*` files under `public/`; the browser
-   tab shows no site icon.
+   tab shows no site icon. *(Superseded by §12 M6 (v1.2.3): a `<link rel="icon">` pointing at
+   `public/img/favicon.svg` (the `faBook` badge) is reintroduced. No `favicon*`-named file under
+   `public/` is added.)*
 2. The navbar still has a working home affordance (per O1 resolution).
 3. The reference walk over `supplies.js` and the three data files reports exactly **1 unused item
    (`rustedweapon`, the allowed exception per 8.4)**, 0 unused groups, and 0 dangling references.
@@ -301,3 +303,47 @@ and the quantities were wrong.
 
 Only the Radiance reduce step changes. The recruit/transcend "Reduce 10 Revenant Weapons" steps and
 all `localStorage` keys are untouched.
+
+## 12. Version 1.2.3 — Item-image manifest & existence check (2026-06-14)
+
+### 12.1 Problem
+
+Item icons in `public/img/item/` are matched to `supplies.js` item keys only at runtime — a missing
+or mis-named icon renders a broken image with no build-time warning (the historical
+`silvershardmelee` → `silvershardgauntlet` bug in §8 shipped this way). There is also no single
+manifest of every item's icon source; only the 14 v1.2 Radiance icons had one
+(`WikiParser/data/radiance.images`).
+
+### 12.2 Scope
+
+| # | Change |
+|---|--------|
+| M1 | Add `WikiParser/data/supplies.images`: a native `URL⇥dest` manifest for every **static** (`.jpg`) item in `supplies.js` (312 lines), in file order, URLs derived by the §9.5 / `download-images` convention (`https://gbf.wiki/Special:Redirect/file/<Display_Name>_square.jpg`; spaces→`_`, `'`→`%27`, `,`→`%2C`). Fold `radiance.images` into it and delete `radiance.images` — its 14 entries are an exact subset. |
+| M2 | The 4 **animated** (`.gif`) items (`loworb`, `trueanima`, `whorl`, `rustedweapon`) are excluded from the manifest: gif icons come from a different source (`download-images` skill), and `download()` parses every line as `URL⇥dest`, so it cannot carry comment/blank lines. |
+| M3 | Add `scripts/check-item-images.js`: imports `supplies.js` and fails (exit 1) if any item lacks `public/img/item/<key>.<jpg\|gif>` (ext from the `animated` flag), naming each missing key/file and how to add it. Covers all **316** items. |
+| M4 | Wire the check as npm `test` and `prebuild` so `npm run build` fails on a missing icon. Bump `package.json` `version` to **1.2.3**; sync `CLAUDE.md` and `README.md`. |
+| M5 | Add a committed `.githooks/pre-commit` that runs `npm test`, activated via a `prepare` npm script (`git config core.hooksPath .githooks`, guarded with `|| true` for non-git installs). Convenience guard only — bypassable with `--no-verify`; `prebuild`/CI stays the hard gate. |
+| M6 | Add a browser-tab favicon: `public/img/favicon.svg` rendering the Font Awesome `faBook` glyph (white) on a rounded blue (`#3b82f6`, the link accent) badge — matching the navbar home icon — referenced from `index.html` via `<link rel="icon" type="image/svg+xml" href="/img/favicon.svg">` (Vite rebases it to the `/raziel-ledger/` base). No new dependency. **This intentionally supersedes the §8 (C1) decision to ship no favicon** (and its §8.6 acceptance criterion 1). The image check only covers `public/img/item/`, so `favicon.svg` is outside its scope. |
+
+### 12.3 Notes & constraints
+
+- Manifest URLs are **unverified against the live wiki** — all 312 targets already exist locally, so
+  WikiParser's `download()` is a no-op today (it skips existing files). A future 404 on re-run means
+  that item's wiki file name needs manual correction (same caveat as the `download-images` skill).
+- `download()` is still invoked per-manifest (never `update_img.main()`), preserving the §9.5 / skill
+  scope guarantee that unrelated summon/chara/weapon art is untouched.
+- WikiParser `.py` files are not modified (G4). No app code, calculator data, or `localStorage` keys
+  change.
+
+### 12.4 Acceptance criteria
+
+1. `WikiParser/data/supplies.images` has one `URL⇥<key>.jpg` line per static item (312); every former
+   `radiance.images` line is present; `radiance.images` is removed.
+2. `npm test` passes on a clean tree (`✓ All 316 item icons present`) and exits non-zero, naming the
+   offending key/file, when an icon is missing.
+3. `npm run build` fails (via `prebuild`) when an item icon is missing.
+4. After `npm install`, `git config core.hooksPath` is `.githooks`, and committing with a missing
+   icon is blocked by the pre-commit hook (unless `--no-verify`).
+5. The browser tab shows the blue book favicon on every route (served from `index.html`'s inline
+   `<link rel="icon">`), in dev and in the production build.
+6. `package.json` `version` is `1.2.3`; CLAUDE.md and README.md reflect v1.2.3.
