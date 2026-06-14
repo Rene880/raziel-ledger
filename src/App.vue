@@ -13,6 +13,7 @@
 
       <!-- right -->
       <div class="flex flex-row items-center gap-x-4 px-4">
+        <span class="select-none hidden sm:block text-xs opacity-70" title="App version">v{{ appVersion }}</span>
         <span class="select-none hidden sm:block">{{ getJST }} JST</span>
         <div class="cursor-pointer select-none hover:text-link-hover" title="Dark mode" @click="theme_dark = true"><fa-icon :icon="['fas', 'moon']"></fa-icon></div>
         <div class="cursor-pointer select-none hover:text-link-hover" title="Blue" @click="theme_dark = 'blue'"><fa-icon :icon="['fas', 'water']"></fa-icon></div>
@@ -44,6 +45,7 @@
 
 <script>
 import Utils from '@/js/utils.js'
+import pkg from '../package.json'
 
 const lsMgt = new Utils.LocalStorageMgt('App');
 
@@ -59,6 +61,7 @@ export default {
     return {
       now: new Date(),
       theme_dark: true,
+      appVersion: pkg.version,
     }
   },
   computed: {
