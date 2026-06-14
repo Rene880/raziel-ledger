@@ -86,8 +86,8 @@ const ETERNALS_DATA = Object.freeze({
     new MaterialStep('Radiance Level 3',
       [{"group":"sixdragon","q":30},{"group":"sixdragonjewel","q":100},{"group":"silvershards","q":60},{"group":"luster","q":20},{"item":"legendarymerit","q":10}]
     ),
-    new MaterialStep('Reduce 10 Revenant Weapon',
-      [{"item":"orblight","q":500},{"item":"scrolllight","q":500},{"item":"whorllight","q":500},{"item":"whitedragonscale","q":500},{"item":"championmerit","q":500},{"item":"crystal","q":1000},{"group":"revenantw","q":40},{"item":"flawedprism","q":2500},{"item":"trueanima","q":30},{"group":"rustedw","q":40},{"item":"whorl","q":2500},{"item":"loworb","q":2500}]
+    new MaterialStep('Reduce 4 Revenant Weapon',
+      [{"item":"orblight","q":200},{"item":"scrolllight","q":200},{"item":"whorllight","q":200},{"item":"whitedragonscale","q":200},{"item":"championmerit","q":200},{"item":"crystal","q":400},{"group":"revenantw","q":16},{"item":"flawedprism","q":1000},{"item":"trueanima","q":12},{"group":"rustedw","q":16},{"item":"whorl","q":1000},{"item":"loworb","q":1000}]
     ),
     new MaterialStep('Radiance Level 4',
       [{"group":"wfragment","q":20},{"group":"weaponstones","q":500},{"group":"quartz","q":500},{"item":"damascuscrystal","q":10}]

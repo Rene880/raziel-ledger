@@ -281,3 +281,23 @@ Every release (any new `## N. Version x.y.z` section in this PRD) must bump `pac
 `version` field to the same `x.y.z` in the same change set. This is now the single source of truth
 for the app version; keep it in sync with the PRD release heading and the matching `CLAUDE.md` /
 `README.md` notes.
+
+## 11. Version 1.2.2 — Radiance "Reduce Revenant Weapon" correction (2026-06-14)
+
+### 11.1 Problem
+
+The Radiance tab's reduce step (`ETERNALS_DATA.radiance`, step 4 in `supplies-eternals.js`) was
+labelled "Reduce 10 Revenant Weapon" and carried the 10-weapon material cost copied from the
+recruit/transcend tab. The Radiance step only requires **4** Revenant Weapons, so both the label
+and the quantities were wrong.
+
+### 11.2 Scope
+
+| # | Change |
+|---|--------|
+| P1 | Rename the Radiance step from "Reduce 10 Revenant Weapon" to "Reduce 4 Revenant Weapon". |
+| P2 | Scale every quantity in that step from the 10-weapon cost to the 4-weapon cost (divide by 10, multiply by 4 → ×0.4): orblight/scrolllight/whorllight/whitedragonscale/championmerit 500→200, crystal 1000→400, revenantw 40→16, flawedprism 2500→1000, trueanima 30→12, rustedw 40→16, whorl 2500→1000, loworb 2500→1000. |
+| P3 | Bump `package.json` `version` to **`1.2.2`**; sync `CLAUDE.md` and `README.md`. |
+
+Only the Radiance reduce step changes. The recruit/transcend "Reduce 10 Revenant Weapons" steps and
+all `localStorage` keys are untouched.
