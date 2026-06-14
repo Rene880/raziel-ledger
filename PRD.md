@@ -75,7 +75,7 @@ Granblue Fantasy players tracking multi-month grinds for Eternals/Evokers. They 
 - `.sync` props → `v-model:` arguments (`:prop.sync` → `v-model:prop`); components declare `emits`.
 - Custom `v-model` (`value`/`input`) → `modelValue`/`update:modelValue` (Checkbox, Dropdown); `v-model.number` on components handled via `modelModifiers`.
 - `this.$set` / `this.$delete` → plain property assignment / `delete` (Vue 3 proxy reactivity).
-- SSR head mixin → small client-side `setHead()` helper (title + meta description).
+- SSR head mixin → per-page client-side `setHead()` helper (v1.0); replaced in v1.2.8 by a single router `afterEach` hook driven by `route.meta` (§12).
 - Global axios mixin, `serverPrefetch`, entry-client/entry-server split → removed.
 
 ### 6.2 Repository layout
@@ -125,6 +125,7 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 | 1.2.4 | 2026-06-14 | **CDN image source, homepage lettering & icon refresh.** Added `itemId` to 282 `supplies.js` items; repointed `supplies.images` at the official CDN (weapon path for 30 weapons; fixed `goldbrick`/`sunlightstone` to `item/evolution/s/`); refreshed 190 icons (fixed 10 broken revenant, upgraded all 30 weapon icons to 260×260 px, synced 160 others); added theme-aware "Raziel Ledger" SVG calligraphy to home page (`fill: currentColor`). See §9. |
 | 1.2.6 | 2026-06-14 | **Static SEO / social-preview meta.** Added static `<head>` tags to `index.html` — canonical URL, Open Graph (`og:type/url/title/description/image`), and Twitter Card (`summary_large_image`) — pointing at the production URL `https://rene880.github.io/raziel-ledger/`, plus a `1200×630` `public/img/og-preview.png` link-preview image. No SSR, no runtime per-route meta; scope deliberately excludes robots.txt/sitemap (a project-subpath `robots.txt` is not honored — crawlers read `https://rene880.github.io/robots.txt`, owned by the root user-page repo). See §11. |
 | 1.2.5 | 2026-06-14 | **WikiParser reduced to a standalone item-image fetcher.** Trimmed `WikiParser/data/` to `supplies.images`; deleted `db/`, `preview/`, and the now-orphaned upstream pipeline (`database.py`, `parse.py`, `bullets.py`, `migration.py`, `make_party_preview.py`, `optimize_img.py`, `config/`, `update.sh`, `pyproject.toml`, `pdm.lock`, preview assets); rewrote `update_img.py` as a config-free fetcher (manifest → `public/img/item/`, `download(manifest, dest_dir)` preserved for `/download-images`); trimmed `requirements.txt` to `requests`. **Redirects G4** ("preserve verbatim" → standalone fetcher). See §10. |
+| 1.2.8 | 2026-06-14 | **Per-route titles/meta + sitemap.** Added a vue-router `afterEach` hook (`src/router/index.js`) that sets a distinct `document.title`, `description`, `canonical`, and `og:`/`twitter:` title/description/url per route (Home, Eternals, Evokers, NotFound) from `route.meta`; the static `index.html` tags remain the scraper-facing defaults. Added `public/sitemap.xml` (the three real routes, absolute production URLs) for manual submission in Google Search Console — partially reversing 1.2.6's "no sitemap" scope (a subpath sitemap isn't auto-discovered but is valid when submitted directly). Removed a stray `</content>`/`</invoke>` artifact from PRD §9 and condensed §9. See §12. |
 
 ### 8.1 Constraints that persist
 
@@ -139,43 +140,7 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 
 ## 9. Version 1.2.4 — CDN image source, homepage lettering & icon refresh (2026-06-14)
 
-### 9.1 Problem
-
-`supplies.js` items had no link to their in-game GBF id, and `supplies.images` sourced every icon from `gbf.wiki` redirects (error-prone, third-party). 190 icons in `public/img/item/` were stale or corrupted from those original downloads (10 revenant weapons were 1.4–1.7 KB placeholders; all 30 weapon icons were 130×130 px vs. CDN's 260×260 px; two manifest paths 404'd). The homepage lacked brand identity.
-
-### 9.2 Scope
-
-| # | Change |
-|---|--------|
-| V1 | Add an optional `itemId` constructor arg to the `Item` class in `supplies.js` (`new Item(name, category, itemId, animated)`; the 4 animated items move their `true` to the 4th position). |
-| V2 | Populate `itemId` for the **282** items resolvable by name from the GBF API dumps. `goldbrick` (`20004`) and `sunlightstone` (`20014`) come from the recovery dump; `rupie` and `crystal` use the CDN filenames **`lupi`** / **`gem`** as their id. |
-| V3 | Repoint the **282** matched lines in `WikiParser/data/supplies.images` to the official CDN (`item/article/s/<itemId>.jpg`; exceptions: `item/normal/s/` for `rupie`/`crystal`, `item/evolution/s/` for `goldbrick`/`sunlightstone`). All 30 weapons repointed to `weapon/s/<weaponId>.jpg`. The 4 `.gif` items remain excluded. |
-| V4 | Refresh all 190 divergent icons in `public/img/item/` with CDN-authoritative files: fix 10 broken revenant weapon icons (1.4–1.7 KB placeholders → real 15–40 KB images), upgrade all 30 weapon icons to 260×260 px, and sync 160 other item icons (animas, omega animas, distinctions, gospels, veritas, ideans, etc.). |
-| V5 | Move the reference API dumps into a git-ignored `response-example/` folder. |
-| V6 | Add `public/img/raziel-ledger-lettering.svg` — hand-authored "Raziel Ledger" in Great Vibes calligraphy, `fill: currentColor`. Inline the SVG in `src/pages/Home.vue` with `class="text-primary"` so it inherits `--color-text-primary` and adapts to all three themes. Load Google Fonts (Great Vibes) globally in `index.html`. |
-| V7 | Bump `package.json` `version` to **1.2.4**; sync `CLAUDE.md` and `README.md`. |
-
-### 9.3 Items without an `itemId`
-
-Only the **4 animated `.gif` items** (`loworb`, `trueanima`, `whorl`, `rustedweapon`) carry no `itemId` — they are excluded from the manifest (different source, §8.1).
-
-The **30 weapon-namespace items** (10 rusted weapons, 10 silver **relics**, 10 revenant weapons) now carry their **weapon id** as `itemId` (rusted `1030…`, silver relics + revenant `1040…`; extracted from the manifest's weapon-path URLs). Unlike every other item, this id resolves on the CDN **weapon path** (`.../assets/weapon/s/<itemId>.jpg`) rather than `item/article/s/`; the manifest is unchanged. Full reference: `About items.md`.
-
-### 9.4 Notes & constraints
-
-- The CDN URLs are **unverified against the live game** (same caveat as §8.1); all 312 static icons now exist locally at their CDN-authoritative version, so `download()` is a no-op unless a file is deleted.
-- `public/img/raziel-ledger-lettering.svg` is hand-authored — not a game asset; must not be overwritten by WikiParser's `download()` or the CDN manifest. `text-primary` maps to `var(--color-text-primary)` (Tailwind config); `fill: currentColor` in the inlined SVG inherits that value across all three CSS-variable themes.
-
-### 9.5 Acceptance criteria
-
-1. Every static `supplies.js` item carries an `itemId` — the **282** item-path items plus the **30** weapon-namespace items (their weapon id, on the weapon path); only the **4** animated `.gif` items carry none. `npm test` reports `✓ All 316 item icons present`.
-2. `supplies.images` has **312** akamaized lines — 282 on `item/...` (incl. `rupie`/`crystal` on `normal/s/`, `goldbrick`/`sunlightstone` on `evolution/s/`) plus all 30 weapons on `weapon/s/<itemId>.jpg` — and **0** gbf.wiki lines.
-3. All 10 revenant weapon icons are valid JPEGs ≥ 15 KB.
-4. `/` homepage displays "Raziel Ledger" in Great Vibes calligraphy; switching themes changes the lettering color.
-5. `response-example/` holds both JSON dumps and is git-ignored.
-6. `package.json` `version` is `1.2.4`; `CLAUDE.md` and `README.md` reflect v1.2.4.
-</content>
-</invoke>
+*Condensed (older than the latest three releases — see the §8 changelog row and §8.1 constraints for the durable summary).* Added an optional `itemId` to the `supplies.js` `Item` class and populated it for the **282** item-path items plus the **30** weapon-namespace items (their weapon id, resolved on the CDN **weapon path** `.../assets/weapon/s/<itemId>.jpg`, not `item/article/s/`); only the **4** animated `.gif` items carry none. Repointed `WikiParser/data/supplies.images` to the official Akamai CDN (`item/article/s/`, with `item/normal/s/` for `rupie`/`crystal` and `item/evolution/s/` for `goldbrick`/`sunlightstone`) and refreshed 190 divergent icons. Moved the API dumps into a git-ignored `response-example/`. Added the hand-authored, theme-aware `public/img/raziel-ledger-lettering.svg` (Great Vibes, `fill: currentColor`), inlined in `Home.vue`. Full id reference: `About items.md`.
 
 ## 10. Version 1.2.5 — WikiParser reduced to a standalone item-image fetcher (2026-06-14)
 
@@ -270,3 +235,52 @@ static HTML must supply. SSR and runtime per-route meta remain out of scope (§3
 6. `npm run build` emits a rafgraph `dist/404.html` (redirect script, not a copy of the app) and an
    `index.html` carrying the decode snippet; loading `/raziel-ledger/calceternal` in `npm run preview`
    resolves to the calculator with the URL normalized to `/raziel-ledger/calceternal` (no `?/` left behind).
+
+---
+
+## 12. Version 1.2.8 — Per-route titles/meta + sitemap (2026-06-14)
+
+### 12.1 Problem
+
+After 1.2.6 the app still served **one** `<title>` and `<meta description>` for every route: Home,
+the Eternals calculator, and the Evokers calculator all indexed under the same generic title. The site
+was also **not yet indexed** at all (confirmed via a `site:rene880.github.io/raziel-ledger` search
+returning no results) — a new GitHub Pages project site with no inbound links and no sitemap had never
+been discovered. 1.2.6 deliberately shipped **no sitemap** on the reasoning that a project-subpath file
+isn't auto-discovered; but a sitemap can still be **submitted directly** in Google Search Console, which
+is the single most actionable nudge for a brand-new site. Both gaps are addressed here. SSR remains out
+of scope (§3) — this is runtime/JS meta, which Googlebot renders, layered over the static scraper tags.
+
+### 12.2 Scope
+
+| # | Change |
+|---|--------|
+| M1 | Give each route in `src/router/index.js` a `meta: { title, description }`: Home (`Raziel Ledger - Granblue Fantasy Calculators`), `/calceternal` (`Eternals Calculator - Raziel Ledger`), `/calcevoker` (`Evokers Calculator - Raziel Ledger`), NotFound (`Page Not Found - Raziel Ledger`). |
+| M2 | Add a `router.afterEach((to) => …)` hook that, from `to.meta`, sets `document.title` and updates the existing in-document `<meta name="title">`, `<meta name="description">`, `<link rel="canonical">`, `og:title/description/url/image`, and `twitter:title/description/image`. The canonical/og `url` is the absolute production URL for the route (`https://rene880.github.io/raziel-ledger` + path). Missing tags are skipped (no crash if `index.html` drops one). |
+| M2b | **Replace the per-page `setHead()` mechanism** with this single hook: removed the `mounted()` `setHead({title, desc})` calls from all four pages (`Home`, `CalcEternal`, `CalcEvoker`, `NotFound`) and deleted `src/js/head.js`. Previously `mounted()` ran *after* `afterEach`, so `setHead` silently overrode the route-meta title (e.g. tab read "Raziel Ledger - Eternal Calculator" while `og:title` read "Eternals Calculator - Raziel Ledger"); the hook is now the single source of truth and the calc-page titles match their meta titles. |
+| M3 | Add `public/sitemap.xml` listing the three real routes (`/`, `/calceternal`, `/calcevoker`) with absolute production `loc`s; Vite copies it to `dist/sitemap.xml` → reachable at `https://rene880.github.io/raziel-ledger/sitemap.xml`. Submitted manually in Search Console (not auto-discovered — the project subpath isn't honored by the root `robots.txt`). |
+| M4 | Bump `package.json` `version` to **1.2.8**; sync `CLAUDE.md` and `README.md`. Removed a stray `</content>`/`</invoke>` artifact from §9 and condensed §9 to keep only the latest three releases (§10–§12) detailed. |
+
+### 12.3 Notes & constraints
+
+- **Static tags stay authoritative for scrapers.** Link-preview crawlers (Facebook/Discord/Slack/X)
+  don't run JS, so they still read the 1.2.6 static `index.html` defaults (the Home values). The
+  `afterEach` hook only benefits the browser tab title and JS-rendering crawlers (Googlebot). This is the
+  same JS-vs-static split called out in §11 — not a regression of it.
+- **Partially reverses 1.2.6's "no sitemap" decision (§11.3).** That note still holds for *auto-discovery*
+  (a subpath `sitemap.xml`/`robots.txt` is not crawled unprompted); the sitemap here exists for **manual
+  GSC submission**, which §11.3 already anticipated ("can still be submitted manually … if desired later").
+- **No new dependency.** No `@vueuse/head`/`vue-meta`; the hook mutates pre-existing DOM tags directly, in
+  keeping with the project's zero-runtime-meta-library stance.
+- `sitemap.xml` is not a game asset and is outside `check-item-images.js` scope.
+
+### 12.4 Acceptance criteria
+
+1. Navigating to `/calceternal` and `/calcevoker` changes the browser tab title to the Eternals/Evokers
+   title respectively; returning to `/` restores the Home title.
+2. After navigation, `document.querySelector('link[rel="canonical"]').href` and `meta[property="og:url"]`
+   reflect the current route's absolute production URL.
+3. `public/sitemap.xml` is well-formed, lists the three production route URLs, and deploys to
+   `https://rene880.github.io/raziel-ledger/sitemap.xml`.
+4. `npm test` still passes (316 item icons; sitemap not in scope of the check).
+5. `package.json` `version` is `1.2.8`; `CLAUDE.md` and `README.md` reflect v1.2.8.

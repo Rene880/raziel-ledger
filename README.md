@@ -61,8 +61,16 @@ rewrites that back into the real route before the router boots. If you change th
 `https://rene880.github.io/raziel-ledger/` and a `1200×630` preview image at
 [public/img/og-preview.png](public/img/og-preview.png). They're static (not Vue-injected) because link
 scrapers don't run JavaScript. If you fork or rename the repo, update those absolute URLs to your own
-Pages URL. `robots.txt`/`sitemap.xml` aren't included: at a project subpath they aren't honored —
-crawlers only read `https://<user>.github.io/robots.txt`, served from your user/org page repo. See PRD §11.
+Pages URL.
+
+Since v1.2.8, [src/router/index.js](src/router/index.js) also sets **per-route** titles/meta at runtime:
+a `router.afterEach` hook updates `document.title`, `description`, `canonical`, and the `og:`/`twitter:`
+title/description/url from each route's `meta` (Home, Eternals, Evokers, NotFound). This is JS-rendered, so
+it benefits the browser tab and JS-rendering crawlers (Googlebot); the static `index.html` tags stay the
+defaults that no-JS link scrapers read. [public/sitemap.xml](public/sitemap.xml) lists the three routes and
+deploys to `https://rene880.github.io/raziel-ledger/sitemap.xml` for **manual** submission in Google Search
+Console. A `robots.txt` is still omitted: at a project subpath it isn't honored — crawlers only read
+`https://<user>.github.io/robots.txt`, served from your user/org page repo. See PRD §11–§12.
 
 ## Project documentation
 
