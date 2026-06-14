@@ -11,9 +11,10 @@
         to="/calceternal"
         class="flex flex-col items-center border-4 border-secondary rounded bg-tertiary p-8 w-72 hover:border-primary"
       >
+        <img :src="baseUrl + 'img/item/goldbrick.jpg'" alt="Eternals" class="mb-4 w-16 h-16">
         <h2 class="mb-4">Eternals</h2>
         <p class="text-primary text-center">
-          Recruit, uncap, and transcend the Eternals using the "40 boxes" method.
+          Recruit, uncap, radiance, and transcend the Eternals using the "40 boxes" method.
         </p>
       </router-link>
 
@@ -21,6 +22,7 @@
         to="/calcevoker"
         class="flex flex-col items-center border-4 border-secondary rounded bg-tertiary p-8 w-72 hover:border-primary"
       >
+        <img :src="baseUrl + 'img/item/newworldquartz.jpg'" alt="Evokers" class="mb-4 w-16 h-16">
         <h2 class="mb-4">Evokers</h2>
         <p class="text-primary text-center">
           Obtain Arcarum summons, recruit the Evokers, and uncap their weapons.
@@ -34,6 +36,11 @@
 import setHead from '@/js/head'
 
 export default {
+  data() {
+    return {
+      baseUrl: import.meta.env.BASE_URL,
+    };
+  },
   mounted() {
     setHead({
       title: 'Raziel Ledger - Granblue Fantasy Calculators',

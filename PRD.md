@@ -259,3 +259,25 @@ with the §8 sweep rule (one `<itemKey>.jpg` per item).
 4. Every new item key has its `public/img/item/<key>.jpg`; reference walk reports 0 dangling
    references.
 5. `npm run build` passes; CLAUDE.md and README.md reflect v1.2.
+
+## 10. Version 1.2.1 — Footer & navigation polish (2026-06-14)
+
+### 10.1 Scope
+
+| # | Change |
+|---|--------|
+| P1 | Footer (`App.vue`): replace the `granblue.party` link with a **gbf.wiki** link (`https://gbf.wiki`). The "Based on Minimalist3/GranblueParty (GPL-3.0)" attribution link is **kept** (GPL-3.0 requirement). |
+| P2 | Home page (`Home.vue`): add an item icon to each calculator card — `goldbrick.jpg` for the **Eternals** card, `newworldquartz.jpg` for the **Evokers** card (both already in `public/img/item/`, referenced via `import.meta.env.BASE_URL`). |
+| P3 | `/calceternal` wiki reference list: add a link to [Radiance of the Eternal](https://gbf.wiki/Radiance_of_the_Eternal), alongside the existing recruit/uncap/transcend links. |
+| P4 | Home page (`Home.vue`): update the Eternals card description to "Recruit, uncap, radiance, and transcend the Eternals using the \"40 boxes\" method." |
+| P5 | Bump `package.json` `version` to **`1.2.1`** (it had been left at `1.0.0` through v1.1/v1.2). From now on, `package.json` `version` is kept in sync with the PRD release version on every release — see the versioning policy below. |
+| P6 | Docs sync: reflect P1–P5 in `CLAUDE.md` and `README.md`. |
+
+No data, calculator logic, or `localStorage` keys change.
+
+### 10.2 Versioning policy
+
+Every release (any new `## N. Version x.y.z` section in this PRD) must bump `package.json`'s
+`version` field to the same `x.y.z` in the same change set. This is now the single source of truth
+for the app version; keep it in sync with the PRD release heading and the matching `CLAUDE.md` /
+`README.md` notes.

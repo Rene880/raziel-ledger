@@ -16,6 +16,9 @@
           <li><a target="_blank" href="https://gbf.wiki/Eternals_Transcendence">For the Eternal Transcendance
             <fa-icon :icon="['fas', 'external-link-alt']" class="text-sm"></fa-icon></a>
           </li>
+          <li><a target="_blank" href="https://gbf.wiki/Radiance_of_the_Eternal">For the Radiance of the Eternal
+            <fa-icon :icon="['fas', 'external-link-alt']" class="text-sm"></fa-icon></a>
+          </li>
       </ul>
     </span>
 

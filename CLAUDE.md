@@ -21,6 +21,8 @@ Always refer to PRD.md and propose the changes on PRD.md first.
 
 When changes are made, make sure it is also reflected in CLAUDE.md and README.md
 
+On every release (any new `## Version x.y.z` section in PRD.md), bump `package.json`'s `version` field to the same `x.y.z` in the same change set. `package.json` `version` is the single source of truth for the app version and must stay in sync with the PRD release heading.
+
 ## Project overview
 
 Raziel Ledger is a Vue 3 + Vite SPA hosting two Granblue Fantasy material calculators
