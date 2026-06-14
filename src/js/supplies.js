@@ -1,8 +1,11 @@
 class Item {
-  // itemId: GBF in-game item id (from supplies-response.json), used to build the
-  // akamaized item-image URL in WikiParser/data/supplies.images. Null for the 4
-  // animated (.gif) generic icons and the 30 weapon-namespace items (rusted /
-  // silver relic / revenant), which have no item/article id and keep gbf.wiki.
+  // itemId: GBF in-game id used to build the akamaized item-image URL in
+  // WikiParser/data/supplies.images. For most items this is the item/article id
+  // (item/article/s/<itemId>.jpg; rupie/crystal use item/normal/s/, goldbrick/
+  // sunlightstone use item/evolution/s/). For the 30 weapon-namespace items
+  // (rusted / silver relic / revenant) it is the weapon id, resolved on the
+  // weapon path instead (weapon/s/<itemId>.jpg). Null only for the 4 animated
+  // (.gif) generic icons (loworb, trueanima, whorl, rustedweapon).
   constructor(name, category, itemId = null, animated = false) {
     this.name = name;
     this.category = category;
@@ -188,16 +191,16 @@ const items = Object.freeze({
   stonestaff: new Item('Staff Stone', Categories.quest, '4051'),
   stonesword: new Item('Sword Stone', Categories.quest, '4011'),
   // Rusted weapons
-  rustedaxe: new Item('Rusted Axe', Categories.quest),
-  rustedbow: new Item('Rusted Bow', Categories.quest),
-  rusteddagger: new Item('Rusted Dagger', Categories.quest),
-  rustedgauntlet: new Item('Rusted Gauntlet', Categories.quest),
-  rustedgun: new Item('Rusted Gun', Categories.quest),
-  rustedharp: new Item('Rusted Harp', Categories.quest),
-  rustedkatana: new Item('Rusted Katana', Categories.quest),
-  rustedlance: new Item('Rusted Lance', Categories.quest),
-  rustedstaff: new Item('Rusted Staff', Categories.quest),
-  rustedsword: new Item('Rusted Sword', Categories.quest),
+  rustedaxe: new Item('Rusted Axe', Categories.quest, '1030302000'),
+  rustedbow: new Item('Rusted Bow', Categories.quest, '1030702300'),
+  rusteddagger: new Item('Rusted Dagger', Categories.quest, '1030102500'),
+  rustedgauntlet: new Item('Rusted Gauntlet', Categories.quest, '1030601400'),
+  rustedgun: new Item('Rusted Gun', Categories.quest, '1030502500'),
+  rustedharp: new Item('Rusted Harp', Categories.quest, '1030801200'),
+  rustedkatana: new Item('Rusted Katana', Categories.quest, '1030900600'),
+  rustedlance: new Item('Rusted Lance', Categories.quest, '1030202400'),
+  rustedstaff: new Item('Rusted Staff', Categories.quest, '1030402200'),
+  rustedsword: new Item('Rusted Sword', Categories.quest, '1030002900'),
   rustedweapon: new Item('Rusted Weapon', Categories.quest, null, true),
   // Silver Shards
   silvershardaxe: new Item('Silver Axe Shard', Categories.quest, '5441'),
@@ -211,27 +214,27 @@ const items = Object.freeze({
   silvershardstaff: new Item('Silver Staff Shard', Categories.quest, '5451'),
   silvershardsword: new Item('Silver Sword Shard', Categories.quest, '5411'),
   // Silver relics
-  silveraxe: new Item('Silver Axe Relic', Categories.quest),
-  silverbow: new Item('Silver Bow Relic', Categories.quest),
-  silverdagger: new Item('Silver Dagger Relic', Categories.quest),
-  silvergauntlet: new Item('Silver Gauntlet Relic', Categories.quest),
-  silvergun: new Item('Silver Gun Relic', Categories.quest),
-  silverharp: new Item('Silver Harp Relic', Categories.quest),
-  silverkatana: new Item('Silver Katana Relic', Categories.quest),
-  silverlance: new Item('Silver Spear Relic', Categories.quest),
-  silverstaff: new Item('Silver Staff Relic', Categories.quest),
-  silversword: new Item('Silver Sword Relic', Categories.quest),
+  silveraxe: new Item('Silver Axe Relic', Categories.quest, '1040306400'),
+  silverbow: new Item('Silver Bow Relic', Categories.quest, '1040705800'),
+  silverdagger: new Item('Silver Dagger Relic', Categories.quest, '1040108500'),
+  silvergauntlet: new Item('Silver Gauntlet Relic', Categories.quest, '1040606500'),
+  silvergun: new Item('Silver Gun Relic', Categories.quest, '1040506500'),
+  silverharp: new Item('Silver Harp Relic', Categories.quest, '1040805400'),
+  silverkatana: new Item('Silver Katana Relic', Categories.quest, '1040906200'),
+  silverlance: new Item('Silver Spear Relic', Categories.quest, '1040207300'),
+  silverstaff: new Item('Silver Staff Relic', Categories.quest, '1040409600'),
+  silversword: new Item('Silver Sword Relic', Categories.quest, '1040009800'),
   // Revenant weapons
-  revenantw1: new Item('One-Rift Spear', Categories.quest),
-  revenantw2: new Item('Two-Crown Bow', Categories.quest),
-  revenantw3: new Item('Three-Tiger Axe', Categories.quest),
-  revenantw4: new Item('Four-Sky Blade', Categories.quest),
-  revenantw5: new Item('Five-Soul Staff', Categories.quest),
-  revenantw6: new Item('Six-Ruin Fist', Categories.quest),
-  revenantw7: new Item('Seven-Star Sword', Categories.quest),
-  revenantw8: new Item('Eight-Life Katana', Categories.quest),
-  revenantw9: new Item('Nine-Realm Harp', Categories.quest),
-  revenantw10: new Item('Ten-Wolf Gun', Categories.quest),
+  revenantw1: new Item('One-Rift Spear', Categories.quest, '1040201600'),
+  revenantw2: new Item('Two-Crown Bow', Categories.quest, '1040700500'),
+  revenantw3: new Item('Three-Tiger Axe', Categories.quest, '1040301300'),
+  revenantw4: new Item('Four-Sky Blade', Categories.quest, '1040101700'),
+  revenantw5: new Item('Five-Soul Staff', Categories.quest, '1040401800'),
+  revenantw6: new Item('Six-Ruin Fist', Categories.quest, '1040600800'),
+  revenantw7: new Item('Seven-Star Sword', Categories.quest, '1040001800'),
+  revenantw8: new Item('Eight-Life Katana', Categories.quest, '1040900500'),
+  revenantw9: new Item('Nine-Realm Harp', Categories.quest, '1040800300'),
+  revenantw10: new Item('Ten-Wolf Gun', Categories.quest, '1040500800'),
   // Revenant Weapon Fragment
   wfragment1: new Item('One-Star Fragment', Categories.quest, '5611'),
   wfragment2: new Item('Two-Star Fragment', Categories.quest, '5621'),

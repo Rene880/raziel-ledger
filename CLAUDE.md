@@ -17,9 +17,10 @@ Note-taking – Capture context, decisions, and open threads continuously. Check
 
 Working style – Show reasoning, not just conclusions. Breadth and rigor. Skip filler. If I say "things changed," re-interview me. Show me the draft, then we'll revise.
 
+Whenever changes are made to supplies.js or supplies.images, you should also keep "About items.md" updated by following this table format order: id, type, name
 Always refer to PRD.md and propose the changes on PRD.md first. Always keep latest 3 PRD version but condense the rest.
 
-When changes are made, make sure it is also reflected in CLAUDE.md and README.md
+Whenever changes are made, make sure it is also reflected in CLAUDE.md and README.md
 
 On every release (any new `## Version x.y.z` section in PRD.md), bump `package.json`'s `version` field to the same `x.y.z` in the same change set. `package.json` `version` is the single source of truth for the app version and must stay in sync with the PRD release heading.
 
@@ -65,14 +66,15 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   `enneadomegaanima` / `omega3omegaanima` groups and their items, `immortalfragment`, `terraadamant` —
   PRD §8 changelog), and in v1.2.4 each item carries an optional `itemId` (its GBF in-game id, from
   the API dumps in the git-ignored `response-example/`); the 30 weapon-namespace items (rusted /
-  silver relic / revenant) and the 4 animated `.gif` items have none (PRD §9). `public/img/item/` is
+  silver relic / revenant) carry their weapon id instead (resolved on the CDN weapon path, not
+  `item/article/s/`), and only the 4 animated `.gif` items have none (PRD §9). `public/img/item/` is
   one image per item. WikiParser has no item-image code path (only chara/summon/weapon), so item
   icons are fetched via its own `download()` using a hand-authored manifest. `WikiParser/data/supplies.images`
   is the manifest for every static (`.jpg`) item — since v1.2.4 the 282 items with an `itemId` point
   at the official CDN (`prd-game-a-granbluefantasy.akamaized.net/.../item/article/s/<itemId>.jpg`, with
-  exceptions: `item/normal/s/` for `rupie`/`crystal`, and `item/evolution/s/` for `goldbrick`/`sunlightstone`). All 30 weapons (no `itemId`) are on the
-  CDN's weapon path (`.../assets/weapon/s/<weaponId>.jpg`, ids supplied directly, kept only in the
-  manifest — rusted `1030…`, silver relics + revenant `1040…`); the 4 animated (`.gif`) items are
+  exceptions: `item/normal/s/` for `rupie`/`crystal`, and `item/evolution/s/` for `goldbrick`/`sunlightstone`). All 30 weapons carry their weapon id as `itemId`, on the
+  CDN's weapon path (`.../assets/weapon/s/<itemId>.jpg` — rusted `1030…`, silver relics +
+  revenant `1040…`; extracted from the manifest's weapon URLs); the 4 animated (`.gif`) items are
   excluded (different source). Full id reference: `About items.md`. `scripts/check-item-images.js`
   (npm `test` / `prebuild`) asserts every `supplies.js` item has its `public/img/item/<key>.<jpg|gif>`.
   Other data is regenerable by `WikiParser/` (Python, not part of the web build — preserve it).

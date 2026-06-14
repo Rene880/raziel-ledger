@@ -3,7 +3,7 @@
 Reference table for every id used in `supplies.js` and `WikiParser/data/supplies.images`.
 Items use the `item/article/s/<id>.jpg` (or `item/normal/s/<id>.jpg` for rupie/crystal) CDN path.
 Upgrade items use the `item/evolution/s/<id>.jpg` CDN path (goldbrick, sunlightstone).
-Weapons use the `weapon/s/<id>.jpg` CDN path — ids live only in the manifest, not in `supplies.js`.
+Weapons use the `weapon/s/<id>.jpg` CDN path; their weapon id is carried as `itemId` in `supplies.js` and used by the manifest.
 
 | id | type | name |
 |---|---|---|

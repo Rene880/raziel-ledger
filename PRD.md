@@ -155,10 +155,9 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 
 ### 9.3 Items without an `itemId`
 
-These **34** items carry no `itemId`:
+Only the **4 animated `.gif` items** (`loworb`, `trueanima`, `whorl`, `rustedweapon`) carry no `itemId` — they are excluded from the manifest (different source, §8.1).
 
-- **30 weapon-namespace items** — 10 rusted weapons, 10 silver **relics**, 10 revenant weapons. None have a `supplies.js` `itemId`; all 30 are addressed in the manifest via the CDN weapon path `.../assets/weapon/s/<weaponId>.jpg` (ids kept only in the manifest — rusted `1030…`, silver relics + revenant `1040…`; full reference in `About items.md`).
-- **4 animated `.gif` items** (`loworb`, `trueanima`, `whorl`, `rustedweapon`) — excluded from the manifest (§8.1).
+The **30 weapon-namespace items** (10 rusted weapons, 10 silver **relics**, 10 revenant weapons) now carry their **weapon id** as `itemId` (rusted `1030…`, silver relics + revenant `1040…`; extracted from the manifest's weapon-path URLs). Unlike every other item, this id resolves on the CDN **weapon path** (`.../assets/weapon/s/<itemId>.jpg`) rather than `item/article/s/`; the manifest is unchanged. Full reference: `About items.md`.
 
 ### 9.4 Notes & constraints
 
@@ -167,8 +166,8 @@ These **34** items carry no `itemId`:
 
 ### 9.5 Acceptance criteria
 
-1. Every applicable `supplies.js` item carries an `itemId`; the 30 weapons and 4 gifs carry none. `npm test` reports `✓ All 316 item icons present`.
-2. `supplies.images` has **312** akamaized lines — 282 on `item/...` (incl. `rupie`/`crystal` on `normal/s/`, `goldbrick`/`sunlightstone` on `evolution/s/`) plus all 30 weapons on `weapon/s/<weaponId>.jpg` — and **0** gbf.wiki lines.
+1. Every static `supplies.js` item carries an `itemId` — the **282** item-path items plus the **30** weapon-namespace items (their weapon id, on the weapon path); only the **4** animated `.gif` items carry none. `npm test` reports `✓ All 316 item icons present`.
+2. `supplies.images` has **312** akamaized lines — 282 on `item/...` (incl. `rupie`/`crystal` on `normal/s/`, `goldbrick`/`sunlightstone` on `evolution/s/`) plus all 30 weapons on `weapon/s/<itemId>.jpg` — and **0** gbf.wiki lines.
 3. All 10 revenant weapon icons are valid JPEGs ≥ 15 KB.
 4. `/` homepage displays "Raziel Ledger" in Great Vibes calligraphy; switching themes changes the lettering color.
 5. `response-example/` holds both JSON dumps and is git-ignored.
