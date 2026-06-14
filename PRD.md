@@ -122,8 +122,7 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 | 1.2.1 | 2026-06-14 | Footer & nav polish: footer `granblue.party` link → **gbf.wiki** (Minimalist3/GranblueParty GPL-3.0 attribution kept); home cards gained item icons (`goldbrick.jpg` / `newworldquartz.jpg`); Radiance wiki link added to `/calceternal`; Eternals card copy updated. Established the **versioning policy** and synced `package.json` to `1.2.1`. |
 | 1.2.2 | 2026-06-14 | Radiance reduce step corrected from "Reduce 10 Revenant Weapon" to **"Reduce 4 Revenant Weapon"**; every quantity in that step scaled ×0.4. Recruit/transcend reduce steps untouched. |
 | 1.2.3 | 2026-06-14 | **Item-image manifest + build-time check.** Added `WikiParser/data/supplies.images` (one `URL⇥<key>.jpg` per static item; `radiance.images` folded in and deleted); added `scripts/check-item-images.js`, wired as npm `test` / `prebuild` (a missing icon fails the build) and a committed `.githooks/pre-commit` (via the `prepare` script; bypassable with `--no-verify`). Reintroduced a browser favicon `public/img/favicon.svg` (`faBook` glyph), **superseding the v1.1 no-favicon decision**. |
-| 1.2.4 | 2026-06-14 | **`item_id` + akamaized image source.** Added an `itemId` field to every applicable `supplies.js` item (sourced from the GBF supplies/recovery API dumps) and repointed `supplies.images` at the official CDN. See §9. |
-| 1.2.5 | 2026-06-14 | **Theme-aware homepage lettering.** Replaced `<h1>Raziel Ledger</h1>` with an inline SVG (`public/img/raziel-ledger-lettering.svg`, Great Vibes calligraphy); `fill: currentColor` + `text-primary` class makes the lettering respond to the dark/blue/light theme. Google Fonts loaded in `index.html`. See §10. |
+| 1.2.4 | 2026-06-14 | **CDN image source, homepage lettering & icon refresh.** Added `itemId` to 282 `supplies.js` items; repointed `supplies.images` at the official CDN (weapon path for 30 weapons; fixed `goldbrick`/`sunlightstone` to `item/evolution/s/`); refreshed 190 icons (fixed 10 broken revenant, upgraded all 30 weapon icons to 260×260 px, synced 160 others); added theme-aware "Raziel Ledger" SVG calligraphy to home page (`fill: currentColor`). See §9. |
 
 ### 8.1 Constraints that persist
 
@@ -131,69 +130,48 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 - **`silvershardgauntlet.jpg`** is the (renamed) icon for Silver Gauntlet Shard; the upstream file was `silvershardmelee.jpg`.
 - **`localStorage` keys are frozen** for back-compat: `CalcEternal-progress` (recruit/transcend), `CalcEternal-radianceProgress` (Radiance), `CalcEternal-activeTab`, `CalcEvoker-*`, shared `App-*`/UI toggles. Do not rename them.
 - **`public/img/item/` is one image per item** — `<key>.jpg`, or `<key>.gif` for the 4 animated items (`loworb`, `trueanima`, `whorl`, `rustedweapon`). `check-item-images.js` (npm `test` / `prebuild`) enforces this for all 316 items; it does not cover `favicon.svg`.
-- **`WikiParser/data/*.images`** are hand-authored `URL⇥dest` manifests (no comment/blank lines — `download()` parses every line). The 4 animated `.gif` items are excluded from `supplies.images` (different source). `download()` is invoked per-manifest (never `update_img.main()`), and skips files that already exist, so re-running it today is a no-op; manifest URLs are unverified against the live source.
+- **`WikiParser/data/*.images`** are hand-authored `URL⇥dest` manifests (no comment/blank lines — `download()` parses every line). The 4 animated `.gif` items are excluded from `supplies.images` (different source). `download()` is invoked per-manifest (never `update_img.main()`), and skips files that already exist, so re-running it today is a no-op; manifest URLs are unverified against the live source. `goldbrick` and `sunlightstone` use `item/evolution/s/` (not `item/article/s/`).
 - **WikiParser `.py` files are never modified** (G4).
 
 ---
 
-## 9. Version 1.2.4 — `item_id` field & official CDN image source (2026-06-14)
+## 9. Version 1.2.4 — CDN image source, homepage lettering & icon refresh (2026-06-14)
 
 ### 9.1 Problem
 
-`supplies.js` items had no link to their in-game GBF id, and `supplies.images` sourced every icon from `gbf.wiki` redirects (a third-party mirror with hand-authored, error-prone file names). The official game CDN (`prd-game-a-granbluefantasy.akamaized.net`) serves item art keyed directly by item id, which is a more authoritative and uniformly-addressable source.
+`supplies.js` items had no link to their in-game GBF id, and `supplies.images` sourced every icon from `gbf.wiki` redirects (error-prone, third-party). 190 icons in `public/img/item/` were stale or corrupted from those original downloads (10 revenant weapons were 1.4–1.7 KB placeholders; all 30 weapon icons were 130×130 px vs. CDN's 260×260 px; two manifest paths 404'd). The homepage lacked brand identity.
 
 ### 9.2 Scope
 
 | # | Change |
 |---|--------|
 | V1 | Add an optional `itemId` constructor arg to the `Item` class in `supplies.js` (`new Item(name, category, itemId, animated)`; the 4 animated items move their `true` to the 4th position). |
-| V2 | Populate `itemId` for the **282** items resolvable by name from the GBF API dumps (`item_id`, which equals each row's `image`). `goldbrick` (`20004`) and `sunlightstone` (`20014`) come from the recovery dump; `rupie` and `crystal` use the CDN filenames **`lupi`** / **`gem`** as their id. |
-| V3 | Repoint the **282** matched lines in `WikiParser/data/supplies.images` to `https://prd-game-a-granbluefantasy.akamaized.net/assets_en/img/sp/assets/item/article/s/<itemId>.jpg` — except `rupie`/`crystal`, which use the `item/normal/s/<id>.jpg` path. The 4 `.gif` items remain excluded from the manifest. |
-| V4 | Move the reference API dumps (`supplies-response.json`, `recovery-response.json`) into a git-ignored `response-example/` folder (not part of the build; kept only to source ids). |
-| V5 | Bump `package.json` `version` to **1.2.4**; sync `CLAUDE.md` and `README.md`. |
+| V2 | Populate `itemId` for the **282** items resolvable by name from the GBF API dumps. `goldbrick` (`20004`) and `sunlightstone` (`20014`) come from the recovery dump; `rupie` and `crystal` use the CDN filenames **`lupi`** / **`gem`** as their id. |
+| V3 | Repoint the **282** matched lines in `WikiParser/data/supplies.images` to the official CDN (`item/article/s/<itemId>.jpg`; exceptions: `item/normal/s/` for `rupie`/`crystal`, `item/evolution/s/` for `goldbrick`/`sunlightstone`). All 30 weapons repointed to `weapon/s/<weaponId>.jpg`. The 4 `.gif` items remain excluded. |
+| V4 | Refresh all 190 divergent icons in `public/img/item/` with CDN-authoritative files: fix 10 broken revenant weapon icons (1.4–1.7 KB placeholders → real 15–40 KB images), upgrade all 30 weapon icons to 260×260 px, and sync 160 other item icons (animas, omega animas, distinctions, gospels, veritas, ideans, etc.). |
+| V5 | Move the reference API dumps into a git-ignored `response-example/` folder. |
+| V6 | Add `public/img/raziel-ledger-lettering.svg` — hand-authored "Raziel Ledger" in Great Vibes calligraphy, `fill: currentColor`. Inline the SVG in `src/pages/Home.vue` with `class="text-primary"` so it inherits `--color-text-primary` and adapts to all three themes. Load Google Fonts (Great Vibes) globally in `index.html`. |
+| V7 | Bump `package.json` `version` to **1.2.4**; sync `CLAUDE.md` and `README.md`. |
 
-### 9.3 Items without an `itemId` (kept on gbf.wiki)
+### 9.3 Items without an `itemId`
 
-These **34** items are absent from the GBF *supplies* namespace, so they get no `itemId` and their `supplies.images` source is **unchanged** (or they are not in the manifest at all):
+These **34** items carry no `itemId`:
 
-- **30 weapon-namespace items** — 10 rusted weapons, 10 silver **relics**, 10 revenant weapons. The `item/article` CDN scheme does not address weapons, so none carry a `supplies.js` `itemId`. All 30 were repointed to the CDN's weapon path `.../assets/weapon/s/<weaponId>.jpg` (ids supplied directly, not from the dumps; the digit after the 4-char prefix encodes type — 0 sword, 1 dagger … 6 gauntlet … 9 katana — and lives only in the manifest). A full id reference lives at `About items.md`.
-- **4 animated `.gif` items** (`loworb`, `trueanima`, `whorl`, `rustedweapon`) — already excluded from the manifest (§8.1), generic icons with no static article art.
+- **30 weapon-namespace items** — 10 rusted weapons, 10 silver **relics**, 10 revenant weapons. None have a `supplies.js` `itemId`; all 30 are addressed in the manifest via the CDN weapon path `.../assets/weapon/s/<weaponId>.jpg` (ids kept only in the manifest — rusted `1030…`, silver relics + revenant `1040…`; full reference in `About items.md`).
+- **4 animated `.gif` items** (`loworb`, `trueanima`, `whorl`, `rustedweapon`) — excluded from the manifest (§8.1).
 
 ### 9.4 Notes & constraints
 
-- The CDN URLs are **unverified against the live game** (same caveat as §8.1); all 312 static icons already exist locally, so `download()` stays a no-op until a file is deleted. `goldbrick`/`sunlightstone` are uncap items placed on the `item/article` path per the uniform rule; if a future re-download 404s, that item's path/id needs manual correction.
-- No app code, calculator logic, `localStorage` keys, or images change; only the `Item` shape (additive) and the manifest URLs.
+- The CDN URLs are **unverified against the live game** (same caveat as §8.1); all 312 static icons now exist locally at their CDN-authoritative version, so `download()` is a no-op unless a file is deleted.
+- `public/img/raziel-ledger-lettering.svg` is hand-authored — not a game asset; must not be overwritten by WikiParser's `download()` or the CDN manifest. `text-primary` maps to `var(--color-text-primary)` (Tailwind config); `fill: currentColor` in the inlined SVG inherits that value across all three CSS-variable themes.
 
 ### 9.5 Acceptance criteria
 
-1. Every applicable `supplies.js` item carries an `itemId`; the 30 weapons and 4 gifs carry none. `npm test` still reports `✓ All 316 item icons present`.
-2. `supplies.images` has **312** akamaized lines — 282 on `item/...` (incl. `rupie`/`crystal` on the `normal` path) plus all 30 weapons on `weapon/s/<weaponId>.jpg` — and **0** gbf.wiki lines; line order and `<key>.jpg` dests are preserved.
-3. `response-example/` holds both JSON dumps and is git-ignored.
-4. `package.json` `version` is `1.2.4`; `CLAUDE.md` and `README.md` reflect v1.2.4.
-
----
-
-## 10. Version 1.2.5 — Theme-aware homepage lettering (2026-06-14)
-
-### 10.1 Changes
-
-| # | Change |
-|---|--------|
-| V1 | Add `public/img/raziel-ledger-lettering.svg` — hand-authored SVG, "Raziel Ledger" in Great Vibes calligraphy, `fill: currentColor`. |
-| V2 | `src/pages/Home.vue`: replace `<h1>Raziel Ledger</h1>` with the SVG inlined directly in the template, `class="text-primary"` so `fill: currentColor` inherits `--color-text-primary` and switches across all three themes. |
-| V3 | `index.html`: add Google Fonts preconnect + Great Vibes stylesheet (an `<img>`-loaded SVG cannot fire `@import`, so the font must be loaded globally). |
-| V4 | Bump `package.json` `version` to **1.2.5**; sync `CLAUDE.md` and `README.md`. |
-
-### 10.2 Constraints
-
-- `public/img/raziel-ledger-lettering.svg` is hand-authored — not a game asset; must not be overwritten by WikiParser's `download()` or the CDN manifest.
-- `text-primary` maps to `var(--color-text-primary)` (Tailwind config); `fill: currentColor` in the inlined SVG inherits that value, so the lettering changes with all three CSS-variable themes (dark: `zinc.100`, blue: `gray.100`, light: `black`).
-
-### 10.3 Acceptance criteria
-
-1. `/` homepage displays "Raziel Ledger" in Great Vibes calligraphy.
-2. Switching themes changes the lettering color (dark → light text / light → black text).
-3. `npm test` still reports `✓ All 316 item icons present` (SVG is not an item icon).
-4. `package.json` `version` is `1.2.5`; `CLAUDE.md` and `README.md` reflect v1.2.5.
+1. Every applicable `supplies.js` item carries an `itemId`; the 30 weapons and 4 gifs carry none. `npm test` reports `✓ All 316 item icons present`.
+2. `supplies.images` has **312** akamaized lines — 282 on `item/...` (incl. `rupie`/`crystal` on `normal/s/`, `goldbrick`/`sunlightstone` on `evolution/s/`) plus all 30 weapons on `weapon/s/<weaponId>.jpg` — and **0** gbf.wiki lines.
+3. All 10 revenant weapon icons are valid JPEGs ≥ 15 KB.
+4. `/` homepage displays "Raziel Ledger" in Great Vibes calligraphy; switching themes changes the lettering color.
+5. `response-example/` holds both JSON dumps and is git-ignored.
+6. `package.json` `version` is `1.2.4`; `CLAUDE.md` and `README.md` reflect v1.2.4.
 </content>
 </invoke>

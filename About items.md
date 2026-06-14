@@ -2,6 +2,7 @@
 
 Reference table for every id used in `supplies.js` and `WikiParser/data/supplies.images`.
 Items use the `item/article/s/<id>.jpg` (or `item/normal/s/<id>.jpg` for rupie/crystal) CDN path.
+Upgrade items use the `item/evolution/s/<id>.jpg` CDN path (goldbrick, sunlightstone).
 Weapons use the `weapon/s/<id>.jpg` CDN path — ids live only in the manifest, not in `supplies.js`.
 
 | id | type | name |
@@ -219,8 +220,8 @@ Weapons use the `weapon/s/<id>.jpg` CDN path — ids live only in the manifest, 
 | 6510 | item | Blue-Sky Spirit |
 | 6511 | item | Lapis Merit |
 | 6513 | item | Terra Adamant |
-| 20004 | item | Gold Brick |
-| 20014 | item | Sunlight Stone |
+| 20004 | upgrade | Gold Brick |
+| 20014 | upgrade | Sunlight Stone |
 | 20411 | item | Gladiator Distinction |
 | 20421 | item | Guardian Distinction |
 | 20431 | item | Pilgrim Distinction |

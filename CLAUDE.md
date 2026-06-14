@@ -69,8 +69,8 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   one image per item. WikiParser has no item-image code path (only chara/summon/weapon), so item
   icons are fetched via its own `download()` using a hand-authored manifest. `WikiParser/data/supplies.images`
   is the manifest for every static (`.jpg`) item — since v1.2.4 the 282 items with an `itemId` point
-  at the official CDN (`prd-game-a-granbluefantasy.akamaized.net/.../item/article/s/<itemId>.jpg`, or
-  `item/normal/s/{lupi,gem}.jpg` for `rupie`/`crystal`). All 30 weapons (no `itemId`) are on the
+  at the official CDN (`prd-game-a-granbluefantasy.akamaized.net/.../item/article/s/<itemId>.jpg`, with
+  exceptions: `item/normal/s/` for `rupie`/`crystal`, and `item/evolution/s/` for `goldbrick`/`sunlightstone`). All 30 weapons (no `itemId`) are on the
   CDN's weapon path (`.../assets/weapon/s/<weaponId>.jpg`, ids supplied directly, kept only in the
   manifest — rusted `1030…`, silver relics + revenant `1040…`); the 4 animated (`.gif`) items are
   excluded (different source). Full id reference: `About items.md`. `scripts/check-item-images.js`
@@ -85,6 +85,7 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   inlined in `Home.vue` with `class="text-primary"` so it inherits `--color-text-primary` and responds to all three
   themes. Google Fonts (Great Vibes) is loaded globally in `index.html` (not in the SVG `@import`, which would be
   blocked when the SVG is loaded as `<img>`). This file is **not** a game asset — never overwrite with `download()`.
+  See PRD §9.
 
 ## Deployment
 
