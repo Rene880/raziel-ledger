@@ -57,7 +57,6 @@
 <script>
 import utils from '@/js/utils'
 import supplies from '@/js/supplies-eternals'
-import setHead from '@/js/head'
 
 import Calculator from '@/components/Calculator.vue'
 
@@ -117,11 +116,7 @@ export default {
     }
   },
   mounted() {
-    setHead({
-      title: 'Raziel Ledger - Eternal Calculator',
-      desc: 'Get the complete list of materials needed to unlock a specific Eternal',
-    });
-
+    // Per-route <title>/meta is set centrally by the router afterEach hook (src/router/index.js).
     lsMgt.getValue(this, 'progress');
     lsMgt.getValue(this, 'radianceProgress');
     lsMgt.getValue(this, 'activeTab');

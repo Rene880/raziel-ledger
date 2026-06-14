@@ -31,7 +31,6 @@
 <script>
 import utils from '@/js/utils'
 import supplies from '@/js/supplies-evokers'
-import setHead from '@/js/head'
 
 import Calculator from '@/components/Calculator.vue'
 
@@ -73,11 +72,7 @@ export default {
     }
   },
   mounted() {
-    setHead({
-      title: 'Raziel Ledger - Evoker Calculator',
-      desc: 'Get the complete list of materials needed to unlock a specific Arcarum summon and Evoker',
-    });
-
+    // Per-route <title>/meta is set centrally by the router afterEach hook (src/router/index.js).
     lsMgt.getValue(this, 'progress');
     lsMgt.getValue(this, 'splitMats');
     lsMgt.getValue(this, 'hideCompletedMats');

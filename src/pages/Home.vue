@@ -37,19 +37,12 @@
 </template>
 
 <script>
-import setHead from '@/js/head'
-
+// Per-route <title>/meta is set centrally by the router afterEach hook (src/router/index.js).
 export default {
   data() {
     return {
       baseUrl: import.meta.env.BASE_URL,
     };
-  },
-  mounted() {
-    setHead({
-      title: 'Raziel Ledger - Granblue Fantasy Calculators',
-      desc: 'Material calculators for Granblue Fantasy Eternals and Evokers',
-    });
   }
 }
 </script>

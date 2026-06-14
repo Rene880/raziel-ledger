@@ -51,6 +51,12 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
 
 ## Architecture
 
+- `src/router/index.js` — vue-router (`createWebHistory(import.meta.env.BASE_URL)`). Each route carries
+  `meta: { title, description }`; a `router.afterEach` hook (since v1.2.8) sets `document.title` and updates
+  the in-document `<meta name="title|description">`, `<link rel="canonical">`, and `og:`/`twitter:`
+  title/description/url per route — JS-rendered, so it serves the browser tab + Googlebot, while the static
+  `index.html` tags stay the defaults that no-JS link scrapers read. No head library; the hook mutates
+  existing DOM tags. `public/sitemap.xml` (v1.2.8) lists the three routes for manual GSC submission. See PRD §12.
 - `src/pages/` — `Home`, `CalcEternal`, `CalcEvoker`, `NotFound`. The two calc pages own the progress
   state, persist it to `localStorage` (keys `CalcEternal-*` / `CalcEvoker-*` via `js/utils.js`
   `LocalStorageMgt`), and delegate all logic to `components/Calculator.vue`. `CalcEternal` has two
@@ -97,9 +103,12 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   absolute production URL `https://rene880.github.io/raziel-ledger/` (scrapers don't run JS, and a subpath base
   makes relative OG URLs unreliable). The link-preview image is `public/img/og-preview.png` (1200×630, "Raziel
   Ledger" in Great Vibes on the dark theme bg) — like the lettering SVG it is hand-authored, **not** a game asset,
-  and is not covered by `check-item-images.js`. No SSR, no runtime per-route meta. `robots.txt`/`sitemap.xml` are
-  intentionally absent: a `public/robots.txt` would deploy to `/raziel-ledger/robots.txt`, which crawlers ignore
-  (they read `https://rene880.github.io/robots.txt`, owned by the separate user-page repo).
+  and is not covered by `check-item-images.js`. No SSR. Since v1.2.8 there **is** runtime per-route meta (the
+  `src/router/index.js` `afterEach` hook, above) layered over these static defaults, and a `public/sitemap.xml`
+  for **manual** GSC submission (PRD §12). `robots.txt` is still intentionally absent: a `public/robots.txt`
+  would deploy to `/raziel-ledger/robots.txt`, which crawlers ignore (they read
+  `https://rene880.github.io/robots.txt`, owned by the separate user-page repo); the same non-discovery applies
+  to the subpath sitemap, which is why it's submitted directly in Search Console rather than auto-found.
 
 ## Deployment
 

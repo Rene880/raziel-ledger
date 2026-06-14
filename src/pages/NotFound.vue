@@ -8,13 +8,6 @@
 </template>
 
 <script>
-import setHead from '@/js/head'
-
-export default {
-  mounted() {
-    setHead({
-      title: 'Raziel Ledger - Page not found',
-    });
-  }
-}
+// Per-route <title>/meta is set centrally by the router afterEach hook (src/router/index.js).
+export default {}
 </script>
