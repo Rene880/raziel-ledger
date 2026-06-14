@@ -183,7 +183,9 @@ outside `public/img/item/` are not audited in this version.
 ### 8.6 Acceptance criteria
 
 1. No `<link rel="icon">` tags in `index.html`; no `favicon*` files under `public/`; the browser
-   tab shows no site icon.
+   tab shows no site icon. *(Superseded by §12 M6 (v1.2.3): a `<link rel="icon">` pointing at
+   `public/img/favicon.svg` (the `faBook` badge) is reintroduced. No `favicon*`-named file under
+   `public/` is added.)*
 2. The navbar still has a working home affordance (per O1 resolution).
 3. The reference walk over `supplies.js` and the three data files reports exactly **1 unused item
    (`rustedweapon`, the allowed exception per 8.4)**, 0 unused groups, and 0 dangling references.
@@ -321,6 +323,7 @@ manifest of every item's icon source; only the 14 v1.2 Radiance icons had one
 | M3 | Add `scripts/check-item-images.js`: imports `supplies.js` and fails (exit 1) if any item lacks `public/img/item/<key>.<jpg\|gif>` (ext from the `animated` flag), naming each missing key/file and how to add it. Covers all **316** items. |
 | M4 | Wire the check as npm `test` and `prebuild` so `npm run build` fails on a missing icon. Bump `package.json` `version` to **1.2.3**; sync `CLAUDE.md` and `README.md`. |
 | M5 | Add a committed `.githooks/pre-commit` that runs `npm test`, activated via a `prepare` npm script (`git config core.hooksPath .githooks`, guarded with `|| true` for non-git installs). Convenience guard only — bypassable with `--no-verify`; `prebuild`/CI stays the hard gate. |
+| M6 | Add a browser-tab favicon: `public/img/favicon.svg` rendering the Font Awesome `faBook` glyph (white) on a rounded blue (`#3b82f6`, the link accent) badge — matching the navbar home icon — referenced from `index.html` via `<link rel="icon" type="image/svg+xml" href="/img/favicon.svg">` (Vite rebases it to the `/raziel-ledger/` base). No new dependency. **This intentionally supersedes the §8 (C1) decision to ship no favicon** (and its §8.6 acceptance criterion 1). The image check only covers `public/img/item/`, so `favicon.svg` is outside its scope. |
 
 ### 12.3 Notes & constraints
 
@@ -341,4 +344,6 @@ manifest of every item's icon source; only the 14 v1.2 Radiance icons had one
 3. `npm run build` fails (via `prebuild`) when an item icon is missing.
 4. After `npm install`, `git config core.hooksPath` is `.githooks`, and committing with a missing
    icon is blocked by the pre-commit hook (unless `--no-verify`).
-5. `package.json` `version` is `1.2.3`; CLAUDE.md and README.md reflect v1.2.3.
+5. The browser tab shows the blue book favicon on every route (served from `index.html`'s inline
+   `<link rel="icon">`), in dev and in the production build.
+6. `package.json` `version` is `1.2.3`; CLAUDE.md and README.md reflect v1.2.3.
