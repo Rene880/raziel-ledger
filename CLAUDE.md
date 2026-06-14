@@ -40,8 +40,9 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
 - `npm run dev` — local dev server
 - `npm run test` — runs `scripts/check-item-images.js`: fails if any `supplies.js` item lacks its
   icon in `public/img/item/<key>.<jpg|gif>` (since v1.2.3, PRD §8 changelog). There are no other tests or linters.
-- `npm run build` — runs the image check first (`prebuild`), then production build into `dist/`, then
-  copies `dist/index.html` to `dist/404.html` (GitHub Pages SPA deep-link fallback). A missing item
+- `npm run build` — runs the image check first (`prebuild`), then production build into `dist/`. Since
+  v1.2.6 the GitHub Pages SPA deep-link fallback is a dedicated rafgraph `public/404.html` redirect that
+  Vite copies to `dist/404.html` (pre-1.2.6 the build `cp`-ed `index.html`; PRD §11 S5). A missing item
   icon fails the build.
 - `npm run preview` — serve the production build locally
 - A committed `.githooks/pre-commit` runs `npm test` on every commit (since v1.2.3, PRD §8 changelog);
@@ -91,6 +92,14 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   themes. Google Fonts (Great Vibes) is loaded globally in `index.html` (not in the SVG `@import`, which would be
   blocked when the SVG is loaded as `<img>`). This file is **not** a game asset — never overwrite with `download()`.
   See PRD §9.
+- SEO / social previews (since v1.2.5… v1.2.6, PRD §11): `index.html` carries **static** `<head>` tags —
+  `<link rel="canonical">`, Open Graph (`og:*`), and Twitter Card (`summary_large_image`) — all hardcoding the
+  absolute production URL `https://rene880.github.io/raziel-ledger/` (scrapers don't run JS, and a subpath base
+  makes relative OG URLs unreliable). The link-preview image is `public/img/og-preview.png` (1200×630, "Raziel
+  Ledger" in Great Vibes on the dark theme bg) — like the lettering SVG it is hand-authored, **not** a game asset,
+  and is not covered by `check-item-images.js`. No SSR, no runtime per-route meta. `robots.txt`/`sitemap.xml` are
+  intentionally absent: a `public/robots.txt` would deploy to `/raziel-ledger/robots.txt`, which crawlers ignore
+  (they read `https://rene880.github.io/robots.txt`, owned by the separate user-page repo).
 
 ## Deployment
 

@@ -48,8 +48,21 @@ Pushing to `main` triggers [.github/workflows/deploy.yml](.github/workflows/depl
 and publishes `dist/` to GitHub Pages. In the repository settings, set **Pages → Source** to **GitHub Actions**.
 
 The app is built with base path `/raziel-ledger/` (see [vite.config.js](vite.config.js)); change it if the
-repository is renamed or a custom domain is used. SPA deep links work through the `404.html` copy of
-`index.html` created by the build script.
+repository is renamed or a custom domain is used. SPA deep links work through a dedicated rafgraph
+[public/404.html](public/404.html) redirect (since v1.2.6): GitHub serves it for unknown paths, it
+redirects to the app index (a 200 document) with the path encoded in the query string, and `index.html`
+rewrites that back into the real route before the router boots. If you change the base path, update
+`pathSegmentsToKeep` in `public/404.html` accordingly (it's `1` for a one-segment project-site base).
+
+### SEO / social previews
+
+`index.html` includes **static** social-preview meta — canonical URL, Open Graph, and a
+`summary_large_image` Twitter Card — that hardcode the production URL
+`https://rene880.github.io/raziel-ledger/` and a `1200×630` preview image at
+[public/img/og-preview.png](public/img/og-preview.png). They're static (not Vue-injected) because link
+scrapers don't run JavaScript. If you fork or rename the repo, update those absolute URLs to your own
+Pages URL. `robots.txt`/`sitemap.xml` aren't included: at a project subpath they aren't honored —
+crawlers only read `https://<user>.github.io/robots.txt`, served from your user/org page repo. See PRD §11.
 
 ## Project documentation
 
