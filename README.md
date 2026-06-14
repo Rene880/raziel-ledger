@@ -33,6 +33,10 @@ npm run preview  # preview the production build
 fails with the missing key/filename if not (see PRD §12). The icon download manifest lives at
 [WikiParser/data/supplies.images](WikiParser/data/supplies.images).
 
+`npm install` also enables a `.githooks/pre-commit` hook (via the `prepare` script) that runs
+`npm test` before each commit. It's a convenience guard — bypass with `git commit --no-verify`; the
+real enforcement is `prebuild`/CI.
+
 ## Deployment
 
 Pushing to `main` triggers [.github/workflows/deploy.yml](.github/workflows/deploy.yml), which builds the app

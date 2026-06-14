@@ -43,6 +43,9 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   copies `dist/index.html` to `dist/404.html` (GitHub Pages SPA deep-link fallback). A missing item
   icon fails the build.
 - `npm run preview` — serve the production build locally
+- A committed `.githooks/pre-commit` runs `npm test` on every commit (since v1.2.3, PRD §12 M5);
+  it is wired by the `prepare` script (`git config core.hooksPath .githooks`) on `npm install`.
+  Bypassable with `git commit --no-verify` — `prebuild`/CI is the hard gate.
 
 ## Architecture
 

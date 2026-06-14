@@ -1,0 +1,5 @@
+#!/bin/sh
+# Verifies every supplies.js item has its icon before allowing a commit.
+# Enabled via the "prepare" npm script (git config core.hooksPath .githooks).
+# Bypassable with `git commit --no-verify`; prebuild/CI remains the hard gate.
+npm test

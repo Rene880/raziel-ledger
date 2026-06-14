@@ -320,6 +320,7 @@ manifest of every item's icon source; only the 14 v1.2 Radiance icons had one
 | M2 | The 4 **animated** (`.gif`) items (`loworb`, `trueanima`, `whorl`, `rustedweapon`) are excluded from the manifest: gif icons come from a different source (`download-images` skill), and `download()` parses every line as `URL⇥dest`, so it cannot carry comment/blank lines. |
 | M3 | Add `scripts/check-item-images.js`: imports `supplies.js` and fails (exit 1) if any item lacks `public/img/item/<key>.<jpg\|gif>` (ext from the `animated` flag), naming each missing key/file and how to add it. Covers all **316** items. |
 | M4 | Wire the check as npm `test` and `prebuild` so `npm run build` fails on a missing icon. Bump `package.json` `version` to **1.2.3**; sync `CLAUDE.md` and `README.md`. |
+| M5 | Add a committed `.githooks/pre-commit` that runs `npm test`, activated via a `prepare` npm script (`git config core.hooksPath .githooks`, guarded with `|| true` for non-git installs). Convenience guard only — bypassable with `--no-verify`; `prebuild`/CI stays the hard gate. |
 
 ### 12.3 Notes & constraints
 
@@ -338,4 +339,6 @@ manifest of every item's icon source; only the 14 v1.2 Radiance icons had one
 2. `npm test` passes on a clean tree (`✓ All 316 item icons present`) and exits non-zero, naming the
    offending key/file, when an icon is missing.
 3. `npm run build` fails (via `prebuild`) when an item icon is missing.
-4. `package.json` `version` is `1.2.3`; CLAUDE.md and README.md reflect v1.2.3.
+4. After `npm install`, `git config core.hooksPath` is `.githooks`, and committing with a missing
+   icon is blocked by the pre-commit hook (unless `--no-verify`).
+5. `package.json` `version` is `1.2.3`; CLAUDE.md and README.md reflect v1.2.3.
