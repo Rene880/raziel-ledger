@@ -20,6 +20,9 @@ WikiParser/config/config.ini
 # Claude Code local (personal) settings
 .claude/settings.local.json
 
+# Reference API response dumps (not part of the build; used to source item_ids)
+response-example/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
