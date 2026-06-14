@@ -37,8 +37,11 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
 ## Commands
 
 - `npm run dev` — local dev server
-- `npm run build` — production build into `dist/`, then copies `dist/index.html` to `dist/404.html`
-  (GitHub Pages SPA deep-link fallback). There are no tests or linters.
+- `npm run test` — runs `scripts/check-item-images.js`: fails if any `supplies.js` item lacks its
+  icon in `public/img/item/<key>.<jpg|gif>` (since v1.2.3, PRD §12). There are no other tests or linters.
+- `npm run build` — runs the image check first (`prebuild`), then production build into `dist/`, then
+  copies `dist/index.html` to `dist/404.html` (GitHub Pages SPA deep-link fallback). A missing item
+  icon fails the build.
 - `npm run preview` — serve the production build locally
 
 ## Architecture
@@ -58,9 +61,12 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   §8), then extended in v1.2 with the Radiance materials (`ETERNALS_DATA.radiance`, plus the
   `enneadomegaanima` / `omega3omegaanima` groups and their items, `immortalfragment`, `terraadamant` —
   PRD §9); `public/img/item/` is one image per item. WikiParser has no item-image code path (only
-  chara/summon/weapon), so the Radiance icons were fetched from `gbf.wiki` via its own `download()`
-  using a hand-authored `WikiParser/data/radiance.images` (PRD §9.5). Other data is regenerable by
-  `WikiParser/` (Python, not part of the web build — preserve it).
+  chara/summon/weapon), so item icons are fetched from `gbf.wiki` via its own `download()` using a
+  hand-authored manifest. Since v1.2.3 (PRD §12), `WikiParser/data/supplies.images` is the manifest
+  for every static (`.jpg`) item — the former `radiance.images` was folded into it; the 4 animated
+  (`.gif`) items are excluded (different source). `scripts/check-item-images.js` (npm `test` /
+  `prebuild`) asserts every `supplies.js` item has its `public/img/item/<key>.<jpg|gif>`. Other data
+  is regenerable by `WikiParser/` (Python, not part of the web build — preserve it).
 - Components use the Options API, mirroring the upstream project; keep that style for consistency.
 - The Vite/router base is `/raziel-ledger/` (`vite.config.js`); asset URLs in code must be prefixed
   with `import.meta.env.BASE_URL` (item images live in `public/img/item/`).

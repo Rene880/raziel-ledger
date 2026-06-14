@@ -23,9 +23,15 @@ Granblue Fantasy content and materials are trademarks and copyrights of Cygames,
 ```sh
 npm install
 npm run dev      # local dev server
-npm run build    # static build in dist/ (also creates the SPA 404.html fallback)
+npm run test     # verify every supplies.js item has its icon in public/img/item/
+npm run build    # static build in dist/ (runs the image check first, also creates the SPA 404.html fallback)
 npm run preview  # preview the production build
 ```
+
+`npm run test` (also run automatically before `npm run build`) checks that every item in
+[src/js/supplies.js](src/js/supplies.js) has a matching icon in `public/img/item/<key>.<jpg|gif>` and
+fails with the missing key/filename if not (see PRD §12). The icon download manifest lives at
+[WikiParser/data/supplies.images](WikiParser/data/supplies.images).
 
 ## Deployment
 
