@@ -31,8 +31,8 @@
         <a href="https://github.com/Minimalist3/GranblueParty" target="_blank" class="pr-4">
           <fa-icon :icon="['fab', 'github']" class="text-primary text-lg"></fa-icon> Based on Minimalist3/GranblueParty (GPL-3.0)
         </a>
-        <a href="https://www.granblue.party" target="_blank" class="pr-4">
-          <fa-icon :icon="['fa', 'external-link-alt']" class="text-primary text-lg"></fa-icon> granblue.party
+        <a href="https://gbf.wiki" target="_blank" class="pr-4">
+          <fa-icon :icon="['fa', 'external-link-alt']" class="text-primary text-lg"></fa-icon> gbf.wiki
         </a>
       </p>
       <p>
