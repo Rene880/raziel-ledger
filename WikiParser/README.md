@@ -1,31 +1,34 @@
 # WikiParser
-Get data from [gbf.wiki](https://gbf.wiki/) \
-**Please use these scripts responsibly.** Be mindful of the Wiki bandwidth.
+
+A standalone item-image fetcher for Raziel Ledger. It downloads the calculators'
+item/material icons into the web app's `public/img/item/` directory from a
+hand-authored manifest.
+
+Icons are sourced from the official game CDN (and, where needed, from
+[gbf.wiki](https://gbf.wiki/)). **Please use this responsibly** — be mindful of
+source bandwidth; the script already skips files that already exist.
+
+> Originally the full GranblueParty wiki-scraping / PostgreSQL pipeline; reduced
+> in v1.2.5 to just the item-image fetcher Raziel Ledger actually uses. Remains
+> GPL-3.0 (see `LICENSE`).
 
 ## Requirements
-- PostgreSQL 14
-- Python 3.8
-
-## Installation
-To restore Python modules:
-```
-pip3 install -r requirements.txt
-```
-:exclamation: Your distribution might use pip3 instead. Make sure you don't install Python 2 modules by mistake.
-
-Copy `./config/config.ini.template` to `./config/config.ini` and edit relevant values.
-
-The previews server needs the PIL package. Pillow or Pillow-SIMD work as well.
+- Python 3
+- `requests` (`pip3 install -r requirements.txt`)
 
 ## Usage
-- `./database.py --create` to create the dabatase and its tables.
-- `./database.py --update` to fill the tables with the data currently in the CSV files.
+Run from the `WikiParser/` directory:
 
-The images are not included in the repo to avoid copyright claims. If you want to download them:
-- `./update_img.sh` to download all the images.
+```
+python3 update_img.py [manifest] [dest_dir]
+```
 
-The skill images come from the Wiki. To get them, you need to:
-- `./parse.py -d` to fetch fresh data from the Wiki.
-- `./parse.py --all` to parse that data and update the DB with it.
+- `manifest` — tab-separated `URL⇥destfilename` lines (default: `data/supplies.images`).
+- `dest_dir` — where icons are written (default: `../public/img/item`).
 
-The previews server is run by `make_party_preview.py`.
+Existing files are skipped, so re-running is a no-op. Each item icon must be named
+`<itemKey>.<jpg|gif>` so the calculator components resolve it; `npm test`
+(`scripts/check-item-images.js`) verifies every `supplies.js` item has its icon.
+
+The manifest is maintained via the `/download-images` skill (companion to
+`/add-supplies`).

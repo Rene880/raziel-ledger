@@ -40,8 +40,9 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
 - `npm run dev` — local dev server
 - `npm run test` — runs `scripts/check-item-images.js`: fails if any `supplies.js` item lacks its
   icon in `public/img/item/<key>.<jpg|gif>` (since v1.2.3, PRD §8 changelog). There are no other tests or linters.
-- `npm run build` — runs the image check first (`prebuild`), then production build into `dist/`, then
-  copies `dist/index.html` to `dist/404.html` (GitHub Pages SPA deep-link fallback). A missing item
+- `npm run build` — runs the image check first (`prebuild`), then production build into `dist/`. Since
+  v1.2.6 the GitHub Pages SPA deep-link fallback is a dedicated rafgraph `public/404.html` redirect that
+  Vite copies to `dist/404.html` (pre-1.2.6 the build `cp`-ed `index.html`; PRD §11 S5). A missing item
   icon fails the build.
 - `npm run preview` — serve the production build locally
 - A committed `.githooks/pre-commit` runs `npm test` on every commit (since v1.2.3, PRD §8 changelog);
@@ -68,8 +69,9 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   the API dumps in the git-ignored `response-example/`); the 30 weapon-namespace items (rusted /
   silver relic / revenant) carry their weapon id instead (resolved on the CDN weapon path, not
   `item/article/s/`), and only the 4 animated `.gif` items have none (PRD §9). `public/img/item/` is
-  one image per item. WikiParser has no item-image code path (only chara/summon/weapon), so item
-  icons are fetched via its own `download()` using a hand-authored manifest. `WikiParser/data/supplies.images`
+  one image per item. WikiParser (since v1.2.5) is a standalone item-image fetcher: `update_img.py`
+  reads a `URL⇥dest` manifest and downloads icons into `public/img/item/` (skips existing files).
+  `WikiParser/data/supplies.images`
   is the manifest for every static (`.jpg`) item — since v1.2.4 the 282 items with an `itemId` point
   at the official CDN (`prd-game-a-granbluefantasy.akamaized.net/.../item/article/s/<itemId>.jpg`, with
   exceptions: `item/normal/s/` for `rupie`/`crystal`, and `item/evolution/s/` for `goldbrick`/`sunlightstone`). All 30 weapons carry their weapon id as `itemId`, on the
@@ -77,7 +79,9 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   revenant `1040…`; extracted from the manifest's weapon URLs); the 4 animated (`.gif`) items are
   excluded (different source). Full id reference: `About items.md`. `scripts/check-item-images.js`
   (npm `test` / `prebuild`) asserts every `supplies.js` item has its `public/img/item/<key>.<jpg|gif>`.
-  Other data is regenerable by `WikiParser/` (Python, not part of the web build — preserve it).
+  WikiParser is GPL-3.0, not part of the web build; in v1.2.5 it was reduced to just the fetcher
+  (`update_img.py` + `data/supplies.images` + `requirements.txt`) — the upstream DB/preview/wiki-scrape
+  pipeline was deleted. Run it with `cd WikiParser && python3 update_img.py`. See PRD §10.
 - Components use the Options API, mirroring the upstream project; keep that style for consistency.
 - The Vite/router base is `/raziel-ledger/` (`vite.config.js`); asset URLs in code must be prefixed
   with `import.meta.env.BASE_URL` (item images live in `public/img/item/`).
@@ -88,6 +92,14 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   themes. Google Fonts (Great Vibes) is loaded globally in `index.html` (not in the SVG `@import`, which would be
   blocked when the SVG is loaded as `<img>`). This file is **not** a game asset — never overwrite with `download()`.
   See PRD §9.
+- SEO / social previews (since v1.2.5… v1.2.6, PRD §11): `index.html` carries **static** `<head>` tags —
+  `<link rel="canonical">`, Open Graph (`og:*`), and Twitter Card (`summary_large_image`) — all hardcoding the
+  absolute production URL `https://rene880.github.io/raziel-ledger/` (scrapers don't run JS, and a subpath base
+  makes relative OG URLs unreliable). The link-preview image is `public/img/og-preview.png` (1200×630, "Raziel
+  Ledger" in Great Vibes on the dark theme bg) — like the lettering SVG it is hand-authored, **not** a game asset,
+  and is not covered by `check-item-images.js`. No SSR, no runtime per-route meta. `robots.txt`/`sitemap.xml` are
+  intentionally absent: a `public/robots.txt` would deploy to `/raziel-ledger/robots.txt`, which crawlers ignore
+  (they read `https://rene880.github.io/robots.txt`, owned by the separate user-page repo).
 
 ## Deployment
 

@@ -16,7 +16,7 @@ The original project is a Vue 2 SSR application (webpack + Express) backed by a 
 | G1 | Migrate the frontend stack from Vue 2 / Vuex / webpack SSR to **Vue 3 + Vite**, deployed as a static **SPA on GitHub Pages**. |
 | G2 | Serve **only** the two calculator routes `/calceternal` and `/calcevoker`, plus a minimal homepage at `/` that lets the user choose between them, and a 404 fallback. |
 | G3 | **Remove the API** — no backend, no axios, no accounts, no authentication of any kind. |
-| G4 | **Preserve WikiParser** unchanged in the repository for later use (it generates the game data and item images from gbf.wiki). |
+| G4 | **WikiParser is the standalone item-image fetcher** (`WikiParser/update_img.py` + `data/supplies.images`): it downloads the calculators' item icons into `public/img/item/` from a hand-authored manifest. Reduced from the upstream wiki-scrape/Postgres pipeline in v1.2.5 (§10); remains GPL-3.0. |
 | G5 | Keep feature parity for the two calculators: unit selection, completed/target step ranges, split/merged materials, hide-completed filter, grid/list display, per-item quantity tracking, and `localStorage` persistence. |
 
 ## 3. Non-goals
@@ -24,7 +24,7 @@ The original project is a Vue 2 SSR application (webpack + Express) backed by a 
 - Party Builder, Collection Tracker, Daily Grind, Spark, Teams, Search, Replicard, Friend Summons, Release Schedule, Room Name, and the other calculators (Bullets, GW, Dread, Event) are **not** ported.
 - No user accounts, login, signup, or JWT handling (G3).
 - No ads, analytics, or consent management.
-- No server-side rendering; SEO meta tags are set client-side only.
+- No server-side rendering. Since v1.2.6 (§11) the social-preview/SEO meta tags (title, description, canonical, Open Graph, Twitter Card) are **static** in `index.html` so non-JS scrapers can read them; there is still no SSR and no runtime per-route meta.
 - No translation/JP-names toggle (the dropped pages were the main consumers; calculator data is English).
 
 ## 4. Users
@@ -38,7 +38,7 @@ Granblue Fantasy players tracking multi-month grinds for Eternals/Evokers. They 
 - `/calceternal` → Eternals calculator.
 - `/calcevoker` → Evokers calculator.
 - Any other path → 404 page with a link back home.
-- HTML5 history mode. GitHub Pages serves a copy of `index.html` as `404.html` so deep links resolve to the SPA router.
+- HTML5 history mode. Since v1.2.6 (§11) GitHub Pages serves a dedicated rafgraph `404.html` redirect that bounces unknown paths to `…/?/<path>` (a 200 home document), which `index.html` rewrites back to the real path before the router boots — so deep links resolve to the SPA router on a 200 document. (Pre-1.2.6 this was a verbatim copy of `index.html`.)
 - The app is hosted at `https://<user>.github.io/raziel-ledger/`, so the Vite/router base is `/raziel-ledger/`.
 
 ### 5.2 Calculator behavior (parity with original)
@@ -68,7 +68,7 @@ Granblue Fantasy players tracking multi-month grinds for Eternals/Evokers. They 
 | Icons | Font Awesome via `@fortawesome/vue-fontawesome@3` (Vue 3 build), only the icons actually used. |
 | Data | `supplies.js`, `supplies-common.js`, `supplies-eternals.js`, `supplies-evokers.js` carried over from GranblueParty (frozen data, no API); since v1.1, `supplies.js` is trimmed to referenced entries (§8). |
 | Images | Item images in `public/img/item/`, referenced via `import.meta.env.BASE_URL`; since v1.1, swept to the images `supplies.js` references (one `<key>.<jpg\|gif>` per item). Regenerable by WikiParser. |
-| Deploy | GitHub Actions workflow → `actions/deploy-pages` on push to `main`; build step copies `dist/index.html` → `dist/404.html`. |
+| Deploy | GitHub Actions workflow → `actions/deploy-pages` on push to `main`. Since v1.2.6 the deep-link fallback is a dedicated rafgraph `public/404.html` redirect (auto-copied to `dist/`), not a copy of `index.html` (§11 S5). |
 | License | GPL-3.0 retained (derivative work). |
 
 ### 6.1 Vue 2 → Vue 3 migration notes
@@ -94,7 +94,7 @@ raziel-ledger/
 │   ├── js/                  ← supplies data, utils, head helper
 │   └── css/
 ├── scripts/                 ← check-item-images.js (npm test / prebuild)
-└── WikiParser/              ← preserved verbatim (Python, not part of the web build)
+└── WikiParser/              ← standalone item-image fetcher (update_img.py + data/supplies.images; not part of the web build)
 ```
 
 The original `API/` folder is **not** carried over (G3).
@@ -105,7 +105,7 @@ The original `API/` folder is **not** carried over (G3).
 2. Visiting `/raziel-ledger/` shows the homepage with working links to both calculators; both calculator routes render and work; unknown routes show a 404 page — including on full page reload (Pages 404 fallback).
 3. Adding a unit, setting steps, editing quantities, toggling split/hide/display, and reloading the page restores all state.
 4. No network calls to any API; no login UI anywhere.
-5. `WikiParser/` `.py` content stays untouched (G4); only its hand-authored `data/*.images` manifests change.
+5. `WikiParser/` is the standalone item-image fetcher (G4); `cd WikiParser && python3 update_img.py` re-downloads nothing when all icons are present and exits 0.
 6. Push to `main` deploys to GitHub Pages automatically.
 
 ---
@@ -123,6 +123,8 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 | 1.2.2 | 2026-06-14 | Radiance reduce step corrected from "Reduce 10 Revenant Weapon" to **"Reduce 4 Revenant Weapon"**; every quantity in that step scaled ×0.4. Recruit/transcend reduce steps untouched. |
 | 1.2.3 | 2026-06-14 | **Item-image manifest + build-time check.** Added `WikiParser/data/supplies.images` (one `URL⇥<key>.jpg` per static item; `radiance.images` folded in and deleted); added `scripts/check-item-images.js`, wired as npm `test` / `prebuild` (a missing icon fails the build) and a committed `.githooks/pre-commit` (via the `prepare` script; bypassable with `--no-verify`). Reintroduced a browser favicon `public/img/favicon.svg` (`faBook` glyph), **superseding the v1.1 no-favicon decision**. |
 | 1.2.4 | 2026-06-14 | **CDN image source, homepage lettering & icon refresh.** Added `itemId` to 282 `supplies.js` items; repointed `supplies.images` at the official CDN (weapon path for 30 weapons; fixed `goldbrick`/`sunlightstone` to `item/evolution/s/`); refreshed 190 icons (fixed 10 broken revenant, upgraded all 30 weapon icons to 260×260 px, synced 160 others); added theme-aware "Raziel Ledger" SVG calligraphy to home page (`fill: currentColor`). See §9. |
+| 1.2.6 | 2026-06-14 | **Static SEO / social-preview meta.** Added static `<head>` tags to `index.html` — canonical URL, Open Graph (`og:type/url/title/description/image`), and Twitter Card (`summary_large_image`) — pointing at the production URL `https://rene880.github.io/raziel-ledger/`, plus a `1200×630` `public/img/og-preview.png` link-preview image. No SSR, no runtime per-route meta; scope deliberately excludes robots.txt/sitemap (a project-subpath `robots.txt` is not honored — crawlers read `https://rene880.github.io/robots.txt`, owned by the root user-page repo). See §11. |
+| 1.2.5 | 2026-06-14 | **WikiParser reduced to a standalone item-image fetcher.** Trimmed `WikiParser/data/` to `supplies.images`; deleted `db/`, `preview/`, and the now-orphaned upstream pipeline (`database.py`, `parse.py`, `bullets.py`, `migration.py`, `make_party_preview.py`, `optimize_img.py`, `config/`, `update.sh`, `pyproject.toml`, `pdm.lock`, preview assets); rewrote `update_img.py` as a config-free fetcher (manifest → `public/img/item/`, `download(manifest, dest_dir)` preserved for `/download-images`); trimmed `requirements.txt` to `requests`. **Redirects G4** ("preserve verbatim" → standalone fetcher). See §10. |
 
 ### 8.1 Constraints that persist
 
@@ -130,8 +132,8 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 - **`silvershardgauntlet.jpg`** is the (renamed) icon for Silver Gauntlet Shard; the upstream file was `silvershardmelee.jpg`.
 - **`localStorage` keys are frozen** for back-compat: `CalcEternal-progress` (recruit/transcend), `CalcEternal-radianceProgress` (Radiance), `CalcEternal-activeTab`, `CalcEvoker-*`, shared `App-*`/UI toggles. Do not rename them.
 - **`public/img/item/` is one image per item** — `<key>.jpg`, or `<key>.gif` for the 4 animated items (`loworb`, `trueanima`, `whorl`, `rustedweapon`). `check-item-images.js` (npm `test` / `prebuild`) enforces this for all 316 items; it does not cover `favicon.svg`.
-- **`WikiParser/data/*.images`** are hand-authored `URL⇥dest` manifests (no comment/blank lines — `download()` parses every line). The 4 animated `.gif` items are excluded from `supplies.images` (different source). `download()` is invoked per-manifest (never `update_img.main()`), and skips files that already exist, so re-running it today is a no-op; manifest URLs are unverified against the live source. `goldbrick` and `sunlightstone` use `item/evolution/s/` (not `item/article/s/`).
-- **WikiParser `.py` files are never modified** (G4).
+- **`WikiParser/data/supplies.images`** is the hand-authored `URL⇥dest` manifest (no comment/blank lines — `download()` splits each on `\t`). The 4 animated `.gif` items are excluded (different source). `download(manifest, dest_dir)` skips files that already exist, so re-running is a no-op; manifest URLs are unverified against the live source. `goldbrick` and `sunlightstone` use `item/evolution/s/` (not `item/article/s/`).
+- **WikiParser is a standalone item-image fetcher** (§10): `update_img.py` reads `data/supplies.images` and writes `public/img/item/`; it no longer carries the upstream DB/preview/wiki-scrape pipeline and is no longer "preserved verbatim."
 
 ---
 
@@ -174,3 +176,97 @@ The **30 weapon-namespace items** (10 rusted weapons, 10 silver **relics**, 10 r
 6. `package.json` `version` is `1.2.4`; `CLAUDE.md` and `README.md` reflect v1.2.4.
 </content>
 </invoke>
+
+## 10. Version 1.2.5 — WikiParser reduced to a standalone item-image fetcher (2026-06-14)
+
+### 10.1 Problem
+WikiParser still carried the full upstream GranblueParty pipeline (Postgres DB layer,
+wiki scraping for chara/summon/weapon, party-preview server) even though Raziel Ledger
+only ever uses it to download item icons from a hand-authored manifest. G4's "preserve
+unchanged" rule had frozen ~2,000 lines of dead Python and ~6 MB of unused data.
+
+### 10.2 Scope
+| # | Change |
+|---|--------|
+| A | Trim `WikiParser/data/` to `supplies.images` only (12 unused data files removed). |
+| B | Delete `WikiParser/db/` (Postgres seed CSVs) and `WikiParser/preview/` (party-preview server). |
+| C | Delete now-orphaned Python + tooling: `database.py`, `parse.py`, `bullets.py`, `migration.py`, `make_party_preview.py`, `optimize_img.py`, `config/`, `update.sh`, `pyproject.toml`, `pdm.lock`, and the preview assets (`NotoSans-Regular.ttf`, `star_{b,y}.png`). |
+| D | Rewrite `update_img.py` as a standalone fetcher: reads a `URL⇥dest` manifest (default `data/supplies.images`), downloads into `../public/img/item/` (both overridable via argv), skips existing files, writes only on HTTP 200. No `config` import, no previews. `download(manifest, dest_dir)` signature preserved for the `/download-images` skill. |
+| E | Trim `requirements.txt` to `requests`. |
+
+### 10.3 Notes & constraints
+- **G4 is redirected, not dropped:** WikiParser is now a standalone item-image fetcher, no
+  longer "preserved verbatim." The `/download-images` skill and PRD §6.2/§8.1/§7 are updated to match.
+- WikiParser remains GPL-3.0 (upstream attribution + `LICENSE` retained).
+- Item icons are still CDN-authoritative (v1.2.4); this version changes only the fetcher, not the manifest.
+
+### 10.4 Acceptance criteria
+1. `WikiParser/` contains only `update_img.py`, `data/supplies.images`, `requirements.txt`, `README.md`, `LICENSE`.
+2. `cd WikiParser && python3 update_img.py` re-downloads nothing (all icons present) and exits 0.
+3. `npm test` passes (every `supplies.js` item has its `public/img/item/<key>` icon — 316 items).
+4. No remaining repo reference tells the reader WikiParser `.py` is immutable.
+5. `package.json` `version` is `1.2.5`; `CLAUDE.md` and `README.md` reflect v1.2.5.
+
+---
+
+## 11. Version 1.2.6 — Static SEO / social-preview meta (2026-06-14)
+
+### 11.1 Problem
+`index.html` carries only `<title>` + `<meta name="description">`. The app is a client-side-rendered
+SPA, so two SEO gaps follow:
+
+- **Link previews are blank/ugly.** Social scrapers (Facebook, Twitter/X, Discord, Slack, iMessage)
+  do **not** execute JavaScript — they read only the static `index.html`. With no Open Graph / Twitter
+  Card tags and no preview image, shared links unfurl with no card.
+- **No canonical / absolute self-reference**, so the indexed URL is ambiguous.
+
+Googlebot *does* render JS, so the app itself can be crawled; this version targets the parts that
+static HTML must supply. SSR and runtime per-route meta remain out of scope (§3).
+
+### 11.2 Scope
+| # | Change |
+|---|--------|
+| S1 | Add static `<head>` tags to `index.html`: `<link rel="canonical">`, Open Graph (`og:type=website`, `og:url`, `og:title`, `og:description`, `og:image` + `og:image:width/height`), and Twitter Card (`twitter:card=summary_large_image`, mirroring title/description/image). |
+| S2 | All absolute URLs hardcode the production origin `https://rene880.github.io/raziel-ledger/` (the Vite base is a subpath, so relative OG URLs are unreliable for scrapers). |
+| S3 | Add `public/img/og-preview.png` — a `1200×630` link-preview image (image source TBD, see §11.4 open question). Referenced by `og:image` / `twitter:image` at its absolute CDN-of-record URL `…/raziel-ledger/img/og-preview.png`. |
+| S4 | Bump `package.json` `version` to **1.2.6**; sync `CLAUDE.md` and `README.md`. |
+| S5 | **Deep-link 404-status fix (rafgraph SPA redirect).** Replace the `cp dist/index.html dist/404.html` build step with a dedicated `public/404.html` (auto-copied by Vite) that client-side-redirects an unknown path to `…/raziel-ledger/?/<path>` (rafgraph technique, `pathSegmentsToKeep = 1`), and add the matching decode snippet to `index.html`'s `<head>` that rewrites that query back to the real path via `history.replaceState` before the router boots. Deep links (`/calceternal`, `/calcevoker`) now resolve to a **200** home document instead of being served from the 404 document. |
+
+### 11.3 Notes & constraints
+- **Out of scope on purpose:** `robots.txt` and `sitemap.xml`. A file placed in `public/` deploys to
+  `/raziel-ledger/robots.txt`, which crawlers do **not** fetch (the spec only honors
+  `https://rene880.github.io/robots.txt`, owned by the separate `rene880.github.io` user-page repo).
+  A sitemap can still be submitted manually via Google Search Console if desired later.
+- **Deep-link status (addressed by S5):** previously the deploy copied `dist/index.html` →
+  `dist/404.html`, so deep links rendered the app but were served from the **404** document. S5 replaces
+  that with the rafgraph SPA redirect: a hit to `/raziel-ledger/calceternal` still triggers GitHub's
+  404 document, but that document immediately `location.replace`s to `/raziel-ledger/?/calceternal` — a
+  **200** home document — and `index.html` rewrites the URL back to `/calceternal` before the router
+  initializes. Honest caveat: this is a *client-side* redirect; the very first GitHub response for a
+  non-existent path is still HTTP 404 (an unavoidable GitHub Pages limitation), but JS-rendering crawlers
+  and all users land on a 200 page with the correct clean URL. The home page (`/`) was always 200.
+- `og:image` must be a raster `PNG`/`JPG`; the existing `favicon.svg` / `raziel-ledger-lettering.svg`
+  are **not** valid OG images (scrapers ignore SVG). `og-preview.png` is hand-authored/derived art, not
+  a game asset — like `raziel-ledger-lettering.svg` it must never be overwritten by WikiParser `download()`.
+- `check-item-images.js` is unaffected — it only walks `supplies.js` items in `public/img/item/`, not
+  `public/img/og-preview.png`.
+
+### 11.4 Resolved decision
+- **OG preview image source** — option (a): the "Raziel Ledger" lettering in **Great Vibes** over the
+  `theme-dark` background (`#18181b` zinc-900 bg, `#f4f4f5` zinc-100 lettering), with a muted
+  "Granblue Fantasy Calculators" subtitle, rendered to `1200×630` `public/img/og-preview.png`.
+  Generated with PIL from the upstream Great Vibes TTF (the web font is not installed locally, so an
+  SVG rasterizer would fall back to a generic serif — PIL draws from the real font file instead).
+
+### 11.5 Acceptance criteria
+1. `index.html` contains static `og:*` and `twitter:*` tags plus a `<link rel="canonical">`, all using
+   the absolute production URL.
+2. `public/img/og-preview.png` exists at `1200×630` and is reachable at
+   `https://rene880.github.io/raziel-ledger/img/og-preview.png` after deploy.
+3. Pasting the production URL into a link-preview validator (e.g. Facebook Sharing Debugger / opengraph.xyz)
+   renders a card with the title, description, and image.
+4. `npm test` still passes (316 item icons; og-preview not in scope of the check).
+5. `package.json` `version` is `1.2.6`; `CLAUDE.md` and `README.md` reflect v1.2.6.
+6. `npm run build` emits a rafgraph `dist/404.html` (redirect script, not a copy of the app) and an
+   `index.html` carrying the decode snippet; loading `/raziel-ledger/calceternal` in `npm run preview`
+   resolves to the calculator with the URL normalized to `/raziel-ledger/calceternal` (no `?/` left behind).

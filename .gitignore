@@ -12,10 +12,9 @@ dist
 dist-ssr
 *.local
 
-# Python (WikiParser) — generated artifacts, kept out of the verbatim tree
+# Python (WikiParser)
 __pycache__/
 *.pyc
-WikiParser/config/config.ini
 
 # Claude Code local (personal) settings
 .claude/settings.local.json

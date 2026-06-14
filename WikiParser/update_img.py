@@ -1,56 +1,71 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
+"""Standalone item-image fetcher for Raziel Ledger.
 
-import glob
+Reads a tab-separated manifest (``URL<TAB>destfilename``) and downloads each
+icon into the web app's ``public/img/item/`` directory. URLs may point at
+gbf.wiki (``Special:Redirect/file/...``) or the official game CDN — both are
+plain HTTP GETs.
+
+Existing files are skipped, so re-running is a no-op. Be mindful of source
+bandwidth: batch small, do not force re-downloads.
+
+Usage:
+    python3 update_img.py [manifest] [dest_dir]
+
+Defaults: manifest=data/supplies.images, dest_dir=../public/img/item
+"""
+
 import os
-import requests
 import sys
 
-from config import defines
+import requests
 
-FRONTEND_DIR = os.path.join(os.getcwd(), '..', defines.getConfig('config/config.ini', 'path')['frontend'], 'src', 'img')
-DATA_DIR = os.path.join(os.getcwd(), 'data')
-PREVIEWS_DIR = defines.getConfig('config/config.ini', 'path')['previews']
+HERE = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_MANIFEST = os.path.join(HERE, 'data', 'supplies.images')
+DEFAULT_DEST = os.path.join(HERE, '..', 'public', 'img', 'item')
 
-def list_image_files():
-  return glob.glob(os.path.join(DATA_DIR, '*.images'))
 
-def list_preview_files():
-  return glob.glob(os.path.join(DATA_DIR, '*.preview'))
+def download(manifest, dest_dir):
+  """Download every URL in `manifest` into `dest_dir`, skipping existing files.
 
-def download(file, root_dest):
-  with open(file, "r", encoding='utf8') as read_file:
-    # Parse each line of the .images file
+  Returns (new_count, failed_count).
+  """
+  new, failed = 0, 0
+  with open(manifest, 'r', encoding='utf8') as read_file:
     for line in read_file.read().splitlines():
-      [url, dest] = line.split('\t')
-      dest = os.path.realpath(os.path.join(root_dest, dest))
+      if not line.strip():
+        continue
+      [url, name] = line.split('\t')
+      dest = os.path.join(dest_dir, name)
       # Only download new files
-      if not os.path.isfile(dest):
-        print("New file " + dest)
-        response = requests.get(url)
-        if response.ok:
-          with open(dest, "wb") as image_file:
-            image_file.write(response.content)
-        else:
-          print("Failed to download " + url)
+      if os.path.isfile(dest):
+        continue
+      print('Downloading ' + name)
+      response = requests.get(url)
+      if response.ok:
+        with open(dest, 'wb') as image_file:
+          image_file.write(response.content)
+        new += 1
+      else:
+        print('  Failed (%d): %s' % (response.status_code, url))
+        failed += 1
+  return new, failed
+
 
 def main(argv):
-  if not os.path.isdir(FRONTEND_DIR):
-    print("./config/config.ini doesn't contain the [path] section")
+  manifest = argv[0] if len(argv) > 0 else DEFAULT_MANIFEST
+  dest_dir = argv[1] if len(argv) > 1 else DEFAULT_DEST
+  if not os.path.isfile(manifest):
+    print('Manifest not found: ' + manifest)
     return 1
-  if not os.path.isdir(DATA_DIR):
-    print("./data does not exist. Wrong working dir?")
+  if not os.path.isdir(dest_dir):
+    print('Destination dir not found: ' + dest_dir)
     return 1
-  if not os.path.isdir(PREVIEWS_DIR):
-    print("Previews dir does not exist. Missing config line?")
-    return 1
-  if not os.path.isdir(os.path.join(PREVIEWS_DIR, 'unit_battle')):
-    os.mkdir(os.path.join(PREVIEWS_DIR, 'unit_battle'))
 
-  for file in list_image_files():
-    download(file, FRONTEND_DIR)
+  new, failed = download(manifest, dest_dir)
+  print('Done. %d new, %d failed.' % (new, failed))
+  return 1 if failed else 0
 
-  for file in list_preview_files():
-    download(file, PREVIEWS_DIR)
 
 if __name__ == '__main__':
-  main(sys.argv[1:])
+  sys.exit(main(sys.argv[1:]))

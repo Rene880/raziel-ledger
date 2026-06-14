@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Raziel Ledger</title>
+    <!--
+      Single Page Apps for GitHub Pages — rafgraph technique
+      https://github.com/rafgraph/spa-github-pages (MIT)
+      GitHub Pages serves this 404 document for any unknown path; it redirects to the
+      app's index (a 200 document) with the original path encoded as a query string,
+      which index.html then decodes back into the real route. pathSegmentsToKeep = 1
+      keeps the `/raziel-ledger/` project-site base segment.
+    -->
+    <script type="text/javascript">
+      var pathSegmentsToKeep = 1;
+
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
