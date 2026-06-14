@@ -30,8 +30,12 @@ npm run preview  # preview the production build
 
 `npm run test` (also run automatically before `npm run build`) checks that every item in
 [src/js/supplies.js](src/js/supplies.js) has a matching icon in `public/img/item/<key>.<jpg|gif>` and
-fails with the missing key/filename if not (see PRD §12). The icon download manifest lives at
-[WikiParser/data/supplies.images](WikiParser/data/supplies.images).
+fails with the missing key/filename if not (see PRD §8 changelog). The icon download manifest lives at
+[WikiParser/data/supplies.images](WikiParser/data/supplies.images); since v1.2.4 it sources each item's
+icon from the official GBF CDN by the item's `itemId`; all 30 weapon-namespace items also use the
+CDN's weapon path (ids in `About items.md`); only the 4 animated `.gif` icons remain
+outside the CDN (see PRD §9). The homepage title is a hand-authored SVG (`public/img/raziel-ledger-lettering.svg`)
+that uses `fill: currentColor` to adapt to the active theme (see PRD §10).
 
 `npm install` also enables a `.githooks/pre-commit` hook (via the `prepare` script) that runs
 `npm test` before each commit. It's a convenience guard — bypass with `git commit --no-verify`; the

@@ -1,6 +1,10 @@
 <template>
   <div class="flex flex-col items-center">
-    <h1 class="self-center mb-4">Raziel Ledger</h1>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" class="self-center mb-4 w-full max-w-lg text-primary" aria-label="Raziel Ledger" role="img">
+      <text x="50%" y="50%"
+        style="font-family: 'Great Vibes', 'Brush Script MT', 'Lucida Handwriting', cursive; font-size: 130px; fill: currentColor; text-anchor: middle; dominant-baseline: central;"
+      >Raziel Ledger</text>
+    </svg>
     <p class="mb-8 text-center">
       Material calculators for Granblue Fantasy long-term goals.<br>
       Pick a calculator to get started. Your progress is saved in your browser.

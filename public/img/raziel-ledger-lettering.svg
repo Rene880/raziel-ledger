@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="100%" height="100%">
+  <defs>
+    <style>
+      /* Import a high-quality calligraphy font to ensure it looks elegant across all devices */
+      @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&amp;display=swap');
+      
+      .lettering {
+        font-family: 'Great Vibes', 'Brush Script MT', 'Lucida Handwriting', cursive;
+        font-size: 130px;
+        /* currentColor allows the SVG to inherit the text color of its parent HTML element */
+        fill: currentColor; 
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+    </style>
+  </defs>
+  <text x="50%" y="50%" class="lettering">Raziel Ledger</text>
+</svg>
