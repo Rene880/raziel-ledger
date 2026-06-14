@@ -13,8 +13,9 @@ This project is a Vue 3 + Vite rewrite of the calculators from
 **[Minimalist3/GranblueParty](https://github.com/Minimalist3/GranblueParty)** (granblue.party) by Minimalist,
 licensed under the [GPL-3.0](LICENSE). The calculator logic, game data, item images, and styling originate
 from that project; the game data and item images are trimmed to the entries the two calculators use
-(see PRD §8 for the details and exceptions). The [WikiParser/](WikiParser/) tooling (which generates the game data and images from
-[gbf.wiki](https://gbf.wiki)) is preserved verbatim for later use.
+(see PRD §8 for the details and exceptions). [WikiParser/](WikiParser/) is the standalone item-image fetcher
+(`update_img.py` + `data/supplies.images`) that downloads the calculators' icons into `public/img/item/`;
+since v1.2.5 it is reduced to just that (the upstream wiki-scrape/Postgres pipeline was removed — see PRD §10).
 
 Granblue Fantasy content and materials are trademarks and copyrights of Cygames, Inc. or its licensors.
 

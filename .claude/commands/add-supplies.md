@@ -117,5 +117,6 @@ new MaterialStep('Step label shown in UI',
 5. Verify no typos in item/group keys by checking `supplies.js`.
 6. Report what was added and where.
 
-Do not add image files — images are managed separately in `public/img/item/`.
+Do not add image files — images are managed separately in `public/img/item/` via the
+`/download-images` skill (which appends to `WikiParser/data/supplies.images` and runs the fetcher).
 Do not modify `CLAUDE.md`, `README.md`, or `PRD.md` for data-only additions.
