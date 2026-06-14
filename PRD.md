@@ -127,6 +127,7 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 | 1.2.5 | 2026-06-14 | **WikiParser reduced to a standalone item-image fetcher.** Trimmed `WikiParser/data/` to `supplies.images`; deleted `db/`, `preview/`, and the now-orphaned upstream pipeline (`database.py`, `parse.py`, `bullets.py`, `migration.py`, `make_party_preview.py`, `optimize_img.py`, `config/`, `update.sh`, `pyproject.toml`, `pdm.lock`, preview assets); rewrote `update_img.py` as a config-free fetcher (manifest → `public/img/item/`, `download(manifest, dest_dir)` preserved for `/download-images`); trimmed `requirements.txt` to `requests`. **Redirects G4** ("preserve verbatim" → standalone fetcher). See §10. |
 | 1.2.8 | 2026-06-14 | **Per-route titles/meta + sitemap.** Added a vue-router `afterEach` hook (`src/router/index.js`) that sets a distinct `document.title`, `description`, `canonical`, and `og:`/`twitter:` title/description/url per route (Home, Eternals, Evokers, NotFound) from `route.meta`; the static `index.html` tags remain the scraper-facing defaults. Added `public/sitemap.xml` (the three real routes, absolute production URLs) for manual submission in Google Search Console — partially reversing 1.2.6's "no sitemap" scope (a subpath sitemap isn't auto-discovered but is valid when submitted directly). Removed a stray `</content>`/`</invoke>` artifact from PRD §9 and condensed §9. See §12. |
 | 1.2.9 | 2026-06-14 | **Per-route static social previews (build-time pre-render).** Fixed `/calceternal` and `/calcevoker` unfurling with **no** link-preview card: they were served from GitHub's `404.html` (no OG tags; the 1.2.8 JS `afterEach` can't help scrapers). Extracted the route SEO table into a shared plain module (`src/seo/meta.js`) consumed by both the router and a new `scripts/prerender-routes.js` (`postbuild`) that clones the built `dist/index.html` into `dist/calceternal/index.html` and `dist/calcevoker/index.html` with each route's static `<title>`/`title`/`description`/`canonical`/`og:`/`twitter:` title-description-url swapped in (OG **image** stays the sitewide `og-preview.png`). Those routes now serve a real **200** file with correct static tags; the rafgraph `404.html` redirect remains only for genuinely unknown paths. No new dependency, no SSR. See §13. |
+| 1.2.10 | 2026-06-14 | **Self-hosted subsetted homepage font.** Replaced the render-blocking Google Fonts chain (two `preconnect`s + a css2 `<link>` → ~1.3 s cross-origin DNS/TLS for a 29.70 KiB woff2) with a self-hosted `public/fonts/great-vibes-subset.woff2` (~6 KB) — Great Vibes (OFL) subset to the 11 hero glyphs in "Raziel Ledger". `index.html` now declares an inline `@font-face` (`font-display: swap`) + a `<link rel="preload" as="font" crossorigin>`, both via `%BASE_URL%`. `scripts/prerender-routes.js` strips the preload from the calc-route pre-renders (font unused there). No Google request at runtime; the hero font loads same-origin on the existing connection. See §14. |
 
 ### 8.1 Constraints that persist
 
@@ -151,65 +152,7 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 
 ## 11. Version 1.2.6 — Static SEO / social-preview meta (2026-06-14)
 
-### 11.1 Problem
-`index.html` carries only `<title>` + `<meta name="description">`. The app is a client-side-rendered
-SPA, so two SEO gaps follow:
-
-- **Link previews are blank/ugly.** Social scrapers (Facebook, Twitter/X, Discord, Slack, iMessage)
-  do **not** execute JavaScript — they read only the static `index.html`. With no Open Graph / Twitter
-  Card tags and no preview image, shared links unfurl with no card.
-- **No canonical / absolute self-reference**, so the indexed URL is ambiguous.
-
-Googlebot *does* render JS, so the app itself can be crawled; this version targets the parts that
-static HTML must supply. SSR and runtime per-route meta remain out of scope (§3).
-
-### 11.2 Scope
-| # | Change |
-|---|--------|
-| S1 | Add static `<head>` tags to `index.html`: `<link rel="canonical">`, Open Graph (`og:type=website`, `og:url`, `og:title`, `og:description`, `og:image` + `og:image:width/height`), and Twitter Card (`twitter:card=summary_large_image`, mirroring title/description/image). |
-| S2 | All absolute URLs hardcode the production origin `https://rene880.github.io/raziel-ledger/` (the Vite base is a subpath, so relative OG URLs are unreliable for scrapers). |
-| S3 | Add `public/img/og-preview.png` — a `1200×630` link-preview image (image source TBD, see §11.4 open question). Referenced by `og:image` / `twitter:image` at its absolute CDN-of-record URL `…/raziel-ledger/img/og-preview.png`. |
-| S4 | Bump `package.json` `version` to **1.2.6**; sync `CLAUDE.md` and `README.md`. |
-| S5 | **Deep-link 404-status fix (rafgraph SPA redirect).** Replace the `cp dist/index.html dist/404.html` build step with a dedicated `public/404.html` (auto-copied by Vite) that client-side-redirects an unknown path to `…/raziel-ledger/?/<path>` (rafgraph technique, `pathSegmentsToKeep = 1`), and add the matching decode snippet to `index.html`'s `<head>` that rewrites that query back to the real path via `history.replaceState` before the router boots. Deep links (`/calceternal`, `/calcevoker`) now resolve to a **200** home document instead of being served from the 404 document. |
-
-### 11.3 Notes & constraints
-- **Out of scope on purpose:** `robots.txt` and `sitemap.xml`. A file placed in `public/` deploys to
-  `/raziel-ledger/robots.txt`, which crawlers do **not** fetch (the spec only honors
-  `https://rene880.github.io/robots.txt`, owned by the separate `rene880.github.io` user-page repo).
-  A sitemap can still be submitted manually via Google Search Console if desired later.
-- **Deep-link status (addressed by S5):** previously the deploy copied `dist/index.html` →
-  `dist/404.html`, so deep links rendered the app but were served from the **404** document. S5 replaces
-  that with the rafgraph SPA redirect: a hit to `/raziel-ledger/calceternal` still triggers GitHub's
-  404 document, but that document immediately `location.replace`s to `/raziel-ledger/?/calceternal` — a
-  **200** home document — and `index.html` rewrites the URL back to `/calceternal` before the router
-  initializes. Honest caveat: this is a *client-side* redirect; the very first GitHub response for a
-  non-existent path is still HTTP 404 (an unavoidable GitHub Pages limitation), but JS-rendering crawlers
-  and all users land on a 200 page with the correct clean URL. The home page (`/`) was always 200.
-- `og:image` must be a raster `PNG`/`JPG`; the existing `favicon.svg` / `raziel-ledger-lettering.svg`
-  are **not** valid OG images (scrapers ignore SVG). `og-preview.png` is hand-authored/derived art, not
-  a game asset — like `raziel-ledger-lettering.svg` it must never be overwritten by WikiParser `download()`.
-- `check-item-images.js` is unaffected — it only walks `supplies.js` items in `public/img/item/`, not
-  `public/img/og-preview.png`.
-
-### 11.4 Resolved decision
-- **OG preview image source** — option (a): the "Raziel Ledger" lettering in **Great Vibes** over the
-  `theme-dark` background (`#18181b` zinc-900 bg, `#f4f4f5` zinc-100 lettering), with a muted
-  "Granblue Fantasy Calculators" subtitle, rendered to `1200×630` `public/img/og-preview.png`.
-  Generated with PIL from the upstream Great Vibes TTF (the web font is not installed locally, so an
-  SVG rasterizer would fall back to a generic serif — PIL draws from the real font file instead).
-
-### 11.5 Acceptance criteria
-1. `index.html` contains static `og:*` and `twitter:*` tags plus a `<link rel="canonical">`, all using
-   the absolute production URL.
-2. `public/img/og-preview.png` exists at `1200×630` and is reachable at
-   `https://rene880.github.io/raziel-ledger/img/og-preview.png` after deploy.
-3. Pasting the production URL into a link-preview validator (e.g. Facebook Sharing Debugger / opengraph.xyz)
-   renders a card with the title, description, and image.
-4. `npm test` still passes (316 item icons; og-preview not in scope of the check).
-5. `package.json` `version` is `1.2.6`; `CLAUDE.md` and `README.md` reflect v1.2.6.
-6. `npm run build` emits a rafgraph `dist/404.html` (redirect script, not a copy of the app) and an
-   `index.html` carrying the decode snippet; loading `/raziel-ledger/calceternal` in `npm run preview`
-   resolves to the calculator with the URL normalized to `/raziel-ledger/calceternal` (no `?/` left behind).
+*Condensed (older than the latest three releases — see §12–§14 and the durable SEO notes in CLAUDE.md.)* Added static `<head>` tags to `index.html` — `<link rel="canonical">`, Open Graph (`og:type=website`, `og:url/title/description/image` + `og:image:width/height`), and Twitter Card (`summary_large_image`) — all hardcoding the absolute production origin `https://rene880.github.io/raziel-ledger/` (a subpath base makes relative OG URLs unreliable, and scrapers don't run JS). Added the hand-authored `public/img/og-preview.png` (1200×630, "Raziel Ledger" in Great Vibes on the dark theme, rendered with PIL from the upstream TTF) — not a game asset, outside `check-item-images.js`. Replaced the `cp dist/index.html dist/404.html` deep-link step with a dedicated rafgraph `public/404.html` redirect (`?/<path>`, `pathSegmentsToKeep=1`) plus the matching decode snippet in `index.html`, so deep links resolve to a 200 home document with the URL normalized before the router boots (the first GitHub response for an unknown path is still 404 — a Pages limitation). `robots.txt`/`sitemap.xml` deliberately omitted then (subpath files aren't auto-discovered). Bumped to 1.2.6.
 
 ---
 
@@ -324,3 +267,54 @@ per route so GitHub Pages serves a 200 document with route-specific static tags 
    the clean URL (no `?/` redirect needed for these two paths).
 4. `npm test` still passes (316 item icons; pre-rendered HTML not in scope of the check).
 5. `package.json` `version` is `1.2.9`; `CLAUDE.md` and `README.md` reflect v1.2.9.
+
+---
+
+## 14. Version 1.2.10 — Self-hosted subsetted homepage font (2026-06-14)
+
+### 14.1 Problem
+
+The homepage hero ("Raziel Ledger" in Great Vibes, `Home.vue`) loaded the font from Google Fonts via
+a render-blocking cross-origin chain in `index.html`:
+
+```
+HTML → fonts.googleapis.com/css2 (~151 ms) → fonts.gstatic.com woff2 (~1,296 ms, 29.70 KiB)
+```
+
+The ~1.3 s is dominated by a **second** origin's DNS + TLS handshake, not transfer — and the full Latin
+charset is shipped when the hero needs only **11 glyphs** (`R a z i e l L d g r` + space). Great Vibes
+is used nowhere else at runtime (the standalone `raziel-ledger-lettering.svg` isn't loaded by the app,
+and `og-preview.png` is a pre-rendered PNG).
+
+### 14.2 Scope
+
+| # | Change |
+|---|--------|
+| S1 | Add `public/fonts/great-vibes-subset.woff2` — Great Vibes (OFL) subset to the 11 hero glyphs (~6 KB, down from 29.70 KiB). Obtained from the Google Fonts `&text=Raziel Ledger` endpoint (which emits an optimal subset woff2). Not a game asset — outside `check-item-images.js`. |
+| S2 | In `index.html`, replace the two `preconnect`s + the css2 `<link rel="stylesheet">` with a same-origin `@font-face` (inline `<style>`, `font-display: swap`) and a `<link rel="preload" as="font" type="font/woff2" crossorigin>`, both pointing at `%BASE_URL%fonts/great-vibes-subset.woff2` (Vite substitutes the `/raziel-ledger/` base; needed because Vite does not rewrite `url()` inside inline `<style>`). `crossorigin` is required on the preload to match the font's CORS fetch mode (else it double-downloads). |
+| S3 | In `scripts/prerender-routes.js`, strip the font `preload` from the calc-route pre-renders (the hero font isn't used on `/calceternal` or `/calcevoker`) so they don't fetch an unused font or emit a "preloaded but not used" console warning. The inert `@font-face` is left in place (it only downloads when a matching glyph renders). |
+| S4 | Bump `package.json` `version` to **1.2.10**; sync `CLAUDE.md` and `README.md`. |
+
+### 14.3 Notes & constraints
+
+- **No Google Fonts request at runtime.** The font is served same-origin from GitHub Pages, on the
+  connection already opened for the HTML — eliminating the cross-origin DNS/TLS chain that cost the ~1.3 s.
+- **OFL licensing.** Great Vibes is SIL Open Font License; self-hosting/subsetting is permitted. Keep
+  attribution.
+- `Home.vue`'s inline `font-family: 'Great Vibes', …` is unchanged — it now resolves against the
+  self-hosted `@font-face` instead of the Google stylesheet.
+- The standalone `public/img/raziel-ledger-lettering.svg` still carries its own (now unused) Google
+  Fonts `@import`; it is not loaded by the app and is left as-is.
+- `og-preview.png` and the lettering SVG remain hand-authored, not game assets, and outside
+  `check-item-images.js` scope.
+
+### 14.4 Acceptance criteria
+
+1. `public/fonts/great-vibes-subset.woff2` exists (~6 KB, valid WOFF2) and deploys to
+   `https://rene880.github.io/raziel-ledger/fonts/great-vibes-subset.woff2`.
+2. `index.html` contains no `fonts.googleapis.com` / `fonts.gstatic.com` references; the hero renders in
+   Great Vibes from the self-hosted font with no Google network request.
+3. After `npm run build`, `dist/index.html` preloads the font (preload + `@font-face`); the pre-rendered
+   `dist/calceternal/index.html` and `dist/calcevoker/index.html` keep the `@font-face` but **not** the preload.
+4. `npm test` still passes (316 item icons; the font is not in scope of the check).
+5. `package.json` `version` is `1.2.10`; `CLAUDE.md` and `README.md` reflect v1.2.10.

@@ -24,9 +24,22 @@
       }(window.location));
     </script>
     <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <!--
+      Self-hosted, subsetted Great Vibes — homepage hero text only (PRD §14).
+      OFL-licensed (https://fonts.google.com/specimen/Great+Vibes). Subset to the 11
+      glyphs in "Raziel Ledger" (~6 KB). Preloaded + same-origin to avoid the
+      cross-origin fonts.googleapis.com -> fonts.gstatic.com DNS/TLS chain.
+    -->
+    <link rel="preload" href="%BASE_URL%fonts/great-vibes-subset.woff2" as="font" type="font/woff2" crossorigin>
+    <style>
+      @font-face {
+        font-family: 'Great Vibes';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('%BASE_URL%fonts/great-vibes-subset.woff2') format('woff2');
+      }
+    </style>
     <title>Raziel Ledger - Granblue Fantasy Calculators</title>
     <meta name="title" content="Raziel Ledger - Granblue Fantasy Calculators">
     <meta name="description" content="Material calculators for Granblue Fantasy Eternals and Evokers">

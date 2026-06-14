@@ -56,6 +56,11 @@ function renderRoute(template, route) {
   html = replaceAttr(html, '<meta\\s+name="twitter:title"', title)
   html = replaceAttr(html, '<meta\\s+name="twitter:description"', description)
 
+  // The Great Vibes hero font is only used on '/'. Drop its preload on the calc
+  // routes so they don't fetch an unused font (the @font-face is kept but inert
+  // until a glyph renders). PRD §14.
+  html = html.replace(/\s*<link rel="preload"[^>]*as="font"[^>]*>/, '')
+
   return html
 }
 
