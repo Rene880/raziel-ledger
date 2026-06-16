@@ -32,6 +32,17 @@
           Obtain Arcarum summons, recruit the Evokers, and uncap their weapons.
         </p>
       </router-link>
+
+      <router-link
+        to="/calcbullet"
+        class="flex flex-col items-center border-4 border-secondary rounded bg-tertiary p-8 w-72 hover:border-primary"
+      >
+        <img :src="baseUrl + 'img/item/ironbullet.jpg'" alt="Bullets" class="mb-4 w-16 h-16">
+        <h2 class="mb-4">Bullets</h2>
+        <p class="text-primary text-center">
+          Plan the materials to craft gun bullets, deducting sub-bullets and what you have in stock.
+        </p>
+      </router-link>
     </div>
   </div>
 </template>

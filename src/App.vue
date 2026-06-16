@@ -9,6 +9,7 @@
         </router-link>
         <router-link class="flex items-center gbf-menu-link h-12" to="/calceternal">Eternals Calc.</router-link>
         <router-link class="flex items-center gbf-menu-link h-12" to="/calcevoker">Evokers Calc.</router-link>
+        <router-link class="flex items-center gbf-menu-link h-12" to="/calcbullet">Bullets Calc.</router-link>
       </div>
 
       <!-- right -->

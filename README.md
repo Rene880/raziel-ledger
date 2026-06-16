@@ -4,6 +4,7 @@ Material calculators for Granblue Fantasy long-term goals, served as a static SP
 
 - **/calceternal** — materials to recruit, uncap (5★), and transcend (6★) an Eternal ("40 boxes" method), plus a **Radiance** tab for the Radiance of the Eternal levels 1–5
 - **/calcevoker** — materials to obtain an Arcarum summon, recruit its Evoker, and uncap the New World Foundation weapon
+- **/calcbullet** — materials to craft gun bullets, with recursive sub-bullet resolution and an "in stock" deduction (since v1.3.0)
 
 All progress is stored in your browser's `localStorage`. There are no accounts and no backend.
 
@@ -12,10 +13,11 @@ All progress is stored in your browser's `localStorage`. There are no accounts a
 This project is a Vue 3 + Vite rewrite of the calculators from
 **[Minimalist3/GranblueParty](https://github.com/Minimalist3/GranblueParty)** (granblue.party) by Minimalist,
 licensed under the [GPL-3.0](LICENSE). The calculator logic, game data, item images, and styling originate
-from that project; the game data and item images are trimmed to the entries the two calculators use
+from that project; the game data and item images are trimmed to the entries the calculators use
 (see PRD §8 for the details and exceptions). [WikiParser/](WikiParser/) is the standalone item-image fetcher
-(`update_img.py` + `data/supplies.images`) that downloads the calculators' icons into `public/img/item/`;
-since v1.2.5 it is reduced to just that (the upstream wiki-scrape/Postgres pipeline was removed — see PRD §10).
+(`update_img.py` + `data/supplies.images` + `data/bullets.images`) that downloads the calculators' icons into
+`public/img/item/`; since v1.2.5 it is reduced to just that (the upstream wiki-scrape/Postgres pipeline was
+removed — see PRD §10), and since v1.3.0 it reads both manifests (PRD §15).
 
 Granblue Fantasy content and materials are trademarks and copyrights of Cygames, Inc. or its licensors.
 
@@ -24,15 +26,17 @@ Granblue Fantasy content and materials are trademarks and copyrights of Cygames,
 ```sh
 npm install
 npm run dev      # local dev server
-npm run test     # verify every supplies.js item has its icon in public/img/item/
+npm run test     # verify every supplies.js + bullets.js item has its icon in public/img/item/
 npm run build    # static build in dist/ (runs the image check first, also creates the SPA 404.html fallback)
 npm run preview  # preview the production build
 ```
 
 `npm run test` (also run automatically before `npm run build`) checks that every item in
-[src/js/supplies.js](src/js/supplies.js) has a matching icon in `public/img/item/<key>.<jpg|gif>` and
-fails with the missing key/filename if not (see PRD §8 changelog). The icon download manifest lives at
-[WikiParser/data/supplies.images](WikiParser/data/supplies.images); since v1.2.4 it sources each item's
+[src/js/supplies.js](src/js/supplies.js) and [src/js/bullets.js](src/js/bullets.js) has a matching icon in
+`public/img/item/<key>.<jpg|gif>` and fails with the missing key/filename if not (see PRD §8 changelog,
+§15). The icon download manifests live at
+[WikiParser/data/supplies.images](WikiParser/data/supplies.images) and
+[WikiParser/data/bullets.images](WikiParser/data/bullets.images); since v1.2.4 it sources each item's
 icon from the official GBF CDN by the item's `itemId`; all 30 weapon-namespace items also use the
 CDN's weapon path (ids in `About items.md`); only the 4 animated `.gif` icons remain
 outside the CDN (see PRD §9). The homepage title is a hand-authored SVG (`public/img/raziel-ledger-lettering.svg`)
@@ -65,18 +69,18 @@ Pages URL.
 
 Since v1.2.8, [src/router/index.js](src/router/index.js) also sets **per-route** titles/meta at runtime:
 a `router.afterEach` hook updates `document.title`, `description`, `canonical`, and the `og:`/`twitter:`
-title/description/url from each route's `meta` (Home, Eternals, Evokers, NotFound). This is JS-rendered, so
+title/description/url from each route's `meta` (Home, Eternals, Evokers, Bullets, NotFound). This is JS-rendered, so
 it benefits the browser tab and JS-rendering crawlers (Googlebot); the static `index.html` tags stay the
-defaults that no-JS link scrapers read. [public/sitemap.xml](public/sitemap.xml) lists the three routes and
+defaults that no-JS link scrapers read. [public/sitemap.xml](public/sitemap.xml) lists the routes and
 deploys to `https://rene880.github.io/raziel-ledger/sitemap.xml` for **manual** submission in Google Search
 Console. A `robots.txt` is still omitted: at a project subpath it isn't honored — crawlers only read
 `https://<user>.github.io/robots.txt`, served from your user/org page repo. See PRD §11–§12.
 
 Since v1.2.9, the deep routes get **static** per-page cards too, so link scrapers (which never run the
-runtime hook) unfurl a correct card for `/calceternal` and `/calcevoker` — not just `/`. A `postbuild`
+runtime hook) unfurl a correct card for `/calceternal`, `/calcevoker`, and `/calcbullet` — not just `/`. A `postbuild`
 step, [scripts/prerender-routes.js](scripts/prerender-routes.js), clones the built `dist/index.html` into
-`dist/calceternal/index.html` and `dist/calcevoker/index.html`, swapping in each route's `<title>` /
-canonical / `og:` / `twitter:` title-description-url (the OG **image** stays the sitewide `og-preview.png`).
+`dist/calceternal/index.html`, `dist/calcevoker/index.html`, and `dist/calcbullet/index.html`, swapping in each
+route's `<title>` / canonical / `og:` / `twitter:` title-description-url (the OG **image** stays the sitewide `og-preview.png`).
 The route SEO table lives in [src/seo/meta.js](src/seo/meta.js), shared by both the router hook and the
 pre-render script so they can't drift. These two routes now serve a real **200** file instead of falling
 through to `404.html`; the rafgraph redirect remains for genuinely unknown paths. See PRD §13.

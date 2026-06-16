@@ -46,6 +46,12 @@ const router = createRouter({
       meta: metaForPath('/calcevoker'),
     },
     {
+      path: '/calcbullet',
+      name: 'calcbullet',
+      component: () => import('@/pages/CalcBullets.vue'),
+      meta: metaForPath('/calcbullet'),
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('@/pages/NotFound.vue'),

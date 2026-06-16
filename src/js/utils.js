@@ -4,6 +4,11 @@
 // Usage: filterObject(obj, ([key, value]) => value > 1);
 const filterObject = (obj, predicate) => Object.fromEntries(Object.entries(obj).filter(predicate));
 
+// Deep clone of a plain (JSON-serializable) value. Used by the Bullets
+// calculator to copy the bullet-stock map and item entries before mutating
+// them while resolving components (src/pages/CalcBullets.vue).
+const copy = (obj) => JSON.parse(JSON.stringify(obj));
+
 class LocalStorageMgt {
   constructor(page) {
     this.page = page;
@@ -30,5 +35,6 @@ class LocalStorageMgt {
 
 export default {
   filterObject,
+  copy,
   LocalStorageMgt,
 }

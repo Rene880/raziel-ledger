@@ -38,6 +38,13 @@ export const ROUTES = [
     prerender: true,
   },
   {
+    path: '/calcbullet',
+    title: 'Bullets Calculator - Raziel Ledger',
+    description:
+      'Track the materials to craft Granblue Fantasy bullets, with sub-bullet and stock deduction.',
+    prerender: true,
+  },
+  {
     path: '/:pathMatch(.*)*',
     title: 'Page Not Found - Raziel Ledger',
     description: DEFAULT_DESCRIPTION,

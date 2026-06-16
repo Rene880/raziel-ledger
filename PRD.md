@@ -14,14 +14,14 @@ The original project is a Vue 2 SSR application (webpack + Express) backed by a 
 | # | Goal |
 |---|------|
 | G1 | Migrate the frontend stack from Vue 2 / Vuex / webpack SSR to **Vue 3 + Vite**, deployed as a static **SPA on GitHub Pages**. |
-| G2 | Serve **only** the two calculator routes `/calceternal` and `/calcevoker`, plus a minimal homepage at `/` that lets the user choose between them, and a 404 fallback. |
+| G2 | Serve the calculator routes `/calceternal`, `/calcevoker`, and `/calcbullet` (the Bullets calculator was added in v1.3.0 — §15), plus a minimal homepage at `/` that lets the user choose between them, and a 404 fallback. |
 | G3 | **Remove the API** — no backend, no axios, no accounts, no authentication of any kind. |
 | G4 | **WikiParser is the standalone item-image fetcher** (`WikiParser/update_img.py` + `data/supplies.images`): it downloads the calculators' item icons into `public/img/item/` from a hand-authored manifest. Reduced from the upstream wiki-scrape/Postgres pipeline in v1.2.5 (§10); remains GPL-3.0. |
 | G5 | Keep feature parity for the two calculators: unit selection, completed/target step ranges, split/merged materials, hide-completed filter, grid/list display, per-item quantity tracking, and `localStorage` persistence. |
 
 ## 3. Non-goals
 
-- Party Builder, Collection Tracker, Daily Grind, Spark, Teams, Search, Replicard, Friend Summons, Release Schedule, Room Name, and the other calculators (Bullets, GW, Dread, Event) are **not** ported.
+- Party Builder, Collection Tracker, Daily Grind, Spark, Teams, Search, Replicard, Friend Summons, Release Schedule, Room Name, and the remaining calculators (GW, Dread, Event) are **not** ported. (The **Bullets** calculator *was* ported in v1.3.0 — §15 — reversing its original non-goal status.)
 - No user accounts, login, signup, or JWT handling (G3).
 - No ads, analytics, or consent management.
 - No server-side rendering. Since v1.2.6 (§11) the social-preview/SEO meta tags (title, description, canonical, Open Graph, Twitter Card) are **static** in `index.html` so non-JS scrapers can read them; v1.2.8 (§12) added a runtime per-route `afterEach` hook, and v1.2.9 (§13) added build-time pre-rendered per-route HTML (`dist/calceternal`, `dist/calcevoker`) so scrapers get per-page cards — all without SSR.
@@ -34,9 +34,10 @@ Granblue Fantasy players tracking multi-month grinds for Eternals/Evokers. They 
 ## 5. Functional requirements
 
 ### 5.1 Routing (SPA)
-- `/` → homepage with two prominent entries ("Eternals Calculator" / "Evokers Calculator") linking to the calculator routes.
+- `/` → homepage with three prominent entries ("Eternals" / "Evokers" / "Bullets") linking to the calculator routes.
 - `/calceternal` → Eternals calculator.
 - `/calcevoker` → Evokers calculator.
+- `/calcbullet` → Bullets calculator (since v1.3.0 — §15).
 - Any other path → 404 page with a link back home.
 - HTML5 history mode. Since v1.2.6 (§11) GitHub Pages serves a dedicated rafgraph `404.html` redirect that bounces unknown paths to `…/?/<path>` (a 200 home document), which `index.html` rewrites back to the real path before the router boots — so deep links resolve to the SPA router on a 200 document. (Pre-1.2.6 this was a verbatim copy of `index.html`.)
 - The app is hosted at `https://<user>.github.io/raziel-ledger/`, so the Vite/router base is `/raziel-ledger/`.
@@ -89,12 +90,12 @@ raziel-ledger/
 ├── src/
 │   ├── main.js / App.vue
 │   ├── router/
-│   ├── pages/               ← Home, CalcEternal, CalcEvoker, NotFound
-│   ├── components/          ← Calculator, CalcPreviewItem, CalcPreviewList, common/
-│   ├── js/                  ← supplies data, utils, head helper
+│   ├── pages/               ← Home, CalcEternal, CalcEvoker, CalcBullets, NotFound
+│   ├── components/          ← Calculator, CalcPreviewItem, CalcPreviewList, CalcBulletsList, common/
+│   ├── js/                  ← supplies data, bullets.js, utils, head helper
 │   └── css/
-├── scripts/                 ← check-item-images.js (npm test / prebuild)
-└── WikiParser/              ← standalone item-image fetcher (update_img.py + data/supplies.images; not part of the web build)
+├── scripts/                 ← check-item-images.js (npm test / prebuild — walks supplies.js + bullets.js)
+└── WikiParser/              ← standalone item-image fetcher (update_img.py + data/{supplies,bullets}.images; not part of the web build)
 ```
 
 The original `API/` folder is **not** carried over (G3).
@@ -127,6 +128,7 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 | 1.2.5 | 2026-06-14 | **WikiParser reduced to a standalone item-image fetcher.** Trimmed `WikiParser/data/` to `supplies.images`; deleted `db/`, `preview/`, and the now-orphaned upstream pipeline (`database.py`, `parse.py`, `bullets.py`, `migration.py`, `make_party_preview.py`, `optimize_img.py`, `config/`, `update.sh`, `pyproject.toml`, `pdm.lock`, preview assets); rewrote `update_img.py` as a config-free fetcher (manifest → `public/img/item/`, `download(manifest, dest_dir)` preserved for `/download-images`); trimmed `requirements.txt` to `requests`. **Redirects G4** ("preserve verbatim" → standalone fetcher). See §10. |
 | 1.2.8 | 2026-06-14 | **Per-route titles/meta + sitemap.** Added a vue-router `afterEach` hook (`src/router/index.js`) that sets a distinct `document.title`, `description`, `canonical`, and `og:`/`twitter:` title/description/url per route (Home, Eternals, Evokers, NotFound) from `route.meta`; the static `index.html` tags remain the scraper-facing defaults. Added `public/sitemap.xml` (the three real routes, absolute production URLs) for manual submission in Google Search Console — partially reversing 1.2.6's "no sitemap" scope (a subpath sitemap isn't auto-discovered but is valid when submitted directly). Removed a stray `</content>`/`</invoke>` artifact from PRD §9 and condensed §9. See §12. |
 | 1.2.9 | 2026-06-14 | **Per-route static social previews (build-time pre-render).** Fixed `/calceternal` and `/calcevoker` unfurling with **no** link-preview card: they were served from GitHub's `404.html` (no OG tags; the 1.2.8 JS `afterEach` can't help scrapers). Extracted the route SEO table into a shared plain module (`src/seo/meta.js`) consumed by both the router and a new `scripts/prerender-routes.js` (`postbuild`) that clones the built `dist/index.html` into `dist/calceternal/index.html` and `dist/calcevoker/index.html` with each route's static `<title>`/`title`/`description`/`canonical`/`og:`/`twitter:` title-description-url swapped in (OG **image** stays the sitewide `og-preview.png`). Those routes now serve a real **200** file with correct static tags; the rafgraph `404.html` redirect remains only for genuinely unknown paths. No new dependency, no SSR. See §13. |
+| 1.3.0 | 2026-06-17 | **Bullets calculator (`/calcbullet`).** Ported the GranblueParty Bullets calculator — reversing its §3 non-goal. Added self-contained `src/js/bullets.js` (4 categories: Parabellum/Rifle/Cartridge/Aetherial; 236 distinct item icons, **188 new**), `src/pages/CalcBullets.vue` + `src/components/CalcBulletsList.vue` (Vue 3 Options-API port: `$set`→assignment, `head`→router meta, `BASE_URL` image paths), reusing `CalcPreviewList.vue` unchanged. Added a `copy()` deep-clone to `utils.js`, `faMinusCircle`/`faPlusCircle` icons, nav link + Home card, the `/calcbullet` route (`src/seo/meta.js` + router + sitemap + build-time pre-render), extended `check-item-images.js` to walk `bullets.js`, and added the `WikiParser/data/bullets.images` manifest (read alongside `supplies.images` by `update_img.py`). Full craft + in-stock-deduction + recursive sub-bullet parity. See §15. |
 | 1.2.10 | 2026-06-14 | **Self-hosted subsetted homepage font.** Replaced the render-blocking Google Fonts chain (two `preconnect`s + a css2 `<link>` → ~1.3 s cross-origin DNS/TLS for a 29.70 KiB woff2) with a self-hosted `public/fonts/great-vibes-subset.woff2` (~6 KB) — Great Vibes (OFL) subset to the 11 hero glyphs in "Raziel Ledger". `index.html` now declares an inline `@font-face` (`font-display: swap`) + a `<link rel="preload" as="font" crossorigin>`, both via `%BASE_URL%`. `scripts/prerender-routes.js` strips the preload from the calc-route pre-renders (font unused there). No Google request at runtime; the hero font loads same-origin on the existing connection. See §14. |
 
 ### 8.1 Constraints that persist
@@ -158,50 +160,7 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 
 ## 12. Version 1.2.8 — Per-route titles/meta + sitemap (2026-06-14)
 
-### 12.1 Problem
-
-After 1.2.6 the app still served **one** `<title>` and `<meta description>` for every route: Home,
-the Eternals calculator, and the Evokers calculator all indexed under the same generic title. The site
-was also **not yet indexed** at all (confirmed via a `site:rene880.github.io/raziel-ledger` search
-returning no results) — a new GitHub Pages project site with no inbound links and no sitemap had never
-been discovered. 1.2.6 deliberately shipped **no sitemap** on the reasoning that a project-subpath file
-isn't auto-discovered; but a sitemap can still be **submitted directly** in Google Search Console, which
-is the single most actionable nudge for a brand-new site. Both gaps are addressed here. SSR remains out
-of scope (§3) — this is runtime/JS meta, which Googlebot renders, layered over the static scraper tags.
-
-### 12.2 Scope
-
-| # | Change |
-|---|--------|
-| M1 | Give each route in `src/router/index.js` a `meta: { title, description }`: Home (`Raziel Ledger - Granblue Fantasy Calculators`), `/calceternal` (`Eternals Calculator - Raziel Ledger`), `/calcevoker` (`Evokers Calculator - Raziel Ledger`), NotFound (`Page Not Found - Raziel Ledger`). |
-| M2 | Add a `router.afterEach((to) => …)` hook that, from `to.meta`, sets `document.title` and updates the existing in-document `<meta name="title">`, `<meta name="description">`, `<link rel="canonical">`, `og:title/description/url/image`, and `twitter:title/description/image`. The canonical/og `url` is the absolute production URL for the route (`https://rene880.github.io/raziel-ledger` + path). Missing tags are skipped (no crash if `index.html` drops one). |
-| M2b | **Replace the per-page `setHead()` mechanism** with this single hook: removed the `mounted()` `setHead({title, desc})` calls from all four pages (`Home`, `CalcEternal`, `CalcEvoker`, `NotFound`) and deleted `src/js/head.js`. Previously `mounted()` ran *after* `afterEach`, so `setHead` silently overrode the route-meta title (e.g. tab read "Raziel Ledger - Eternal Calculator" while `og:title` read "Eternals Calculator - Raziel Ledger"); the hook is now the single source of truth and the calc-page titles match their meta titles. |
-| M3 | Add `public/sitemap.xml` listing the three real routes (`/`, `/calceternal`, `/calcevoker`) with absolute production `loc`s; Vite copies it to `dist/sitemap.xml` → reachable at `https://rene880.github.io/raziel-ledger/sitemap.xml`. Submitted manually in Search Console (not auto-discovered — the project subpath isn't honored by the root `robots.txt`). |
-| M4 | Bump `package.json` `version` to **1.2.8**; sync `CLAUDE.md` and `README.md`. Removed a stray `</content>`/`</invoke>` artifact from §9 and condensed §9 to keep only the latest three releases (§10–§12) detailed. |
-
-### 12.3 Notes & constraints
-
-- **Static tags stay authoritative for scrapers.** Link-preview crawlers (Facebook/Discord/Slack/X)
-  don't run JS, so they still read the 1.2.6 static `index.html` defaults (the Home values). The
-  `afterEach` hook only benefits the browser tab title and JS-rendering crawlers (Googlebot). This is the
-  same JS-vs-static split called out in §11 — not a regression of it.
-- **Partially reverses 1.2.6's "no sitemap" decision (§11.3).** That note still holds for *auto-discovery*
-  (a subpath `sitemap.xml`/`robots.txt` is not crawled unprompted); the sitemap here exists for **manual
-  GSC submission**, which §11.3 already anticipated ("can still be submitted manually … if desired later").
-- **No new dependency.** No `@vueuse/head`/`vue-meta`; the hook mutates pre-existing DOM tags directly, in
-  keeping with the project's zero-runtime-meta-library stance.
-- `sitemap.xml` is not a game asset and is outside `check-item-images.js` scope.
-
-### 12.4 Acceptance criteria
-
-1. Navigating to `/calceternal` and `/calcevoker` changes the browser tab title to the Eternals/Evokers
-   title respectively; returning to `/` restores the Home title.
-2. After navigation, `document.querySelector('link[rel="canonical"]').href` and `meta[property="og:url"]`
-   reflect the current route's absolute production URL.
-3. `public/sitemap.xml` is well-formed, lists the three production route URLs, and deploys to
-   `https://rene880.github.io/raziel-ledger/sitemap.xml`.
-4. `npm test` still passes (316 item icons; sitemap not in scope of the check).
-5. `package.json` `version` is `1.2.8`; `CLAUDE.md` and `README.md` reflect v1.2.8.
+*Condensed (older than the latest three releases — see the §8 changelog row and §8.1 constraints for the durable summary).* Gave each route a `meta: { title, description }` and added a `router.afterEach` hook (`src/router/index.js`) that sets `document.title` and updates the in-document `<meta name="title|description">`, `<link rel="canonical">`, and `og:`/`twitter:` title/description/url per route — replacing the per-page `setHead()` mechanism (removed the four `mounted()` `setHead` calls and deleted `src/js/head.js`; previously `setHead` ran after `afterEach` and silently overrode the route-meta title). The static `index.html` tags remain the scraper-facing defaults (JS hook benefits only the tab title + Googlebot). Added `public/sitemap.xml` (the three real routes, absolute production `loc`s) for **manual** GSC submission — partially reversing 1.2.6's "no sitemap" scope (a subpath sitemap isn't auto-discovered but is valid when submitted directly). No new dependency. Bumped to 1.2.8.
 
 ---
 
@@ -318,3 +277,61 @@ and `og-preview.png` is a pre-rendered PNG).
    `dist/calceternal/index.html` and `dist/calcevoker/index.html` keep the `@font-face` but **not** the preload.
 4. `npm test` still passes (316 item icons; the font is not in scope of the check).
 5. `package.json` `version` is `1.2.10`; `CLAUDE.md` and `README.md` reflect v1.2.10.
+
+---
+
+## 15. Version 1.3.0 — Bullets calculator (`/calcbullet`) (2026-06-17)
+
+### 15.1 Problem / motivation
+
+The original GranblueParty had a Bullets crafting calculator that Raziel Ledger dropped as a
+§3 **non-goal**. The user asked to add it back as a third calculator. Bullets are a long-term,
+multi-step crafting grind (each tier consumes lower tiers plus raw materials) — exactly the kind
+of planning the app already serves for Eternals/Evokers — so it fits the product. This release
+**reverses** the Bullets non-goal (§3 amended); GW/Dread/Event remain out of scope.
+
+### 15.2 Key data insight
+
+Upstream `bullets.js` is **fully self-contained** and does **not** reference `supplies.js`
+groups/items. It is a frozen array of 4 categories (Parabellum / Rifle / Cartridge / Aetherial),
+each `bullets[]`, each bullet `{ name, image, items: [{ name, image, quantity }] }` where an
+`item` may itself be a lower-tier bullet (recursive). So porting is a verbatim data copy plus a
+component port — no entanglement with the eternal/evoker supplies pipeline.
+
+### 15.3 Scope
+
+| # | Change |
+|---|--------|
+| B1 | Copy `src/js/bullets.js` verbatim from GranblueParty (frozen data; 236 distinct item icons, **188 new** to `public/img/item/`, 48 shared with existing items). |
+| B2 | Add `src/pages/CalcBullets.vue` + `src/components/CalcBulletsList.vue` — Vue 3 Options-API port. Migration: `this.$set(o,k,v)`→`o[k]=v`; dropped the upstream `head:` block (per-route meta is the router `afterEach` hook, §12); image URLs prefixed with `import.meta.env.BASE_URL`; upstream `Utils.copy` → new `copy()` in `utils.js`. **Reuses `CalcPreviewList.vue` unchanged** (its props already match). Full parity: "Bullets to craft" + "Bullets in stock" selectors, recursive sub-bullet resolution, stock deduction, per-material quantity tracking. |
+| B3 | `utils.js`: add `copy = (o) => JSON.parse(JSON.stringify(o))`. `main.js`: register `faMinusCircle` / `faPlusCircle` (the +/- controls). `grayscale-80` already in `tailwind.config.js`. |
+| B4 | Route wiring: add `/calcbullet` to `src/seo/meta.js` `ROUTES` (`prerender: true`, title "Bullets Calculator - Raziel Ledger") and `src/router/index.js`; the `afterEach` hook + `scripts/prerender-routes.js` pick it up (→ `dist/calcbullet/index.html` with per-route OG tags, font preload stripped). Nav link in `App.vue`, third card in `Home.vue`, `/calcbullet` `<url>` in `public/sitemap.xml`. |
+| B5 | `scripts/check-item-images.js` extended to also walk `bullets.js` (every distinct `image` key → `<key>.jpg`; keys already covered by `supplies.js` are not double-counted). A missing bullet icon now fails `npm test` / `prebuild`. |
+| B6 | WikiParser: new `WikiParser/data/bullets.images` manifest (188 new keys); `update_img.py` reads **both** `supplies.images` and `bullets.images` by default. Image source URLs are author-supplied (placeholder `__REPLACE_WITH_URL__` until filled), consistent with the manifest being hand-authored/unverified. |
+| B7 | Bump `package.json` `version` to **1.3.0**; sync `CLAUDE.md` / `README.md`. |
+
+### 15.4 Notes & constraints
+
+- **localStorage keys** are namespaced `CalcBullets-*` (`displayList`, `show_bullets_craft`,
+  `show_bullets_stock`, `bullets_craft`, `bullets_stock`, `items_quantity`) — matching upstream
+  naming. New keys, no back-compat constraint with the existing `CalcEternal-*`/`CalcEvoker-*`.
+- **`bullets.js` is independent of `supplies.js`.** The §8.1 "exactly 1 unused item
+  (`rustedweapon`)" walk is over `supplies.js` + the three eternal/evoker data files and is
+  unaffected; bullet icons are governed separately by the extended image check.
+- **No new dependency, no SSR.** Reuses existing components, router hook, and pre-render script.
+- The 188 new icons are a `prebuild` hard gate: `npm run build` fails until they are present in
+  `public/img/item/`. Fetch them via `cd WikiParser && python3 update_img.py` once the
+  `bullets.images` URLs are filled in.
+
+### 15.5 Acceptance criteria
+
+1. `/calcbullet` renders the four category panels; adding bullets to "craft"/"stock" updates the
+   flattened material list; stock deduction recurses through sub-bullets; per-material quantities
+   are editable and persist in `localStorage` across reload.
+2. Nav link and the third Home card route to `/calcbullet`; the tab title reads "Bullets
+   Calculator - Raziel Ledger" (router `afterEach`).
+3. After `npm run build`, `dist/calcbullet/index.html` exists with the route's static
+   `<title>`/canonical/`og:`/`twitter:` tags and **no** font preload.
+4. With the 188 icons present, `npm test` passes (now reports supplies **+** bullet icons), and
+   `npm run build` succeeds end-to-end.
+5. `package.json` `version` is `1.3.0`; `CLAUDE.md` and `README.md` reflect v1.3.0.

@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 """Standalone item-image fetcher for Raziel Ledger.
 
-Reads a tab-separated manifest (``URL<TAB>destfilename``) and downloads each
+Reads tab-separated manifests (``URL<TAB>destfilename``) and downloads each
 icon into the web app's ``public/img/item/`` directory. URLs may point at
 gbf.wiki (``Special:Redirect/file/...``) or the official game CDN — both are
 plain HTTP GETs.
+
+Two manifests are processed by default:
+    data/supplies.images — eternal/evoker calculator items
+    data/bullets.images  — Bullets calculator items (since v1.3.0)
 
 Existing files are skipped, so re-running is a no-op. Be mindful of source
 bandwidth: batch small, do not force re-downloads.
@@ -12,7 +16,8 @@ bandwidth: batch small, do not force re-downloads.
 Usage:
     python3 update_img.py [manifest] [dest_dir]
 
-Defaults: manifest=data/supplies.images, dest_dir=../public/img/item
+Defaults: manifests=data/supplies.images + data/bullets.images,
+dest_dir=../public/img/item. Passing an explicit manifest fetches only that one.
 """
 
 import os
@@ -21,7 +26,10 @@ import sys
 import requests
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_MANIFEST = os.path.join(HERE, 'data', 'supplies.images')
+DEFAULT_MANIFESTS = [
+    os.path.join(HERE, 'data', 'supplies.images'),
+    os.path.join(HERE, 'data', 'bullets.images'),
+]
 DEFAULT_DEST = os.path.join(HERE, '..', 'public', 'img', 'item')
 
 
@@ -53,18 +61,23 @@ def download(manifest, dest_dir):
 
 
 def main(argv):
-  manifest = argv[0] if len(argv) > 0 else DEFAULT_MANIFEST
+  manifests = [argv[0]] if len(argv) > 0 else DEFAULT_MANIFESTS
   dest_dir = argv[1] if len(argv) > 1 else DEFAULT_DEST
-  if not os.path.isfile(manifest):
-    print('Manifest not found: ' + manifest)
-    return 1
   if not os.path.isdir(dest_dir):
     print('Destination dir not found: ' + dest_dir)
     return 1
 
-  new, failed = download(manifest, dest_dir)
-  print('Done. %d new, %d failed.' % (new, failed))
-  return 1 if failed else 0
+  total_new, total_failed = 0, 0
+  for manifest in manifests:
+    if not os.path.isfile(manifest):
+      print('Manifest not found: ' + manifest)
+      return 1
+    new, failed = download(manifest, dest_dir)
+    total_new += new
+    total_failed += failed
+
+  print('Done. %d new, %d failed.' % (total_new, total_failed))
+  return 1 if total_failed else 0
 
 
 if __name__ == '__main__':

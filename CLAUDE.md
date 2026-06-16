@@ -27,7 +27,7 @@ On every release (any new `## Version x.y.z` section in PRD.md), bump `package.j
 ## Project overview
 
 Raziel Ledger is a Vue 3 + Vite SPA hosting two Granblue Fantasy material calculators
-(`/calceternal`, `/calcevoker`), deployed to GitHub Pages. It is a rewrite of the calculators from
+(`/calceternal`, `/calcevoker`, `/calcbullet`), deployed to GitHub Pages. It is a rewrite of the calculators from
 [Minimalist3/GranblueParty](https://github.com/Minimalist3/GranblueParty) (GPL-3.0) — keep attribution
 intact. There is no backend, no authentication, and no Vuex; all state lives in component data and
 `localStorage`. See `PRD.md` (repo root) for the full requirements.
@@ -38,15 +38,17 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
 ## Commands
 
 - `npm run dev` — local dev server
-- `npm run test` — runs `scripts/check-item-images.js`: fails if any `supplies.js` item lacks its
-  icon in `public/img/item/<key>.<jpg|gif>` (since v1.2.3, PRD §8 changelog). There are no other tests or linters.
+- `npm run test` — runs `scripts/check-item-images.js`: fails if any `supplies.js` **or** `bullets.js`
+  item lacks its icon in `public/img/item/<key>.<jpg|gif>` (supplies since v1.2.3; bullets since v1.3.0,
+  PRD §15). There are no other tests or linters.
 - `npm run build` — runs the image check first (`prebuild`), then production build into `dist/`, then a
   `postbuild` pre-render (since v1.2.9). Since v1.2.6 the GitHub Pages SPA deep-link fallback is a dedicated
   rafgraph `public/404.html` redirect that Vite copies to `dist/404.html` (pre-1.2.6 the build `cp`-ed
   `index.html`; PRD §11 S5). A missing item icon fails the build. `postbuild` runs
-  `scripts/prerender-routes.js`, which clones `dist/index.html` into `dist/calceternal/index.html` and
-  `dist/calcevoker/index.html` with each route's static `<title>`/canonical/`og:`/`twitter:` tags so non-JS
-  link scrapers get a per-page card (OG image stays sitewide; PRD §13).
+  `scripts/prerender-routes.js`, which clones `dist/index.html` into `dist/calceternal/index.html`,
+  `dist/calcevoker/index.html`, and `dist/calcbullet/index.html` (v1.3.0) with each route's static
+  `<title>`/canonical/`og:`/`twitter:` tags so non-JS link scrapers get a per-page card (OG image stays
+  sitewide; PRD §13).
 - `npm run preview` — serve the production build locally
 - A committed `.githooks/pre-commit` runs `npm test` on every commit (since v1.2.3, PRD §8 changelog);
   it is wired by the `prepare` script (`git config core.hooksPath .githooks`) on `npm install`.
@@ -60,21 +62,29 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   `<meta name="title|description">`, `<link rel="canonical">`, and `og:`/`twitter:` title/description/url per
   route — JS-rendered, so it serves the browser tab + Googlebot, while the static `index.html` tags stay the
   defaults that no-JS link scrapers read. No head library; the hook mutates existing DOM tags. `public/sitemap.xml`
-  (v1.2.8) lists the three routes for manual GSC submission. See PRD §12.
+  (v1.2.8) lists the routes for manual GSC submission (4 routes since v1.3.0). See PRD §12.
 - `src/seo/meta.js` (since v1.2.9) — dependency-free single source of truth for route SEO: `SITE_ORIGIN`,
   `SITE_NAME`, defaults, `OG_IMAGE`, the `ROUTES` table (`{ path, title, description, prerender }`), and
   `urlForPath()`. Imported by both `src/router/index.js` (runtime hook) and `scripts/prerender-routes.js`
   (build-time pre-render) so the two can't drift. See PRD §13.
-- `src/pages/` — `Home`, `CalcEternal`, `CalcEvoker`, `NotFound`. The two calc pages own the progress
-  state, persist it to `localStorage` (keys `CalcEternal-*` / `CalcEvoker-*` via `js/utils.js`
-  `LocalStorageMgt`), and delegate all logic to `components/Calculator.vue`. `CalcEternal` has two
+- `src/pages/` — `Home`, `CalcEternal`, `CalcEvoker`, `CalcBullets`, `NotFound`. The eternal/evoker calc
+  pages own the progress state, persist it to `localStorage` (keys `CalcEternal-*` / `CalcEvoker-*` via
+  `js/utils.js` `LocalStorageMgt`), and delegate all logic to `components/Calculator.vue`. `CalcEternal` has two
   tabs (since v1.2, PRD §9): "Recruit & Transcend" and "Radiance", each rendered by its own
   `Calculator` instance — recruit/transcend uses `ETERNALS_DATA.materials` (key `CalcEternal-progress`),
   Radiance uses `ETERNALS_DATA.radiance` (key `CalcEternal-radianceProgress`); the split/hide/display
   toggles are shared, the active tab persists under `CalcEternal-activeTab`.
+- `src/pages/CalcBullets.vue` + `src/components/CalcBulletsList.vue` (since v1.3.0, PRD §15) — the
+  **Bullets calculator** (`/calcbullet`). Driven by the self-contained `src/js/bullets.js` (independent of
+  `supplies.js`): 4 categories, each bullet `{ name, image, items:[{ name, image, quantity }] }` where an
+  item may itself be a lower-tier bullet. Picks "Bullets to craft" + "Bullets in stock", recursively resolves
+  sub-bullets, deducts stock, and shows the flattened material totals via the reused (unchanged)
+  `CalcPreviewList.vue`. Persists under `CalcBullets-*` (`displayList`, `show_bullets_craft`,
+  `show_bullets_stock`, `bullets_craft`, `bullets_stock`, `items_quantity`). Uses `Utils.copy` (deep clone,
+  added to `js/utils.js` in v1.3.0).
 - `src/components/Calculator.vue` — generic step/material calculator driven by the data shape in
   `src/js/supplies-{eternals,evokers}.js`. Material "groups" resolve to concrete items per unit
-  element/id using `src/js/supplies.js`.
+  element/id using `src/js/supplies.js`. (The Bullets calculator does **not** use this component.)
 - `src/js/supplies*.js` — frozen game data from GranblueParty, trimmed in v1.1 to the items and
   groups the calculators reference (the unused `rustedweapon` item is a deliberate keep — see PRD
   §8), then extended in v1.2 with the Radiance materials (`ETERNALS_DATA.radiance`, plus the
@@ -84,15 +94,19 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   silver relic / revenant) carry their weapon id instead (resolved on the CDN weapon path, not
   `item/article/s/`), and only the 4 animated `.gif` items have none (PRD §9). `public/img/item/` is
   one image per item. WikiParser (since v1.2.5) is a standalone item-image fetcher: `update_img.py`
-  reads a `URL⇥dest` manifest and downloads icons into `public/img/item/` (skips existing files).
+  reads `URL⇥dest` manifest(s) and downloads icons into `public/img/item/` (skips existing files); since
+  v1.3.0 it reads **both** `data/supplies.images` and `data/bullets.images` by default (PRD §15).
   `WikiParser/data/supplies.images`
   is the manifest for every static (`.jpg`) item — since v1.2.4 the 282 items with an `itemId` point
   at the official CDN (`prd-game-a-granbluefantasy.akamaized.net/.../item/article/s/<itemId>.jpg`, with
   exceptions: `item/normal/s/` for `rupie`/`crystal`, and `item/evolution/s/` for `goldbrick`/`sunlightstone`). All 30 weapons carry their weapon id as `itemId`, on the
   CDN's weapon path (`.../assets/weapon/s/<itemId>.jpg` — rusted `1030…`, silver relics +
   revenant `1040…`; extracted from the manifest's weapon URLs); the 4 animated (`.gif`) items are
-  excluded (different source). Full id reference: `About items.md`. `scripts/check-item-images.js`
-  (npm `test` / `prebuild`) asserts every `supplies.js` item has its `public/img/item/<key>.<jpg|gif>`.
+  excluded (different source). Full id reference: `About items.md`. `WikiParser/data/bullets.images`
+  (v1.3.0) is the separate manifest for the Bullets calculator's new icons (188 keys; URLs author-supplied,
+  `__REPLACE_WITH_URL__` placeholder until filled), kept distinct because `bullets.js` is independent of
+  `supplies.js`. `scripts/check-item-images.js` (npm `test` / `prebuild`) asserts every `supplies.js`
+  **and** `bullets.js` item has its `public/img/item/<key>.<jpg|gif>`.
   WikiParser is GPL-3.0, not part of the web build; in v1.2.5 it was reduced to just the fetcher
   (`update_img.py` + `data/supplies.images` + `requirements.txt`) — the upstream DB/preview/wiki-scrape
   pipeline was deleted. Run it with `cd WikiParser && python3 update_img.py`. See PRD §10.
