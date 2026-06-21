@@ -13,6 +13,9 @@
 
       <!-- right -->
       <div class="flex flex-row items-center gap-x-4 px-4">
+        <div class="cursor-pointer select-none hover:text-link-hover" title="Import supplies" @click="showImport = true">
+          <fa-icon :icon="['fas', 'file-import']"></fa-icon>
+        </div>
         <span class="select-none hidden sm:block text-xs opacity-70" title="App version">v{{ appVersion }}</span>
         <span class="select-none hidden sm:block">{{ getJST }} JST</span>
         <div class="cursor-pointer select-none hover:text-link-hover" title="Dark mode" @click="theme_dark = true"><fa-icon :icon="['fas', 'moon']"></fa-icon></div>
@@ -25,6 +28,9 @@
     <main class="p-4 grow relative">
       <router-view></router-view>
     </main>
+
+    <!-- Supplies import dialog -->
+    <supplies-import v-if="showImport" @close="showImport = false"></supplies-import>
 
     <!-- Footer -->
     <footer class="flex flex-col items-center bg-tertiary shadow-md w-full py-4 text-xs text-center">
@@ -46,6 +52,7 @@
 <script>
 import Utils from '@/js/utils.js'
 import pkg from '../package.json'
+import SuppliesImport from '@/components/SuppliesImport.vue'
 
 const lsMgt = new Utils.LocalStorageMgt('App');
 
@@ -57,11 +64,15 @@ const getJST_options = {
 }
 
 export default {
+  components: {
+    SuppliesImport,
+  },
   data() {
     return {
       now: new Date(),
       theme_dark: true,
       appVersion: pkg.version,
+      showImport: false,
     }
   },
   computed: {

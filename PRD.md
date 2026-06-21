@@ -128,6 +128,7 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 | 1.2.8 | 2026-06-14 | **Per-route titles/meta + sitemap.** Added a vue-router `afterEach` hook (`src/router/index.js`) that sets a distinct `document.title`, `description`, `canonical`, and `og:`/`twitter:` title/description/url per route (Home, Eternals, Evokers, NotFound) from `route.meta`; the static `index.html` tags remain the scraper-facing defaults. Added `public/sitemap.xml` (the three real routes, absolute production URLs) for manual submission in Google Search Console — partially reversing 1.2.6's "no sitemap" scope (a subpath sitemap isn't auto-discovered but is valid when submitted directly). Removed a stray `</content>`/`</invoke>` artifact from PRD §9 and condensed §9. See §12. |
 | 1.2.9 | 2026-06-14 | **Per-route static social previews (build-time pre-render).** Fixed `/calceternal` and `/calcevoker` unfurling with **no** link-preview card: they were served from GitHub's `404.html` (no OG tags; the 1.2.8 JS `afterEach` can't help scrapers). Extracted the route SEO table into a shared plain module (`src/seo/meta.js`) consumed by both the router and a new `scripts/prerender-routes.js` (`postbuild`) that clones the built `dist/index.html` into `dist/calceternal/index.html` and `dist/calcevoker/index.html` with each route's static `<title>`/`title`/`description`/`canonical`/`og:`/`twitter:` title-description-url swapped in (OG **image** stays the sitewide `og-preview.png`). Those routes now serve a real **200** file with correct static tags; the rafgraph `404.html` redirect remains only for genuinely unknown paths. No new dependency, no SSR. See §13. |
 | 1.2.10 | 2026-06-14 | **Self-hosted subsetted homepage font.** Replaced the render-blocking Google Fonts chain (two `preconnect`s + a css2 `<link>` → ~1.3 s cross-origin DNS/TLS for a 29.70 KiB woff2) with a self-hosted `public/fonts/great-vibes-subset.woff2` (~6 KB) — Great Vibes (OFL) subset to the 11 hero glyphs in "Raziel Ledger". `index.html` now declares an inline `@font-face` (`font-display: swap`) + a `<link rel="preload" as="font" crossorigin>`, both via `%BASE_URL%`. `scripts/prerender-routes.js` strips the preload from the calc-route pre-renders (font unused there). No Google request at runtime; the hero font loads same-origin on the existing connection. See §14. |
+| 1.2.11 | 2026-06-21 | **Supplies import + per-unit "focus".** Added a navbar **Import supplies** dialog (`SuppliesImport.vue`, paste or `.json` file) that parses the in-game item-list response (`response-example/supplies-response.json` shape) into a `{ key: count }` stock map by matching each `item_id` to the `itemId` on `supplies.js` items (278 match; weapons/currency/evolution items skipped). Added a ★ **focus** button on every calculator unit box that spends that stock against the unit's selected step range (fills progress, earliest step first). Focus is **global + single** (one unit app-wide); switching focus resets the previous unit (restores progress, returns stock) before applying. New `reactive` store `src/js/inventory.js` (no Vuex), persisted under `App-inventory`; pages register their progress with it via the new `calcId` prop on `Calculator.vue`. See §15. |
 
 ### 8.1 Constraints that persist
 
@@ -158,50 +159,7 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 
 ## 12. Version 1.2.8 — Per-route titles/meta + sitemap (2026-06-14)
 
-### 12.1 Problem
-
-After 1.2.6 the app still served **one** `<title>` and `<meta description>` for every route: Home,
-the Eternals calculator, and the Evokers calculator all indexed under the same generic title. The site
-was also **not yet indexed** at all (confirmed via a `site:rene880.github.io/raziel-ledger` search
-returning no results) — a new GitHub Pages project site with no inbound links and no sitemap had never
-been discovered. 1.2.6 deliberately shipped **no sitemap** on the reasoning that a project-subpath file
-isn't auto-discovered; but a sitemap can still be **submitted directly** in Google Search Console, which
-is the single most actionable nudge for a brand-new site. Both gaps are addressed here. SSR remains out
-of scope (§3) — this is runtime/JS meta, which Googlebot renders, layered over the static scraper tags.
-
-### 12.2 Scope
-
-| # | Change |
-|---|--------|
-| M1 | Give each route in `src/router/index.js` a `meta: { title, description }`: Home (`Raziel Ledger - Granblue Fantasy Calculators`), `/calceternal` (`Eternals Calculator - Raziel Ledger`), `/calcevoker` (`Evokers Calculator - Raziel Ledger`), NotFound (`Page Not Found - Raziel Ledger`). |
-| M2 | Add a `router.afterEach((to) => …)` hook that, from `to.meta`, sets `document.title` and updates the existing in-document `<meta name="title">`, `<meta name="description">`, `<link rel="canonical">`, `og:title/description/url/image`, and `twitter:title/description/image`. The canonical/og `url` is the absolute production URL for the route (`https://rene880.github.io/raziel-ledger` + path). Missing tags are skipped (no crash if `index.html` drops one). |
-| M2b | **Replace the per-page `setHead()` mechanism** with this single hook: removed the `mounted()` `setHead({title, desc})` calls from all four pages (`Home`, `CalcEternal`, `CalcEvoker`, `NotFound`) and deleted `src/js/head.js`. Previously `mounted()` ran *after* `afterEach`, so `setHead` silently overrode the route-meta title (e.g. tab read "Raziel Ledger - Eternal Calculator" while `og:title` read "Eternals Calculator - Raziel Ledger"); the hook is now the single source of truth and the calc-page titles match their meta titles. |
-| M3 | Add `public/sitemap.xml` listing the three real routes (`/`, `/calceternal`, `/calcevoker`) with absolute production `loc`s; Vite copies it to `dist/sitemap.xml` → reachable at `https://rene880.github.io/raziel-ledger/sitemap.xml`. Submitted manually in Search Console (not auto-discovered — the project subpath isn't honored by the root `robots.txt`). |
-| M4 | Bump `package.json` `version` to **1.2.8**; sync `CLAUDE.md` and `README.md`. Removed a stray `</content>`/`</invoke>` artifact from §9 and condensed §9 to keep only the latest three releases (§10–§12) detailed. |
-
-### 12.3 Notes & constraints
-
-- **Static tags stay authoritative for scrapers.** Link-preview crawlers (Facebook/Discord/Slack/X)
-  don't run JS, so they still read the 1.2.6 static `index.html` defaults (the Home values). The
-  `afterEach` hook only benefits the browser tab title and JS-rendering crawlers (Googlebot). This is the
-  same JS-vs-static split called out in §11 — not a regression of it.
-- **Partially reverses 1.2.6's "no sitemap" decision (§11.3).** That note still holds for *auto-discovery*
-  (a subpath `sitemap.xml`/`robots.txt` is not crawled unprompted); the sitemap here exists for **manual
-  GSC submission**, which §11.3 already anticipated ("can still be submitted manually … if desired later").
-- **No new dependency.** No `@vueuse/head`/`vue-meta`; the hook mutates pre-existing DOM tags directly, in
-  keeping with the project's zero-runtime-meta-library stance.
-- `sitemap.xml` is not a game asset and is outside `check-item-images.js` scope.
-
-### 12.4 Acceptance criteria
-
-1. Navigating to `/calceternal` and `/calcevoker` changes the browser tab title to the Eternals/Evokers
-   title respectively; returning to `/` restores the Home title.
-2. After navigation, `document.querySelector('link[rel="canonical"]').href` and `meta[property="og:url"]`
-   reflect the current route's absolute production URL.
-3. `public/sitemap.xml` is well-formed, lists the three production route URLs, and deploys to
-   `https://rene880.github.io/raziel-ledger/sitemap.xml`.
-4. `npm test` still passes (316 item icons; sitemap not in scope of the check).
-5. `package.json` `version` is `1.2.8`; `CLAUDE.md` and `README.md` reflect v1.2.8.
+*Condensed (older than the latest three releases — see the §8 changelog row and §8.1 constraints for the durable summary).* Gave each route in `src/router/index.js` a `meta: { title, description }` (Home / Eternals / Evokers / NotFound) and added a `router.afterEach` hook that sets `document.title` and updates the in-document `<meta name="title|description">`, `<link rel="canonical">`, and `og:`/`twitter:` title/description/url per route (canonical/og `url` = absolute production URL; missing tags skipped). This **replaced** the per-page `setHead()` mechanism — removed the `mounted()` `setHead()` calls from all four pages and deleted `src/js/head.js` (previously `mounted()` ran after `afterEach` and silently overrode the route-meta title). Added `public/sitemap.xml` (the three real routes, absolute `loc`s; copied to `dist/sitemap.xml`) for **manual** Google Search Console submission — partially reversing 1.2.6's "no sitemap" decision (still true for *auto-discovery*; a subpath sitemap isn't crawled unprompted). No new dependency (the hook mutates pre-existing DOM tags); static `index.html` tags stay authoritative for no-JS scrapers, the hook benefits the tab title + Googlebot. `sitemap.xml` is not a game asset (outside `check-item-images.js`).
 
 ---
 
@@ -318,3 +276,54 @@ and `og-preview.png` is a pre-rendered PNG).
    `dist/calceternal/index.html` and `dist/calcevoker/index.html` keep the `@font-face` but **not** the preload.
 4. `npm test` still passes (316 item icons; the font is not in scope of the check).
 5. `package.json` `version` is `1.2.10`; `CLAUDE.md` and `README.md` reflect v1.2.10.
+
+---
+
+## 15. Version 1.2.11 — Supplies import + per-unit "focus" (2026-06-21)
+
+### 15.1 Problem / motivation
+
+The calculators show *what a unit needs* but had no notion of *what the player owns*. Players track
+their real Granblue stock elsewhere and mentally subtract it. Granblue's web client exposes the player's
+full item inventory as a JSON response (the array shape in the git-ignored
+`response-example/supplies-response.json`: `{ item_id, number, name, … }`, where `number` is the owned
+count). We can ingest that and let the player **spend** it against a unit to see how far their stock gets
+them — without changing the underlying calculator model (component state + `localStorage`, no backend, no
+Vuex; §3, §6).
+
+### 15.2 Scope
+
+| # | Change |
+|---|--------|
+| S1 | **Inventory store.** New `src/js/inventory.js` — a Vue `reactive` module store (no Vuex) holding the imported `stock` (`{ suppliesKey: count }`), the single active `focus`, and deferred-revert snapshots. Builds a one-time reverse `itemId → suppliesKey` map from `supplies.js`. Persisted under the **new** `App-inventory` `localStorage` key (joins the frozen `App-*` family; the existing `CalcEternal-*`/`CalcEvoker-*` progress keys are untouched). |
+| S2 | **Import dialog.** New `src/components/SuppliesImport.vue` — a modal (paste textarea **and** `.json` file picker) opened from a new navbar **Import supplies** button (`faFileImport`) in `App.vue`. `inventory.importFromResponse(arr)` matches each `item_id` to a supplies `itemId`, replaces `stock`, and returns `{ total, matched, unmatched }` for a result line. **278** of the response entries map; the 30 weapon-namespace items (they carry *weapon* ids), `rupie`/`crystal`, and the evolution items (`goldbrick`/`sunlightstone`) have no item-path id and are skipped — an accepted limitation. |
+| S3 | **Per-unit focus.** A ★ button (`faStar`) on each unit box in `Calculator.vue`. Clicking focuses that unit: for each material in the unit's selected `from→to` step range (resolved exactly as `getItemProgressFor` does — element/summon groups included), spend `min(owned, needed)` from `stock`, write it into that step's progress, and snapshot the consumed amounts + overwritten prior values. |
+| S4 | **Global, single focus with reset-on-switch.** Only one unit across the whole app (both Eternal tabs + Evoker) is focused at a time. Switching focus (or re-clicking the star) first **resets** the previous unit — restores its prior progress and returns the spent stock — then applies to the new unit, so the same stock is never counted against two units (answers the "reset previous focus quantity" decision). |
+| S5 | **Registration plumbing.** New `calcId` prop on `Calculator.vue` (`CalcEternal`, `CalcEternalRadiance`, `CalcEvoker`). Each page registers its loaded progress object with the store in `mounted()` (after `localStorage` load, so deferred reverts hit real data) and `unregister()`s in `beforeUnmount()`. A focus owned by an unmounted calc reverts its stock immediately and defers its progress restore until that calc next registers. New FA icons: `faStar`, `faFileImport`, `faXmark`. |
+| S6 | Bump `package.json` `version` to **1.2.11**; sync `CLAUDE.md` and `README.md`. |
+
+### 15.3 Notes & constraints
+
+- **Reuses the existing progress model.** Focus writes into the same `progress[unit].materials[step][key]`
+  counts the manual UI edits, so the merged/split views, hide-completed filter, and `localStorage`
+  persistence all work unchanged; the page's deep `progress` watcher persists focus-applied values.
+- **No new dependency, no backend, no Vuex.** The store is a `reactive` object persisted via
+  `localStorage` like the rest of the app.
+- **Reverse map is `itemId`-based.** Items whose `itemId` is a weapon id (the 30 weapons) or currency
+  (`rupie`/`crystal`) or that are absent from the supplies dump won't auto-fill — see S2.
+- `response-example/` stays git-ignored; the imported JSON never ships in the repo or build.
+- `App-inventory` is a new key, not a rename — the frozen-keys constraint (§8.1) is preserved.
+
+### 15.4 Acceptance criteria
+
+1. The navbar **Import supplies** button opens a dialog; pasting (or loading) the
+   `supplies-response.json` array imports the stock and reports matched/skipped counts (278 matched for
+   the sample).
+2. Clicking ★ on a unit fills that unit's progress from the imported stock (capped at each material's
+   need, earliest step first) and the star shows as active.
+3. Clicking ★ on a second unit (any calculator) un-fills the first and fills the second; the first unit's
+   prior quantities and the total stock are restored exactly (no double-spend). Re-clicking the active ★
+   clears the focus and restores that unit.
+4. Reloading the page preserves the imported stock and the active focus (the ★ stays lit; revert still works).
+5. `npm test` still passes (316 item icons; the store/dialog are not in scope of the check).
+6. `package.json` `version` is `1.2.11`; `CLAUDE.md` and `README.md` reflect v1.2.11.

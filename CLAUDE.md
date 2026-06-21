@@ -74,7 +74,24 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   toggles are shared, the active tab persists under `CalcEternal-activeTab`.
 - `src/components/Calculator.vue` — generic step/material calculator driven by the data shape in
   `src/js/supplies-{eternals,evokers}.js`. Material "groups" resolve to concrete items per unit
-  element/id using `src/js/supplies.js`.
+  element/id using `src/js/supplies.js`. Since v1.2.11 (PRD §15) it takes a `calcId` prop
+  (`CalcEternal` / `CalcEternalRadiance` / `CalcEvoker`) and renders a ★ "focus" button per unit box
+  that delegates to the inventory store.
+- `src/js/inventory.js` (since v1.2.11, PRD §15) — a Vue `reactive` module store (no Vuex) for the
+  player's imported supplies stock and the single app-global unit "focus". Builds a one-time reverse
+  `itemId → suppliesKey` map from `supplies.js`. `importFromResponse(arr)` parses the in-game item-list
+  JSON (`response-example/supplies-response.json` shape: `{ item_id, number, … }`) into a
+  `{ key: count }` stock map (278 match; the 30 weapon-namespace items, `rupie`/`crystal`, and the
+  evolution items have no item-path id and are skipped). `toggleFocus(calcId, unitKey)` spends
+  `min(owned, needed)` from stock against a unit's selected step range (resolving groups exactly like
+  `Calculator.getItemProgressFor`, earliest step first) and snapshots consumed amounts + overwritten
+  progress; focus is **global + single**, so switching first resets the previous unit (restores its
+  progress, returns stock). Pages `register()` their loaded progress object in `mounted()` (after the
+  `localStorage` load) and `unregister()` in `beforeUnmount()`; a focus owned by an unmounted calc
+  returns stock immediately and defers its progress restore until that calc re-registers. Persisted under
+  the **new** `App-inventory` key (the frozen `CalcEternal-*`/`CalcEvoker-*` progress keys are untouched).
+  `src/components/SuppliesImport.vue` is the navbar **Import supplies** dialog (paste or `.json` file)
+  wired into `App.vue`.
 - `src/js/supplies*.js` — frozen game data from GranblueParty, trimmed in v1.1 to the items and
   groups the calculators reference (the unused `rustedweapon` item is a deliberate keep — see PRD
   §8), then extended in v1.2 with the Radiance materials (`ETERNALS_DATA.radiance`, plus the

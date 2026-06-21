@@ -37,6 +37,7 @@
       :unitsProgress="progress"
       :unitsData="getEternalData"
       unitsLabel="an Eternal"
+      calcId="CalcEternal"
       v-model:unitsSplitMats="splitMats"
       v-model:unitsHideCompletedMats="hideCompletedMats"
       v-model:unitsDisplayList="displayList"
@@ -47,6 +48,7 @@
       :unitsProgress="radianceProgress"
       :unitsData="getRadianceData"
       unitsLabel="an Eternal"
+      calcId="CalcEternalRadiance"
       v-model:unitsSplitMats="splitMats"
       v-model:unitsHideCompletedMats="hideCompletedMats"
       v-model:unitsDisplayList="displayList"
@@ -57,6 +59,7 @@
 <script>
 import utils from '@/js/utils'
 import supplies from '@/js/supplies-eternals'
+import inventory from '@/js/inventory'
 
 import Calculator from '@/components/Calculator.vue'
 
@@ -123,6 +126,15 @@ export default {
     lsMgt.getValue(this, 'splitMats');
     lsMgt.getValue(this, 'hideCompletedMats');
     lsMgt.getValue(this, 'displayList');
+
+    // Register the loaded progress objects with the inventory focus store
+    // (after getValue so any deferred focus revert applies to real data).
+    inventory.register('CalcEternal', this.getEternalData, this.progress);
+    inventory.register('CalcEternalRadiance', this.getRadianceData, this.radianceProgress);
+  },
+  beforeUnmount() {
+    inventory.unregister('CalcEternal');
+    inventory.unregister('CalcEternalRadiance');
   }
 };
 </script>

@@ -7,6 +7,10 @@ Material calculators for Granblue Fantasy long-term goals, served as a static SP
 
 All progress is stored in your browser's `localStorage`. There are no accounts and no backend.
 
+Since v1.2.11 you can also **import your in-game supplies** (the navbar import button, ⎘) and
+**focus** a unit (the ★ button on each unit box) to spend that imported stock against the unit's
+remaining materials — see [Supplies import & focus](#supplies-import--focus).
+
 ## Attribution
 
 This project is a Vue 3 + Vite rewrite of the calculators from
@@ -88,6 +92,26 @@ subset to the 11 glyphs in "Raziel Ledger") is declared in `index.html` via an i
 render-blocking `preconnect` + css2 stylesheet chain (~1.3 s cross-origin DNS/TLS for a 29.70 KiB woff2):
 the font now loads same-origin on the connection already open for the HTML, with no Google request. The
 pre-render step drops the preload from the calc routes (the font isn't used there). See PRD §14.
+
+## Supplies import & focus
+
+Since v1.2.11 ([PRD §15](PRD.md)) you can pour your real Granblue stock into the calculators:
+
+- **Import** — the navbar import button opens a dialog that accepts the in-game item-list JSON
+  (the `game.granbluefantasy.jp` supplies response — an array of `{ item_id, number, … }`; sample in
+  the git-ignored `response-example/supplies-response.json`), pasted or loaded from a `.json` file.
+  Each `item_id` is matched against the `itemId` on every [supplies.js](src/js/supplies.js) item to
+  build a `{ key: count }` stock map. **278** items match; weapon-namespace items (they carry weapon
+  ids), `rupie`/`crystal`, and the evolution items have no item-path id and are skipped (the dialog
+  reports the matched/skipped counts).
+- **Focus** — the ★ button on each unit box spends your stock against that unit's selected
+  step range, filling its progress up to what's needed (earliest step first). Focus is **global and
+  single**: only one unit across all calculators is focused at a time. Switching focus first **resets**
+  the previous unit (restores its progress and returns the spent stock), then applies to the new one,
+  so your stock is never double-counted.
+
+State lives in a small `reactive` store, [src/js/inventory.js](src/js/inventory.js) (no Vuex),
+persisted under the `App-inventory` `localStorage` key alongside the other `App-*` keys.
 
 ## Project documentation
 

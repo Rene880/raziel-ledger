@@ -32,7 +32,12 @@
     <div v-for="(_, unitKey) in progress" :key="unitKey" class="flex flex-col mt-8 border-4 border-secondary rounded p-1 lg:p-4 bg-tertiary w-full">
 
       <span class="flex flex-row justify-between text-3xl font-bold">
-        <div></div>
+        <a class="cursor-pointer"
+          @click="toggleFocus(unitKey)"
+          :title="isFocused(unitKey) ? 'Unfocus — restore your supplies' : 'Focus — spend your supplies on this unit'">
+          <fa-icon :icon="['fas', 'star']" class="ml-2"
+            :class="isFocused(unitKey) ? 'text-yellow-400' : 'opacity-30 hover:opacity-60'"></fa-icon>
+        </a>
         <a class="cursor-pointer" @click="toggleFolded(progress[unitKey])">
           {{ getUnits[unitKey].name }}
           <fa-icon v-if="progress[unitKey].fold" :icon="['fas', 'angle-right']" class="ml-2"></fa-icon>
@@ -106,6 +111,7 @@
 <script>
 import supplies from '@/js/supplies'
 import utils from '@/js/utils'
+import inventory from '@/js/inventory'
 
 import Checkbox from '@/components/common/Checkbox.vue'
 import Dropdown from '@/components/common/Dropdown.vue'
@@ -169,6 +175,12 @@ export default {
     unitsDisplayList: {
       type: Number,
       default: 0,
+    },
+    // Globally-unique id for the inventory "focus" store (PRD §15). The owning
+    // page registers this calc's progress under the same id.
+    calcId: {
+      type: String,
+      default: '',
     }
   },
   emits: [
@@ -322,6 +334,12 @@ export default {
     },
     toggleFolded(progressForUnit) {
       progressForUnit.fold = ! progressForUnit.fold;
+    },
+    toggleFocus(unitKey) {
+      inventory.toggleFocus(this.calcId, unitKey);
+    },
+    isFocused(unitKey) {
+      return inventory.isFocused(this.calcId, unitKey);
     },
     getQuantityForItem(unitKey, matKey, itemKey) {
       if (this.splitMats) {
