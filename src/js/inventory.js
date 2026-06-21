@@ -210,6 +210,16 @@ export default {
     persist()
   },
 
+  // If (calcId, unitKey) is the active focus, clear it before the owning calc
+  // removes the unit: restores the unit's progress (moot, it's about to be
+  // deleted) and returns the spent stock to the inventory, then unfocuses.
+  unfocusIfActive(calcId, unitKey) {
+    if (this.isFocused(calcId, unitKey)) {
+      clearActiveFocus();
+      persist();
+    }
+  },
+
   // Persist the focus/unfocus warning "don't show again" choice.
   dismissWarning() {
     state.warningDismissed = true

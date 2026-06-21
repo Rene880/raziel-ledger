@@ -29,7 +29,7 @@
     </div>
 
     <!-- Unit box -->
-    <div v-for="(_, unitKey) in progress" :key="unitKey" class="flex flex-col mt-8 border-4 border-secondary rounded p-1 lg:p-4 bg-tertiary w-full">
+    <div v-for="(_, unitKey) in progress" :key="unitKey" :id="focusAnchorId(unitKey)" class="flex flex-col mt-8 border-4 border-secondary rounded p-1 lg:p-4 bg-tertiary w-full scroll-mt-24">
 
       <span class="flex flex-row justify-between text-3xl font-bold">
         <a class="cursor-pointer"
@@ -228,7 +228,13 @@ export default {
       this.unit_index = -1;
     },
     removeUnit(unitKey) {
+      // Deleting a focused unit returns its spent supplies and drops the focus.
+      inventory.unfocusIfActive(this.calcId, unitKey);
       delete this.progress[unitKey];
+    },
+    // Stable DOM id for a unit box so the navbar focus chip can scroll to it.
+    focusAnchorId(unitKey) {
+      return `focus-anchor-${this.calcId}-${unitKey}`;
     },
     getItemProgressFor(unitKey, item, materialStep) {
       let itemRefs = [];

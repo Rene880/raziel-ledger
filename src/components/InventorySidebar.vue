@@ -2,7 +2,7 @@
   <div class="fixed top-20 right-0 z-40 flex flex-row items-start">
     <!-- Toggle handle (always visible) -->
     <button
-      class="btn btn-blue rounded-r-none px-2 py-3"
+      class="bg-tertiary text-primary border-4 border-secondary rounded-r-none px-2 py-3 hover:bg-secondary transition-colors"
       :title="open ? 'Hide supplies' : 'Show supplies inventory'"
       @click="$emit('update:open', !open)">
       <fa-icon :icon="['fas', open ? 'angle-right' : 'warehouse']"></fa-icon>

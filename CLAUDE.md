@@ -82,7 +82,10 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   `src/js/supplies-{eternals,evokers}.js`. Material "groups" resolve to concrete items per unit
   element/id using `src/js/supplies.js`. Since v1.2.11 (PRD §15) it takes a `calcId` prop
   (`CalcEternal` / `CalcEternalRadiance` / `CalcEvoker`) and renders a ★ "focus" button per unit box
-  that delegates to the inventory store.
+  that delegates to the inventory store. Each unit box carries `id="focus-anchor-{calcId}-{unitKey}"`
+  (`focusAnchorId()`) so the navbar focus chip can scroll to it (PRD §15 S18), and `removeUnit` calls
+  `inventory.unfocusIfActive(calcId, unitKey)` before deleting so removing a focused unit returns its
+  stock and drops the focus (S17).
 - `src/js/inventory.js` (since v1.2.11, PRD §15) — a Vue `reactive` module store (no Vuex) for the
   player's imported supplies stock and the single app-global unit "focus". Builds a one-time reverse
   `itemId → suppliesKey` map from `supplies.js`. `importFromResponse(arr)` parses the in-game item-list
@@ -96,6 +99,9 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   `localStorage` load) and `unregister()` in `beforeUnmount()`; a focus owned by an unmounted calc
   returns stock immediately and defers its progress restore until that calc re-registers. Persisted under
   the **new** `App-inventory` key (the frozen `CalcEternal-*`/`CalcEvoker-*` progress keys are untouched).
+  `unfocusIfActive(calcId, unitKey)` (called by `Calculator.removeUnit`) clears the focus via
+  `clearActiveFocus()` when the deleted unit is the active one, so deleting a focused unit returns its
+  spent stock and drops `state.active` instead of leaking them (PRD §15 S17).
   The store also keeps an `owned` baseline (imported totals, **not** decremented
   by focus — `stock` is the live remainder), `state.active.name` (label for the navbar chip, even when
   the owning calc is unmounted), a persisted `warningDismissed` flag, and exposes `inventoryList()` (sorted
@@ -121,8 +127,10 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   renders a **focus chip**
   (★ + `state.active.name`) rightmost in the left nav group that routes to the focused unit's calc via a
   `calcId → route` map (Eternal recruit/Radiance disambiguated by a `?tab=recruit|radiance` query that
-  `CalcEternal` reads on mount and watches). New FA icons: `faWarehouse`, `faTriangleExclamation`,
-  `faBoxArchive`.
+  `CalcEternal` reads on mount and watches), then `scrollToAnchor()` scrolls the focused unit box into view
+  — it polls (`$nextTick` + retry) until `focus-anchor-{calcId}-{unitKey}` exists **and** is visible
+  (`offsetParent !== null`, which guards the Eternal `v-show` tab swap) before `scrollIntoView` (PRD §15
+  S18). New FA icons: `faWarehouse`, `faTriangleExclamation`, `faBoxArchive`.
 - `src/js/supplies*.js` — frozen game data from GranblueParty, trimmed in v1.1 to the items and
   groups the calculators reference (the unused `rustedweapon` item is a deliberate keep — see PRD
   §8), then extended in v1.2 with the Radiance materials (`ETERNALS_DATA.radiance`, plus the

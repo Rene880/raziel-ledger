@@ -128,7 +128,23 @@ export default {
       const focus = inventory.state.active;
       if (! focus) return;
       const target = FOCUS_ROUTES[focus.calcId];
-      if (target) this.$router.push(target);
+      if (! target) return;
+      const anchorId = `focus-anchor-${focus.calcId}-${focus.unitKey}`;
+      // Navigate (may be a no-op if already there), then scroll to the unit box.
+      this.$router.push(target).catch(() => {}).finally(() => this.scrollToAnchor(anchorId));
+    },
+    // Poll briefly for the unit box: the target page may still be mounting and,
+    // on the Eternal page, the ?tab= switch has to make it visible first
+    // (offsetParent is null while the inactive tab is `v-show`-hidden).
+    scrollToAnchor(id, attempts = 20) {
+      this.$nextTick(() => {
+        const el = document.getElementById(id);
+        if (el && el.offsetParent !== null) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if (attempts > 0) {
+          setTimeout(() => this.scrollToAnchor(id, attempts - 1), 50);
+        }
+      });
     },
   },
   mounted() {

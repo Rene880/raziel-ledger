@@ -313,6 +313,8 @@ naming the currently-focused unit.
 | S14 | **Import button label.** The navbar **Import supplies** control (`App.vue`) gains a visible `Import supplies` text label to the **left** of the `faFileImport` icon (the whole row stays one clickable target). |
 | S15 | **Fixed sidebar height.** The Supplies panel is sized to the **viewport minus the navbar** — `h-[calc(100vh-5rem)]` (the panel is `fixed top-20` = `5rem`) — replacing the content-hugging `max-h-[70vh]`. It holds that height regardless of how many items are imported; the Treasure grid becomes the scroll region (`flex-1 min-h-0 overflow-y-auto`). |
 | S16 | **Chest tab icon.** The Treasure tab icon changes from `faWarehouse` to a chest-style icon. FontAwesome **free** has no literal treasure chest (`faTreasureChest` is Pro), so `faBoxArchive` (`box-archive`) is used; registered in `main.js`. The sidebar edge handle keeps `faWarehouse`. |
+| S17 | **Unfocus on delete.** Removing a unit box (the 🗑 button in `Calculator.vue`) that is the **active focus** now clears the focus first: new store method `inventory.unfocusIfActive(calcId, unitKey)` runs `clearActiveFocus()` (returns the spent stock to `state.stock`, drops `state.active`, persists) before `delete this.progress[unitKey]`. Previously a deleted focused unit left `state.active` dangling and its supplies permanently spent. The progress-restore half of `clearActiveFocus` is moot here (the unit is deleted next line), but returning the stock and clearing the focus are the point. |
+| S18 | **Focus chip scrolls to the unit.** Clicking the navbar focus chip (S8) still routes to the owning calculator (and the correct Eternal tab) but now also **scrolls the focused unit box into view**. `Calculator.vue` gives each unit box a stable `id="focus-anchor-{calcId}-{unitKey}"` (`focusAnchorId()`) plus `scroll-mt-24`; `App.vue`'s `goToFocus()` resolves the same id and, after the route push settles, `scrollToAnchor()` polls (`$nextTick` + retry) until the element exists **and** is visible (`offsetParent !== null` — guards the Eternal `v-show` tab swap) then `scrollIntoView({ behavior: 'smooth', block: 'start' })`. |
 
 ### 15.3 Notes & constraints
 
@@ -339,6 +341,11 @@ naming the currently-focused unit.
 - **S14–S16 (amendment, 2026-06-21, still v1.2.11).** Cosmetic UI polish on the import control and Supplies
   panel: a text label on the import button, a fixed panel height (viewport − navbar, holds regardless of
   item count), and a chest-style (`faBoxArchive`) Treasure tab icon. No store/logic change, no version bump.
+- **S17–S18 (amendment, 2026-06-21, still v1.2.11).** Focus lifecycle polish: deleting a focused unit now
+  returns its stock and clears the focus (S17, the one genuine fix — previously it leaked spent supplies and
+  a dangling `state.active`), and the navbar focus chip scrolls the focused unit into view after routing
+  (S18). S17 reuses the existing `clearActiveFocus()`; S18 is a read-only navigation/scroll layer. No new
+  store concept, no version bump.
 
 ### 15.4 Acceptance criteria
 
@@ -365,3 +372,7 @@ naming the currently-focused unit.
     each cell shows `remaining / owned` under the icon, the name as a hover tooltip, and links to gbf.wiki.
     Items are ordered left-to-right by their position in the imported JSON (game seq order). Typing in the
     search box filters the grid by name; clearing it restores the full ordered list.
+11. (S17) Deleting the currently-focused unit (🗑) returns its spent supplies to the Supplies panel
+    (`remaining` goes back up) and clears the focus chip; no stock is leaked and no dangling focus remains.
+12. (S18) Clicking the navbar focus chip routes to the owning calculator (correct Eternal tab) **and**
+    scrolls the focused unit box into view, including when starting from another page or the other tab.
