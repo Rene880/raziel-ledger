@@ -4,13 +4,16 @@ Material calculators for Granblue Fantasy long-term goals, served as a static SP
 
 - **/calceternal** — materials to recruit, uncap (5★), and transcend (6★) an Eternal ("40 boxes" method), plus a **Radiance** tab for the Radiance of the Eternal levels 1–5
 - **/calcevoker** — materials to obtain an Arcarum summon, recruit its Evoker, and uncap the New World Foundation weapon
+- **/import-guide** — a desktop-only walkthrough of copying your in-game supplies JSON from the browser's DevTools so you can import it
 
 All progress is stored in your browser's `localStorage`. There are no accounts and no backend.
 
 Since v1.2.11 you can also **import your in-game supplies** (the Import view in the supplies side nav) and
 **focus** a unit (the ★ button on each unit box) to spend that imported stock against the unit's
 remaining materials, with a right-edge supplies side nav and a navbar focus chip — see
-[Supplies import & focus](#supplies-import--focus).
+[Supplies import & focus](#supplies-import--focus). A **What's new** popup (the 📢 navbar control,
+beside the version) summarizes the latest release and links the [import guide](#); the Import view links
+it too.
 
 ## Attribution
 

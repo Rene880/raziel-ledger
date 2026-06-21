@@ -7,6 +7,12 @@
       on a unit with the <fa-icon :icon="['fas', 'star']" class="text-yellow-400"></fa-icon> focus button.
     </p>
 
+    <router-link :to="{ name: 'import-guide' }" target="_blank"
+      class="text-sm underline self-start hover:text-link-hover">
+      <fa-icon :icon="['fa', 'external-link-alt']"></fa-icon>
+      How do I get this JSON? &rarr;
+    </router-link>
+
     <label class="btn btn-white self-start cursor-pointer">
       Choose JSON file…
       <input type="file" accept=".json,application/json" class="hidden" @change="onFile">

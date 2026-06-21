@@ -71,7 +71,14 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   `SITE_NAME`, defaults, `OG_IMAGE`, the `ROUTES` table (`{ path, title, description, prerender }`), and
   `urlForPath()`. Imported by both `src/router/index.js` (runtime hook) and `scripts/prerender-routes.js`
   (build-time pre-render) so the two can't drift. See PRD §13.
-- `src/pages/` — `Home`, `CalcEternal`, `CalcEvoker`, `NotFound`. The two calc pages own the progress
+- `src/pages/` — `Home`, `CalcEternal`, `CalcEvoker`, `NotFound`, and `SuppliesGuide` (since v1.2.11
+  S24, route `/import-guide`) — a desktop-only walkthrough of copying the in-game supplies JSON from the
+  browser's DevTools Network tab (`article_list_by_filter_mode` → Copy response → paste into Import),
+  with author-supplied screenshots in `public/img/docs/` (`step1-inspect`…`step5-paste.png`; **not** game
+  assets, outside `check-item-images.js`). Its `ROUTES` entry in `src/seo/meta.js` is `prerender: false`,
+  so `scripts/prerender-routes.js` skips it and deep-links fall through `404.html`. The
+  `SuppliesImport.vue` Import view and the `WhatsNew.vue` popup both link to it via
+  `<router-link :to="{ name: 'import-guide' }" target="_blank">` (new tab). The two calc pages own the progress
   state, persist it to `localStorage` (keys `CalcEternal-*` / `CalcEvoker-*` via `js/utils.js`
   `LocalStorageMgt`), and delegate all logic to `components/Calculator.vue`. `CalcEternal` has two
   tabs (since v1.2, PRD §9): "Recruit & Transcend" and "Radiance", each rendered by its own
@@ -137,6 +144,14 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   (`offsetParent !== null`, which guards the Eternal `v-show` tab swap) before `scrollIntoView` (PRD §15
   S18). New FA icons: `faWarehouse`, `faTriangleExclamation`, `faBoxArchive`. The top `<nav>` in `App.vue` is
   `sticky top-0 z-50` (S21) so it stays pinned to the top on scroll, above the `z-40` sidebar.
+- `src/components/WhatsNew.vue` (since v1.2.11 S27) — a global "What's new" changelog modal mounted in
+  `App.vue` (`v-model:open="whatsNewOpen"`): a tl;dr of the supplies-import release plus a `target="_blank"`
+  link to `/import-guide`. It **auto-shows once per app version** — `App.vue` persists `whatsNewSeenVersion`
+  via the existing `LocalStorageMgt('App')` (new **`App-whatsNewSeenVersion`** key, joins the frozen `App-*`
+  family); `mounted()` opens it when the seen version ≠ `package.json` version **and records the current
+  version in the same step** (not on close), so it auto-shows exactly once even if the user reloads or
+  navigates away before dismissing it (won't recur until the next bump). A `faBullhorn` **What's new** control beside the
+  navbar version indicator reopens it on demand. New FA icon: `faBullhorn`.
 - `src/js/supplies*.js` — frozen game data from GranblueParty, trimmed in v1.1 to the items and
   groups the calculators reference (the unused `rustedweapon` item is a deliberate keep — see PRD
   §8), then extended in v1.2 with the Radiance materials (`ETERNALS_DATA.radiance`, plus the

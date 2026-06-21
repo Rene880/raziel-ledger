@@ -22,6 +22,7 @@
       <!-- right -->
       <div class="flex flex-row items-center gap-x-4 px-4">
         <span class="select-none hidden sm:block text-xs opacity-70" title="App version">v{{ appVersion }}</span>
+        <div class="cursor-pointer select-none hover:text-link-hover" title="What's new" @click="whatsNewOpen = true"><fa-icon :icon="['fas', 'bullhorn']"></fa-icon></div>
         <span class="select-none hidden sm:block">{{ getJST }} JST</span>
         <div class="cursor-pointer select-none hover:text-link-hover" title="Dark mode" @click="theme_dark = true"><fa-icon :icon="['fas', 'moon']"></fa-icon></div>
         <div class="cursor-pointer select-none hover:text-link-hover" title="Blue" @click="theme_dark = 'blue'"><fa-icon :icon="['fas', 'water']"></fa-icon></div>
@@ -36,6 +37,9 @@
 
     <!-- Inventory sidebar (global) -->
     <inventory-sidebar v-model:open="sidebarOpen"></inventory-sidebar>
+
+    <!-- "What's new" changelog popup (auto-shows once per version; reopen from navbar) -->
+    <whats-new v-model:open="whatsNewOpen"></whats-new>
 
     <!-- Footer -->
     <footer class="flex flex-col items-center bg-tertiary border-t border-secondary w-full py-4 text-xs text-center">
@@ -59,6 +63,7 @@ import Utils from '@/js/utils.js'
 import pkg from '../package.json'
 import inventory from '@/js/inventory'
 import InventorySidebar from '@/components/InventorySidebar.vue'
+import WhatsNew from '@/components/WhatsNew.vue'
 
 const lsMgt = new Utils.LocalStorageMgt('App');
 
@@ -79,6 +84,7 @@ const getJST_options = {
 export default {
   components: {
     InventorySidebar,
+    WhatsNew,
   },
   data() {
     return {
@@ -86,6 +92,9 @@ export default {
       theme_dark: true,
       appVersion: pkg.version,
       sidebarOpen: false,
+      whatsNewOpen: false,
+      // Last app version for which the user dismissed the "What's new" popup.
+      whatsNewSeenVersion: '',
     }
   },
   computed: {
@@ -141,6 +150,15 @@ export default {
     setInterval(() => this.now = new Date(), 1000 * 60);
     lsMgt.getValue(this, 'theme_dark');
     lsMgt.getValue(this, 'sidebarOpen');
+    lsMgt.getValue(this, 'whatsNewSeenVersion');
+    // Auto-show the "What's new" popup once per app version. Mark it seen the
+    // moment it auto-shows (not on close), so it appears exactly once even if the
+    // user reloads or navigates away before pressing "Got it".
+    if (this.whatsNewSeenVersion !== this.appVersion) {
+      this.whatsNewOpen = true;
+      this.whatsNewSeenVersion = this.appVersion;
+      lsMgt.setValue('whatsNewSeenVersion', this);
+    }
   }
 }
 </script>

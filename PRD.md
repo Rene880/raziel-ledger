@@ -320,6 +320,11 @@ naming the currently-focused unit.
 | S21 | **Sticky navbar.** The top `<nav>` in `App.vue` is `sticky top-0 z-50` so it stays pinned to the top while the page scrolls (was static, scrolled away). `z-50` keeps it above the `z-40` sidebar; the sidebar's `top-12` offset already matches the 3rem navbar so nothing else shifts. |
 | S22 | **Themed Supplies scrollbar.** The Supplies (Treasure) item-grid scroll region in `InventorySidebar.vue` gets a thin, themed scrollbar (`.supplies-scroll` scoped style: `scrollbar-width: thin` + `::-webkit-scrollbar` thumb/track) driven by the existing theme CSS variables (`--color-border-secondary`/`-primary`, transparent track) so it matches all three themes instead of the browser default. |
 | S23 | **Treasure view label → "Supplies".** The Treasure view's display label is renamed to **Supplies** (rail icon tooltip, panel header, and search placeholder). The **tab id stays `treasure`** — `activeTab === 'treasure'`, `searches.treasure`, and `state.order`/store logic are untouched; only the human-facing label changes. |
+| S24 | **Import-guide page.** New `src/pages/SuppliesGuide.vue` at route **`/import-guide`** (`src/router/index.js`) documenting how to obtain the supplies JSON from a desktop browser's DevTools: a "Desktop only" callout + numbered steps a–e (open DevTools → Network; refresh the in-game Supplies page; right-click the `article_list_by_filter_mode` request; Copy → Copy response; paste into the Import panel), each with the matching screenshot from **`public/img/docs/`** (`step1-inspect`…`step5-paste.png`). A `ROUTES` entry is added to `src/seo/meta.js` with title/description and **`prerender: false`** (so `scripts/prerender-routes.js` skips it — deep-links use the existing `404.html` SPA fallback). |
+| S25 | **Screenshots = hand-supplied assets.** `public/img/docs/*.png` are author-supplied screenshots (like `og-preview.png` / the lettering SVG), **not** game assets and **not** covered by `scripts/check-item-images.js`; missing files only render broken `<img>`s, they do not fail the build. |
+| S26 | **Guide link in the Import view.** `src/components/SuppliesImport.vue` gains a "How do I get this JSON? →" `<router-link :to="{ name: 'import-guide' }" target="_blank">` (external-link icon) under the intro, opening the guide in a **new tab**. |
+| S27 | **"What's new" changelog popup.** New `src/components/WhatsNew.vue` — a centered modal (themed card + backdrop) with a tl;dr of the supplies-import release (import JSON, ★ focus a unit, Supplies panel `remaining / owned`) and a `target="_blank"` link to `/import-guide`. Mounted globally in `App.vue` (`v-model:open="whatsNewOpen"`). It **auto-shows once per app version**: `App.vue` persists `whatsNewSeenVersion` via the existing `LocalStorageMgt('App')` (new **`App-whatsNewSeenVersion`** key); `mounted()` opens it when the seen version ≠ `package.json` version **and records the current version in the same step** (not on close), so it auto-shows exactly once even if the user reloads or navigates away before pressing **Got it**. A **What's new** control (`faBullhorn`) sits beside the navbar version indicator to reopen it on demand. |
+| S28 | **Icon + no version bump.** Register `faBullhorn` in `main.js`. This is a v1.2.11 amendment — no `## Version` heading, no `package.json`/`CLAUDE.md`/`README.md` version bump (the docs are updated to describe the page/popup). |
 
 ### 15.3 Notes & constraints
 
@@ -361,6 +366,13 @@ naming the currently-focused unit.
   scrolling), a themed thin scrollbar on the Supplies item grid, and the Treasure view relabeled **Supplies**
   (display label only — the `treasure` tab id and store logic are unchanged). Pure CSS/label polish, no store/logic
   change, no version bump.
+- **S24–S28 (amendment, 2026-06-21, still v1.2.11).** Added a `/import-guide` documentation page
+  (`SuppliesGuide.vue`) explaining how to copy the supplies JSON from a desktop browser's DevTools, with
+  author-supplied screenshots in `public/img/docs/` (not game assets, outside `check-item-images.js`); a
+  "How do I get this JSON?" `target="_blank"` link to it from the Import view; and a **What's new**
+  changelog popup (`WhatsNew.vue`) that auto-shows once per app version (persisted `App-whatsNewSeenVersion`)
+  and is reopenable from a `faBullhorn` navbar control, also linking the guide in a new tab. No store/focus
+  logic change, no version bump (no new `## Version` heading).
 
 ### 15.4 Acceptance criteria
 
@@ -391,3 +403,11 @@ naming the currently-focused unit.
     (`remaining` goes back up) and clears the focus chip; no stock is leaked and no dangling focus remains.
 12. (S18) Clicking the navbar focus chip routes to the owning calculator (correct Eternal tab) **and**
     scrolls the focused unit box into view, including when starting from another page or the other tab.
+13. (S24–S26) `/import-guide` renders the "Desktop only" note and steps a–e with the
+    `public/img/docs/` screenshots; the "How do I get this JSON?" link in the Import view opens it in a
+    **new tab**. `prerender: false` means `npm run build` produces **no** `dist/import-guide/index.html`
+    and the route still loads via the SPA/404 fallback.
+14. (S27) On first load after a version change the **What's new** popup auto-opens; reloading does
+    **not** auto-reopen it even if it was never dismissed (the seen version is recorded the moment it
+    auto-shows); clicking the navbar **What's new** (`faBullhorn`) control reopens it; its "How to get
+    your supplies JSON" link opens `/import-guide` in a new tab.
