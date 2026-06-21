@@ -75,8 +75,11 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   S24, route `/import-guide`) — a desktop-only walkthrough of copying the in-game supplies JSON from the
   browser's DevTools Network tab (`article_list_by_filter_mode` → Copy response → paste into Import),
   with author-supplied screenshots in `public/img/docs/` (`step1-inspect`…`step5-paste.png`; **not** game
-  assets, outside `check-item-images.js`). Its `ROUTES` entry in `src/seo/meta.js` is `prerender: false`,
-  so `scripts/prerender-routes.js` skips it and deep-links fall through `404.html`. The
+  assets, outside `check-item-images.js`). Since v1.2.11 S29 it has **no** `ROUTES` entry in
+  `src/seo/meta.js` (de-listed from SEO — it was already `prerender: false` and absent from `sitemap.xml`);
+  the route still resolves and `metaForPath('/import-guide')` falls back to the default title/description,
+  and `scripts/prerender-routes.js` (which only emits `prerender: true` routes) still skips it so deep-links
+  fall through `404.html`. The
   `SuppliesImport.vue` Import view and the `WhatsNew.vue` popup both link to it via
   `<router-link :to="{ name: 'import-guide' }" target="_blank">` (new tab). The two calc pages own the progress
   state, persist it to `localStorage` (keys `CalcEternal-*` / `CalcEvoker-*` via `js/utils.js`
@@ -137,7 +140,10 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   with a **fixed height** of `h-[calc(100vh-3rem)]` (v1.2.11 height amendment) — flush under the 3rem (`h-12`)
   navbar so it reaches as high as possible (was `top-20` / `h-[calc(100vh-5rem)]`); the grid is the
   `flex-1 min-h-0 overflow-y-auto` scroll region). `App.vue` also renders a **focus chip**
-  (★ + `state.active.name`) rightmost in the left nav group that routes to the focused unit's calc via a
+  (★ + `state.active.name`, plus a small `bg-secondary` badge from the `focusTabLabel` computed naming the
+  Eternal tab the focus came from — **Recruit & Transcend** for `CalcEternal`, **Radiance** for
+  `CalcEternalRadiance`, nothing for `CalcEvoker`; `hidden sm:inline`, also folded into the chip `title` —
+  PRD §15 S30) rightmost in the left nav group that routes to the focused unit's calc via a
   `calcId → route` map (Eternal recruit/Radiance disambiguated by a `?tab=recruit|radiance` query that
   `CalcEternal` reads on mount and watches), then `scrollToAnchor()` scrolls the focused unit box into view
   — it polls (`$nextTick` + retry) until `focus-anchor-{calcId}-{unitKey}` exists **and** is visible
@@ -146,7 +152,9 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   `sticky top-0 z-50` (S21) so it stays pinned to the top on scroll, above the `z-40` sidebar.
 - `src/components/WhatsNew.vue` (since v1.2.11 S27) — a global "What's new" changelog modal mounted in
   `App.vue` (`v-model:open="whatsNewOpen"`): a tl;dr of the supplies-import release plus a `target="_blank"`
-  link to `/import-guide`. It **auto-shows once per app version** — `App.vue` persists `whatsNewSeenVersion`
+  link to `/import-guide`. Clicking the backdrop outside the card closes it (S29 — the close `@click` lives
+  on the backdrop `<div>`, since a `@click.self` on the overlaid wrapper would never fire). It
+  **auto-shows once per app version** — `App.vue` persists `whatsNewSeenVersion`
   via the existing `LocalStorageMgt('App')` (new **`App-whatsNewSeenVersion`** key, joins the frozen `App-*`
   family); `mounted()` opens it when the seen version ≠ `package.json` version **and records the current
   version in the same step** (not on close), so it auto-shows exactly once even if the user reloads or

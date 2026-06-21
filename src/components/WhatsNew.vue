@@ -1,9 +1,8 @@
 <template>
   <!-- "What's new" changelog modal — tl;dr of the latest release, links the import guide. -->
-  <div v-if="open" class="fixed inset-0 z-[60] flex items-center justify-center p-4"
-    @click.self="$emit('update:open', false)">
-    <!-- Backdrop -->
-    <div class="absolute inset-0 bg-black/60"></div>
+  <div v-if="open" class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    <!-- Backdrop — clicking outside the card closes the modal -->
+    <div class="absolute inset-0 bg-black/60" @click="$emit('update:open', false)"></div>
 
     <!-- Card -->
     <div class="relative w-full max-w-md bg-tertiary text-primary border border-secondary rounded shadow-lg">

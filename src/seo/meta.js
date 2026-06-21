@@ -38,13 +38,6 @@ export const ROUTES = [
     prerender: true,
   },
   {
-    path: '/import-guide',
-    title: 'How to import your supplies - Raziel Ledger',
-    description:
-      'Step-by-step guide to copying your Granblue Fantasy item-list JSON from your browser and importing it into Raziel Ledger.',
-    prerender: false,
-  },
-  {
     path: '/:pathMatch(.*)*',
     title: 'Page Not Found - Raziel Ledger',
     description: DEFAULT_DESCRIPTION,

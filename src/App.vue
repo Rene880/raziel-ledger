@@ -11,11 +11,12 @@
         <router-link class="flex items-center gbf-menu-link h-12" to="/calcevoker">Evokers Calc.</router-link>
 
         <!-- Currently focused unit (global, single) — kept rightmost of the left group -->
-        <a v-if="activeFocus" class="flex items-center gap-1 gbf-menu-link h-12 cursor-pointer max-w-[10rem] sm:max-w-xs"
-          :title="'Focused: ' + activeFocus.name + ' — go to calculator'"
+        <a v-if="activeFocus" class="flex items-center gap-1 gbf-menu-link h-12 cursor-pointer max-w-[12rem] sm:max-w-sm"
+          :title="'Focused: ' + activeFocus.name + (focusTabLabel ? ' (' + focusTabLabel + ')' : '') + ' — go to calculator'"
           @click="goToFocus">
           <fa-icon :icon="['fas', 'star']" class="text-yellow-400 shrink-0"></fa-icon>
           <span class="truncate">{{ activeFocus.name }}</span>
+          <span v-if="focusTabLabel" class="shrink-0 text-xs opacity-70 px-1.5 py-0.5 rounded bg-secondary hidden sm:inline">{{ focusTabLabel }}</span>
         </a>
       </div>
 
@@ -100,6 +101,14 @@ export default {
   computed: {
     activeFocus() {
       return inventory.state.active;
+    },
+    // Eternal calc has two tabs — label the focus chip so the user knows which
+    // one it came from. Evoker has a single calc, so no label is shown.
+    focusTabLabel() {
+      const calcId = this.activeFocus && this.activeFocus.calcId;
+      if (calcId === 'CalcEternal') return 'Recruit & Transcend';
+      if (calcId === 'CalcEternalRadiance') return 'Radiance';
+      return '';
     },
     getTheme() {
       if (this.theme_dark === true) {

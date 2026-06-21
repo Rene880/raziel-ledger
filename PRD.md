@@ -298,33 +298,35 @@ naming the currently-focused unit.
 | # | Change |
 |---|--------|
 | S1 | **Inventory store.** New `src/js/inventory.js` — a Vue `reactive` module store (no Vuex) holding the imported `stock` (`{ suppliesKey: count }`), the single active `focus`, and deferred-revert snapshots. Builds a one-time reverse `itemId → suppliesKey` map from `supplies.js`. Persisted under the **new** `App-inventory` `localStorage` key (joins the frozen `App-*` family; the existing `CalcEternal-*`/`CalcEvoker-*` progress keys are untouched). |
-| S2 | **Import dialog.** New `src/components/SuppliesImport.vue` — a modal (paste textarea **and** `.json` file picker) opened from a new navbar **Import supplies** button (`faFileImport`) in `App.vue`. `inventory.importFromResponse(arr)` matches each `item_id` to a supplies `itemId`, replaces `stock`, and returns `{ total, matched, unmatched }` for a result line. **278** of the response entries map; the 30 weapon-namespace items (they carry *weapon* ids), `rupie`/`crystal`, and the evolution items (`goldbrick`/`sunlightstone`) have no item-path id and are skipped — an accepted limitation. |
+| S2 | **Import form.** New `src/components/SuppliesImport.vue` — a paste textarea **and** `.json` file picker + Import button + result line, rendered inline as the sidebar's **Import** view (its housing is S19–S20). `inventory.importFromResponse(arr)` matches each `item_id` to a supplies `itemId`, replaces `stock`, and returns `{ total, matched, unmatched }` for the result line. **278** of the response entries map; the 30 weapon-namespace items (they carry *weapon* ids), `rupie`/`crystal`, and the evolution items (`goldbrick`/`sunlightstone`) have no item-path id and are skipped — an accepted limitation. |
 | S3 | **Per-unit focus.** A ★ button (`faStar`) on each unit box in `Calculator.vue`. Clicking focuses that unit: for each material in the unit's selected `from→to` step range (resolved exactly as `getItemProgressFor` does — element/summon groups included), spend `min(owned, needed)` from `stock`, write it into that step's progress, and snapshot the consumed amounts + overwritten prior values. |
 | S4 | **Global, single focus with reset-on-switch.** Only one unit across the whole app (both Eternal tabs + Evoker) is focused at a time. Switching focus (or re-clicking the star) first **resets** the previous unit — restores its prior progress and returns the spent stock — then applies to the new unit, so the same stock is never counted against two units (answers the "reset previous focus quantity" decision). |
-| S5 | **Registration plumbing.** New `calcId` prop on `Calculator.vue` (`CalcEternal`, `CalcEternalRadiance`, `CalcEvoker`). Each page registers its loaded progress object with the store in `mounted()` (after `localStorage` load, so deferred reverts hit real data) and `unregister()`s in `beforeUnmount()`. A focus owned by an unmounted calc reverts its stock immediately and defers its progress restore until that calc next registers. New FA icons: `faStar`, `faFileImport`, `faXmark`. |
+| S5 | **Registration plumbing.** New `calcId` prop on `Calculator.vue` (`CalcEternal`, `CalcEternalRadiance`, `CalcEvoker`). Each page registers its loaded progress object with the store in `mounted()` (after `localStorage` load, so deferred reverts hit real data) and `unregister()`s in `beforeUnmount()`. A focus owned by an unmounted calc reverts its stock immediately and defers its progress restore until that calc next registers. FA icons used across the feature: `faStar`, `faFileImport`, `faXmark`, `faWarehouse`, `faTriangleExclamation`, `faBoxArchive`, `faBullhorn`. |
 | S6 | **Focus/unfocus warning (dismissable).** A confirm dialog in `Calculator.vue` intercepts the ★ click: it explains that focusing fills the unit's quantities from stock and unfocusing restores them, and that hand edits made *while focused* are overwritten. A **"Don't show this again"** checkbox persists `warningDismissed` in the store; once set, the ★ acts immediately. Local `pendingFocusUnit`/`dontShowAgain` state; the star's handler is `requestFocus()` → `confirmFocus()`/`cancelFocus()`. |
-| S7 | **Global inventory sidebar.** New `InventorySidebar.vue`, mounted in `App.vue` on every route, with an always-visible edge handle (`faWarehouse`) toggling a slide-in **Supplies** panel. Lists every owned item (`owned > 0`) as **`remaining / owned`** — `remaining` is the focus-decremented live stock, `owned` the imported baseline — sorted by category then name (mirroring `Calculator`'s `sortMaterials`), with item icon and gbf.wiki link; fully-spent rows dim. Empty state points at **Import supplies**. Open/closed persists under the new `App-sidebarOpen` key. |
-| S8 | **Navbar focus chip.** The single active focus (★ + unit name) renders in the left nav group, **rightmost** (after the two calc links); hidden when nothing is focused. Clicking routes to the owning calculator via a `calcId → route` map — Eternal recruit/Radiance disambiguated by a `?tab=recruit\|radiance` query that `CalcEternal` reads on mount and watches. |
-| S9 | **Store additions for S6–S8** (`src/js/inventory.js`): a new `owned` baseline (`{ key: count }`, set alongside `stock` on import, **not** decremented by focus); `name` snapshotted into `state.active` at focus time (so the chip has a label even when the owning calc is unmounted); a persisted `warningDismissed` flag; and `inventoryList()` (sorted sidebar rows) / `dismissWarning()`. Load is back-compatible — a persisted `App-inventory` without `owned` falls back to the current `stock` as the baseline. New FA icons `faWarehouse`, `faTriangleExclamation`. |
-| S10 | Bump `package.json` `version` to **1.2.11**; sync `CLAUDE.md` and `README.md`. |
-| S11 | **Tabbed inventory sidebar.** `InventorySidebar.vue` gains a tab bar under the "Supplies" header. First tab **Treasure** holds the imported supplies list. The structure is scaffolded to accept a future **Recovery** tab (a separate import targeting recovery items / `category_type`) — out of scope now, only the tab framework lands. Each tab carries its **own search box** (`searches[tabId]`, case-insensitive substring match on item name). |
-| S12 | **3-column Treasure grid.** The Treasure tab renders items in a **3-wide grid** (`grid-cols-3`), one icon per cell. The item name moves into a hover **tooltip** (native `title`) instead of an inline label; the icon stays a gbf.wiki link (hover ring). The **`remaining / owned`** count sits **under** each icon. Fully-spent items still dim. Panel widens (`w-72 → w-80`) for the 3 columns. |
-| S13 | **Import-order sort.** Items sort **left-to-right by their position in the imported JSON array** (the game's `seq_id` order), not by category/name. `inventory.js` captures an `order` index per key at import time (`state.order`, persisted in `App-inventory`); `inventoryList()` sorts by it, falling back to the old category→name sort for pre-amendment persisted inventories (back-compat load defaults `order` to `{}`). |
-| S14 | **Import button label.** The navbar **Import supplies** control (`App.vue`) gains a visible `Import supplies` text label to the **left** of the `faFileImport` icon (the whole row stays one clickable target). |
-| S15 | **Fixed sidebar height.** The Supplies panel is sized to the **viewport minus the navbar** — `h-[calc(100vh-5rem)]` (the panel is `fixed top-20` = `5rem`) — replacing the content-hugging `max-h-[70vh]`. It holds that height regardless of how many items are imported; the Treasure grid becomes the scroll region (`flex-1 min-h-0 overflow-y-auto`). |
-| S16 | **Chest tab icon.** The Treasure tab icon changes from `faWarehouse` to a chest-style icon. FontAwesome **free** has no literal treasure chest (`faTreasureChest` is Pro), so `faBoxArchive` (`box-archive`) is used; registered in `main.js`. The sidebar edge handle keeps `faWarehouse`. |
-| S17 | **Unfocus on delete.** Removing a unit box (the 🗑 button in `Calculator.vue`) that is the **active focus** now clears the focus first: new store method `inventory.unfocusIfActive(calcId, unitKey)` runs `clearActiveFocus()` (returns the spent stock to `state.stock`, drops `state.active`, persists) before `delete this.progress[unitKey]`. Previously a deleted focused unit left `state.active` dangling and its supplies permanently spent. The progress-restore half of `clearActiveFocus` is moot here (the unit is deleted next line), but returning the stock and clearing the focus are the point. |
-| S18 | **Focus chip scrolls to the unit.** Clicking the navbar focus chip (S8) still routes to the owning calculator (and the correct Eternal tab) but now also **scrolls the focused unit box into view**. `Calculator.vue` gives each unit box a stable `id="focus-anchor-{calcId}-{unitKey}"` (`focusAnchorId()`) plus `scroll-mt-24`; `App.vue`'s `goToFocus()` resolves the same id and, after the route push settles, `scrollToAnchor()` polls (`$nextTick` + retry) until the element exists **and** is visible (`offsetParent !== null` — guards the Eternal `v-show` tab swap) then `scrollIntoView({ behavior: 'smooth', block: 'start' })`. |
-| S19 | **Sidebar → side nav with an icon rail.** `InventorySidebar.vue` replaces the single edge toggle handle with an **always-visible vertical icon rail** at the right edge holding two clickable view icons — **`faWarehouse` → Treasure** and **`faFileImport` → Import supplies**. Clicking an icon opens the panel on that view; clicking the **active** icon (or the panel's `angle-right` header button) collapses back to the bare rail. The panel sits to the **left** of the rail; the panel header now shows the active view's label. Open/closed state still persists under the existing `App-sidebarOpen` key (`open` prop). The S16 `faBoxArchive` chest icon is dropped from the rail in favour of `faWarehouse` for the Treasure view (warehouse was previously only the edge handle). |
-| S20 | **Import moves into the sidebar (inline, no modal).** The navbar **Import supplies** control and the modal `SuppliesImport.vue` dialog are removed from `App.vue`. `SuppliesImport.vue` is reduced to a **plain inline form** (the backdrop/header-X/Close-button/`close` emit are gone — file picker + paste textarea + Import button + result line remain, logic unchanged) and is rendered as the sidebar's **Import** view. The navbar's right group keeps only version / JST / theme controls. |
-| S21 | **Sticky navbar.** The top `<nav>` in `App.vue` is `sticky top-0 z-50` so it stays pinned to the top while the page scrolls (was static, scrolled away). `z-50` keeps it above the `z-40` sidebar; the sidebar's `top-12` offset already matches the 3rem navbar so nothing else shifts. |
-| S22 | **Themed Supplies scrollbar.** The Supplies (Treasure) item-grid scroll region in `InventorySidebar.vue` gets a thin, themed scrollbar (`.supplies-scroll` scoped style: `scrollbar-width: thin` + `::-webkit-scrollbar` thumb/track) driven by the existing theme CSS variables (`--color-border-secondary`/`-primary`, transparent track) so it matches all three themes instead of the browser default. |
-| S23 | **Treasure view label → "Supplies".** The Treasure view's display label is renamed to **Supplies** (rail icon tooltip, panel header, and search placeholder). The **tab id stays `treasure`** — `activeTab === 'treasure'`, `searches.treasure`, and `state.order`/store logic are untouched; only the human-facing label changes. |
-| S24 | **Import-guide page.** New `src/pages/SuppliesGuide.vue` at route **`/import-guide`** (`src/router/index.js`) documenting how to obtain the supplies JSON from a desktop browser's DevTools: a "Desktop only" callout + numbered steps a–e (open DevTools → Network; refresh the in-game Supplies page; right-click the `article_list_by_filter_mode` request; Copy → Copy response; paste into the Import panel), each with the matching screenshot from **`public/img/docs/`** (`step1-inspect`…`step5-paste.png`). A `ROUTES` entry is added to `src/seo/meta.js` with title/description and **`prerender: false`** (so `scripts/prerender-routes.js` skips it — deep-links use the existing `404.html` SPA fallback). |
+| S7 | **Global Supplies sidebar.** New `InventorySidebar.vue`, mounted in `App.vue` on every route, presenting a **Supplies** panel that lists every owned item (`owned > 0`) as **`remaining / owned`** — `remaining` is the focus-decremented live stock, `owned` the imported baseline — with item icon and gbf.wiki link; fully-spent cells dim. Its housing is the icon-rail side nav (S19); its grid/sort/search are S12–S13. Open/closed persists under the new `App-sidebarOpen` key. |
+| S8 | **Navbar focus chip.** The single active focus (★ + unit name) renders in the left nav group, **rightmost** (after the two calc links); hidden when nothing is focused. Clicking routes to the owning calculator via a `calcId → route` map — Eternal recruit/Radiance disambiguated by a `?tab=recruit\|radiance` query that `CalcEternal` reads on mount and watches. The chip also carries a tab label (S30) and scroll-to-unit behavior (S18). |
+| S9 | **Store additions for S6–S8** (`src/js/inventory.js`): a new `owned` baseline (`{ key: count }`, set alongside `stock` on import, **not** decremented by focus); `name` snapshotted into `state.active` at focus time (so the chip has a label even when the owning calc is unmounted); a persisted `warningDismissed` flag; and `inventoryList()` (sorted sidebar rows) / `dismissWarning()`. Load is back-compatible — a persisted `App-inventory` without `owned` falls back to the current `stock` as the baseline. |
+| S10 | Set `package.json` `version` to **1.2.11**; sync `CLAUDE.md` and `README.md`. |
+| S11 | **Tabbed sidebar with search.** The Supplies panel carries a **Supplies** view (tab id `treasure`) holding the imported list, structured to accept a future **Recovery** tab (a separate import targeting recovery items / `category_type`) — out of scope now, only the tab framework lands. The view has its **own search box** (`searches.treasure`, case-insensitive substring match on item name). |
+| S12 | **3-column item grid.** The Supplies view renders items in a **3-wide grid** (`grid-cols-3`), one icon per cell: the item name is a hover **tooltip** (native `title`), the icon is a gbf.wiki link (hover ring), and the **`remaining / owned`** count sits **under** each icon. Fully-spent items dim. |
+| S13 | **Import-order sort.** Items sort **left-to-right by their position in the imported JSON array** (the game's `seq_id` order). `inventory.js` captures an `order` index per key at import time (`state.order`, persisted in `App-inventory`); `inventoryList()` sorts by it, falling back to a category→name sort (mirroring `Calculator`'s `sortMaterials`) for persisted inventories with no `order` map (back-compat load defaults `order` to `{}`). |
+| S14 | **Import label.** The **Import supplies** control shows a visible text label alongside its `faFileImport` icon. |
+| S15 | **Fixed sidebar height, flush under navbar.** The rail + panel are pinned at `fixed top-12` (3rem, under the `h-12` navbar) with a fixed `h-[calc(100vh-3rem)]`, replacing any content-hugging max-height. The grid is the scroll region (`flex-1 min-h-0 overflow-y-auto`), so the panel holds its height regardless of item count. |
+| S16 | **FontAwesome free icons.** The feature uses only free FA icons (FA-free has no literal treasure chest — `faTreasureChest` is Pro). `faWarehouse`, `faFileImport`, `faTriangleExclamation`, `faBoxArchive`, `faBullhorn` are registered in `main.js` alongside `faStar`/`faXmark`. |
+| S17 | **Unfocus on delete.** Removing a unit box (the 🗑 button in `Calculator.vue`) that is the **active focus** clears the focus first: store method `inventory.unfocusIfActive(calcId, unitKey)` runs `clearActiveFocus()` (returns the spent stock to `state.stock`, drops `state.active`, persists) before `delete this.progress[unitKey]`, so a deleted focused unit never leaks its spent supplies or leaves a dangling `state.active`. (The progress-restore half of `clearActiveFocus` is moot here — the unit is deleted next line — but returning the stock and clearing the focus are the point.) |
+| S18 | **Focus chip scrolls to the unit.** Clicking the navbar focus chip (S8) routes to the owning calculator (and the correct Eternal tab) and **scrolls the focused unit box into view**. `Calculator.vue` gives each unit box a stable `id="focus-anchor-{calcId}-{unitKey}"` (`focusAnchorId()`) plus `scroll-mt-24`; `App.vue`'s `goToFocus()` resolves the same id and, after the route push settles, `scrollToAnchor()` polls (`$nextTick` + retry) until the element exists **and** is visible (`offsetParent !== null` — guards the Eternal `v-show` tab swap) then `scrollIntoView({ behavior: 'smooth', block: 'start' })`. |
+| S19 | **Side nav with an icon rail.** `InventorySidebar.vue` is a **side navigation bar**: an always-visible vertical icon rail at the right edge with two clickable view icons — **`faWarehouse` → Supplies** and **`faFileImport` → Import supplies**. Clicking an icon opens the panel on that view (to the **left** of the rail, header showing the active view's label); clicking the **active** icon (or the panel's `angle-right` header button) collapses back to the bare rail. Open/closed persists under `App-sidebarOpen` (`open` prop). |
+| S20 | **Inline import in the sidebar (no modal, no navbar control).** Import lives entirely in the sidebar's **Import** view as a plain inline `SuppliesImport.vue` form (file picker + paste textarea + Import button + result line). There is no navbar import control and no modal dialog; the navbar's right group holds only version / What's-new / JST / theme controls. |
+| S21 | **Sticky navbar.** The top `<nav>` in `App.vue` is `sticky top-0 z-50` so it stays pinned to the top while the page scrolls. `z-50` keeps it above the `z-40` sidebar; the sidebar's `top-12` offset matches the 3rem navbar so nothing else shifts. |
+| S22 | **Themed Supplies scrollbar.** The Supplies grid scroll region gets a thin, themed scrollbar (`.supplies-scroll` scoped style: `scrollbar-width: thin` + `::-webkit-scrollbar` thumb/track) driven by the theme CSS variables (`--color-border-secondary`/`-primary`, transparent track) so it matches all three themes. |
+| S23 | **"Supplies" labelling.** The Supplies view's human-facing label (rail icon tooltip, panel header, search placeholder) reads **Supplies**. The underlying **tab id stays `treasure`** — `activeTab === 'treasure'`, `searches.treasure`, and `state.order`/store logic use the `treasure` id. |
+| S24 | **Import-guide page.** New `src/pages/SuppliesGuide.vue` at route **`/import-guide`** (`src/router/index.js`, name `import-guide`) documenting how to obtain the supplies JSON from a desktop browser's DevTools: a "Desktop only" callout + numbered steps a–e (open DevTools → Network; refresh the in-game Supplies page; right-click the `article_list_by_filter_mode` request; Copy → Copy response; paste into Import), each with a screenshot from **`public/img/docs/`** (`step1-inspect`…`step5-paste.png`). The route has **no** `ROUTES` entry in `src/seo/meta.js` (SEO-de-listed — see S29) and is not pre-rendered; `metaForPath('/import-guide')` falls back to the default title/description and deep-links use the `404.html` SPA fallback. |
 | S25 | **Screenshots = hand-supplied assets.** `public/img/docs/*.png` are author-supplied screenshots (like `og-preview.png` / the lettering SVG), **not** game assets and **not** covered by `scripts/check-item-images.js`; missing files only render broken `<img>`s, they do not fail the build. |
-| S26 | **Guide link in the Import view.** `src/components/SuppliesImport.vue` gains a "How do I get this JSON? →" `<router-link :to="{ name: 'import-guide' }" target="_blank">` (external-link icon) under the intro, opening the guide in a **new tab**. |
-| S27 | **"What's new" changelog popup.** New `src/components/WhatsNew.vue` — a centered modal (themed card + backdrop) with a tl;dr of the supplies-import release (import JSON, ★ focus a unit, Supplies panel `remaining / owned`) and a `target="_blank"` link to `/import-guide`. Mounted globally in `App.vue` (`v-model:open="whatsNewOpen"`). It **auto-shows once per app version**: `App.vue` persists `whatsNewSeenVersion` via the existing `LocalStorageMgt('App')` (new **`App-whatsNewSeenVersion`** key); `mounted()` opens it when the seen version ≠ `package.json` version **and records the current version in the same step** (not on close), so it auto-shows exactly once even if the user reloads or navigates away before pressing **Got it**. A **What's new** control (`faBullhorn`) sits beside the navbar version indicator to reopen it on demand. |
-| S28 | **Icon + no version bump.** Register `faBullhorn` in `main.js`. This is a v1.2.11 amendment — no `## Version` heading, no `package.json`/`CLAUDE.md`/`README.md` version bump (the docs are updated to describe the page/popup). |
+| S26 | **Guide link in the Import view.** `src/components/SuppliesImport.vue` has a "How do I get this JSON? →" `<router-link :to="{ name: 'import-guide' }" target="_blank">` (external-link icon) under the intro, opening the guide in a **new tab**. |
+| S27 | **"What's new" changelog popup.** New `src/components/WhatsNew.vue` — a centered modal (themed card + backdrop) with a tl;dr of the supplies-import release (import JSON, ★ focus a unit, Supplies panel `remaining / owned`) and a `target="_blank"` link to `/import-guide`. Mounted globally in `App.vue` (`v-model:open="whatsNewOpen"`). It **auto-shows once per app version**: `App.vue` persists `whatsNewSeenVersion` via the existing `LocalStorageMgt('App')` (new **`App-whatsNewSeenVersion`** key); `mounted()` opens it when the seen version ≠ `package.json` version **and records the current version in the same step** (not on close), so it auto-shows exactly once even if the user reloads or navigates away before pressing **Got it**. A **What's new** control (`faBullhorn`) sits beside the navbar version indicator to reopen it on demand. Clicking the backdrop outside the card closes it (the close `@click` lives on the backdrop `<div>`, since a `@click.self` on the overlaid wrapper would never fire). |
+| S28 | **Icon registration.** Register `faBullhorn` in `main.js` for the What's-new control. |
+| S29 | **`/import-guide` SEO-de-listed.** The `/import-guide` route has no `ROUTES` entry in `src/seo/meta.js` — it carries no SEO weight (not pre-rendered, absent from `sitemap.xml`). The route still resolves in `src/router/index.js`; `metaForPath('/import-guide')` falls back to the default title/description (the `afterEach` hook defaults via `entry?.title ?? DEFAULT_TITLE`), and `scripts/prerender-routes.js` (which only emits `prerender: true` routes) skips it so deep-links fall through `404.html`. |
+| S30 | **Focus chip shows the Eternal tab.** The navbar focus chip adds a small label (themed `bg-secondary` badge, `hidden sm:inline`) next to the unit name naming which Eternal tab the focus came from — **Recruit & Transcend** (`calcId === 'CalcEternal'`) or **Radiance** (`calcId === 'CalcEternalRadiance'`). Evoker focuses (`CalcEvoker`) show **no** label (single calc). Derived from `activeFocus.calcId` via a `focusTabLabel` computed and folded into the chip's hover `title` (e.g. `Focused: Uriel (Radiance) — go to calculator`). |
 
 ### 15.3 Notes & constraints
 
@@ -337,48 +339,28 @@ naming the currently-focused unit.
   (`rupie`/`crystal`) or that are absent from the supplies dump won't auto-fill — see S2.
 - `response-example/` stays git-ignored; the imported JSON never ships in the repo or build.
 - `App-inventory` is a new key, not a rename — the frozen-keys constraint (§8.1) is preserved.
-- **The S6–S8 UI is a layer over the focus store.** S6 only gates the existing `inventory.toggleFocus`
-  behind a confirm; S7/S8 are read-only views of `state`. The reset-on-switch / deferred-revert logic is
-  untouched. The new `App-sidebarOpen` key is UI-only and joins the frozen `App-*` family.
 - **The sidebar shows raw `remaining / owned`** — it does not subtract pending needs. Items that never
   import (the 30 weapon items, currency, evolution items — S2) have no `owned` entry and simply don't
   appear, an accepted carry-over limitation.
-- **S11–S13 (amendment, 2026-06-21, still v1.2.11).** The sidebar list became a tabbed, searchable
-  3-column grid sorted by import order. Order comes from the user's own pasted array (same shape/order as
-  the git-ignored `response-example/supplies-response.json`), so nothing new ships and no new store concept
-  beyond the `order` map is introduced. No version bump — this refines S7's read-only view, the focus
-  store/logic is untouched. The Recovery tab is scaffolded only (future import).
-- **S14–S16 (amendment, 2026-06-21, still v1.2.11).** Cosmetic UI polish on the import control and Supplies
-  panel: a text label on the import button, a fixed panel height (viewport − navbar, holds regardless of
-  item count), and a chest-style (`faBoxArchive`) Treasure tab icon. No store/logic change, no version bump.
-- **S17–S18 (amendment, 2026-06-21, still v1.2.11).** Focus lifecycle polish: deleting a focused unit now
-  returns its stock and clears the focus (S17, the one genuine fix — previously it leaked spent supplies and
-  a dangling `state.active`), and the navbar focus chip scrolls the focused unit into view after routing
-  (S18). S17 reuses the existing `clearActiveFocus()`; S18 is a read-only navigation/scroll layer. No new
-  store concept, no version bump.
-- **S19–S20 (amendment, 2026-06-21, still v1.2.11).** The Supplies sidebar became a **side navigation bar**:
-  an always-visible right-edge icon rail (`faWarehouse` → Treasure view, `faFileImport` → Import view) that
-  expands the panel to the chosen view and collapses when the active icon is re-clicked, and **Import supplies
-  moved inline into the sidebar** (the navbar control and the modal dialog are gone; `SuppliesImport.vue` is
-  now an inline form embedded in the Import view). Pure UI re-housing — the inventory/focus store, the import
-  logic, and the `App-sidebarOpen`/`App-inventory` keys are untouched. No version bump.
-- **S21–S23 (amendment, 2026-06-21, still v1.2.11).** Sticky top navbar (`sticky top-0 z-50`, stays pinned while
-  scrolling), a themed thin scrollbar on the Supplies item grid, and the Treasure view relabeled **Supplies**
-  (display label only — the `treasure` tab id and store logic are unchanged). Pure CSS/label polish, no store/logic
-  change, no version bump.
-- **S24–S28 (amendment, 2026-06-21, still v1.2.11).** Added a `/import-guide` documentation page
-  (`SuppliesGuide.vue`) explaining how to copy the supplies JSON from a desktop browser's DevTools, with
-  author-supplied screenshots in `public/img/docs/` (not game assets, outside `check-item-images.js`); a
-  "How do I get this JSON?" `target="_blank"` link to it from the Import view; and a **What's new**
-  changelog popup (`WhatsNew.vue`) that auto-shows once per app version (persisted `App-whatsNewSeenVersion`)
-  and is reopenable from a `faBullhorn` navbar control, also linking the guide in a new tab. No store/focus
-  logic change, no version bump (no new `## Version` heading).
+- **Sidebar = side nav, import is inline (S19–S20).** The Supplies sidebar is a side-navigation bar (icon
+  rail + left-of-rail panel), and supplies import lives inline as the rail's Import view — there is no modal
+  and no navbar import control. The Supplies grid is searchable, 3-column, and sorted by the user's import
+  order (`state.order`); the panel is flush under the navbar at `top-12` with a fixed `h-[calc(100vh-3rem)]`.
+- **All UI beyond S1–S5 is a layer over the focus store.** The warning dialog (S6), the sidebar/Supplies
+  views (S7, S11–S13, S19–S23), the focus chip (S8, S18, S30), the `/import-guide` page (S24–S26, S29), and
+  the What's-new popup (S27–S28) add no new focus/spend logic. The only store additions are the `owned`
+  baseline, the `order` map, the snapshotted focus `name`, `warningDismissed`, `unfocusIfActive()`
+  (S17, the one genuine focus-lifecycle fix — returns stock and clears focus when a focused unit is deleted),
+  and the read helpers (`inventoryList()`, `dismissWarning()`). The new `App-sidebarOpen` and
+  `App-whatsNewSeenVersion` keys are UI-only and join the frozen `App-*` family.
+- **`/import-guide` is SEO-de-listed (S24, S29).** The route works and is linked from the Import view and the
+  What's-new popup, but has no `ROUTES` entry, is not pre-rendered, and is absent from `sitemap.xml`; it
+  serves the sitewide default title/description via `metaForPath`'s fallback.
 
 ### 15.4 Acceptance criteria
 
-1. The navbar **Import supplies** button opens a dialog; pasting (or loading) the
-   `supplies-response.json` array imports the stock and reports matched/skipped counts (278 matched for
-   the sample).
+1. The sidebar's **Import supplies** view accepts a pasted (or `.json`-loaded) `supplies-response.json`
+   array, imports the stock, and reports matched/skipped counts (278 matched for the sample).
 2. Clicking ★ on a unit fills that unit's progress from the imported stock (capped at each material's
    need, earliest step first) and the star shows as active.
 3. Clicking ★ on a second unit (any calculator) un-fills the first and fills the second; the first unit's
@@ -388,26 +370,22 @@ naming the currently-focused unit.
 5. Clicking ★ (when the warning has not been dismissed) opens a confirm dialog; **Continue** applies the
    focus/unfocus, **Cancel** leaves state unchanged. Ticking **Don't show this again** then continuing
    suppresses the dialog for all later ★ clicks (persists across reload).
-6. The right-edge handle opens a **Supplies** panel listing imported items as `remaining / owned`, sorted
-   by category then name; focusing a unit lowers the `remaining` of the spent items live; the open/closed
-   state survives reload.
-7. With a unit focused, a chip (★ + unit name) shows rightmost in the left nav group; clicking it routes
-   to that unit's calculator (and the correct Eternal tab); the chip disappears when focus is cleared.
-8. `npm test` still passes (316 item icons; the store/dialog/sidebar are not in scope of the check).
-9. `package.json` `version` is `1.2.11`; `CLAUDE.md` and `README.md` reflect v1.2.11.
-10. (S11–S13) The Supplies panel shows a **Treasure** tab with a search box and a 3-column icon grid;
-    each cell shows `remaining / owned` under the icon, the name as a hover tooltip, and links to gbf.wiki.
-    Items are ordered left-to-right by their position in the imported JSON (game seq order). Typing in the
-    search box filters the grid by name; clearing it restores the full ordered list.
-11. (S17) Deleting the currently-focused unit (🗑) returns its spent supplies to the Supplies panel
-    (`remaining` goes back up) and clears the focus chip; no stock is leaked and no dangling focus remains.
-12. (S18) Clicking the navbar focus chip routes to the owning calculator (correct Eternal tab) **and**
-    scrolls the focused unit box into view, including when starting from another page or the other tab.
-13. (S24–S26) `/import-guide` renders the "Desktop only" note and steps a–e with the
-    `public/img/docs/` screenshots; the "How do I get this JSON?" link in the Import view opens it in a
-    **new tab**. `prerender: false` means `npm run build` produces **no** `dist/import-guide/index.html`
-    and the route still loads via the SPA/404 fallback.
-14. (S27) On first load after a version change the **What's new** popup auto-opens; reloading does
-    **not** auto-reopen it even if it was never dismissed (the seen version is recorded the moment it
-    auto-shows); clicking the navbar **What's new** (`faBullhorn`) control reopens it; its "How to get
-    your supplies JSON" link opens `/import-guide` in a new tab.
+6. The sidebar's **Supplies** view lists imported items as `remaining / owned` in a searchable 3-column
+   grid ordered left-to-right by import position (game seq order); each cell shows the count under the icon,
+   the name as a hover tooltip, and links to gbf.wiki. Focusing a unit lowers the `remaining` of the spent
+   items live; typing in the search box filters by name; the open/closed state survives reload.
+7. With a unit focused, a chip (★ + unit name + Eternal-tab badge for Recruit & Transcend / Radiance, none
+   for Evoker) shows rightmost in the left nav group; clicking it routes to that unit's calculator (and the
+   correct Eternal tab) **and** scrolls the focused unit box into view, including from another page or tab;
+   the chip disappears when focus is cleared.
+8. Deleting the currently-focused unit (🗑) returns its spent supplies to the Supplies panel (`remaining`
+   goes back up) and clears the focus chip; no stock is leaked and no dangling focus remains.
+9. `npm test` still passes (316 item icons; the store/import/sidebar are not in scope of the check).
+10. `package.json` `version` is `1.2.11`; `CLAUDE.md` and `README.md` reflect v1.2.11.
+11. `/import-guide` renders the "Desktop only" note and steps a–e with the `public/img/docs/` screenshots;
+    the "How do I get this JSON?" link in the Import view opens it in a **new tab**. The route is not
+    pre-rendered (no `dist/import-guide/index.html`) and loads via the SPA/404 fallback.
+12. On first load after a version change the **What's new** popup auto-opens; reloading does **not**
+    auto-reopen it even if it was never dismissed (the seen version is recorded the moment it auto-shows);
+    clicking the navbar **What's new** (`faBullhorn`) control reopens it; clicking the backdrop closes it;
+    its guide link opens `/import-guide` in a new tab.
