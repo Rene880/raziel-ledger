@@ -128,7 +128,7 @@ Each released version adds a `## N. Version x.y.z` heading; the table below is t
 | 1.2.8 | 2026-06-14 | **Per-route titles/meta + sitemap.** Added a vue-router `afterEach` hook (`src/router/index.js`) that sets a distinct `document.title`, `description`, `canonical`, and `og:`/`twitter:` title/description/url per route (Home, Eternals, Evokers, NotFound) from `route.meta`; the static `index.html` tags remain the scraper-facing defaults. Added `public/sitemap.xml` (the three real routes, absolute production URLs) for manual submission in Google Search Console — partially reversing 1.2.6's "no sitemap" scope (a subpath sitemap isn't auto-discovered but is valid when submitted directly). Removed a stray `</content>`/`</invoke>` artifact from PRD §9 and condensed §9. See §12. |
 | 1.2.9 | 2026-06-14 | **Per-route static social previews (build-time pre-render).** Fixed `/calceternal` and `/calcevoker` unfurling with **no** link-preview card: they were served from GitHub's `404.html` (no OG tags; the 1.2.8 JS `afterEach` can't help scrapers). Extracted the route SEO table into a shared plain module (`src/seo/meta.js`) consumed by both the router and a new `scripts/prerender-routes.js` (`postbuild`) that clones the built `dist/index.html` into `dist/calceternal/index.html` and `dist/calcevoker/index.html` with each route's static `<title>`/`title`/`description`/`canonical`/`og:`/`twitter:` title-description-url swapped in (OG **image** stays the sitewide `og-preview.png`). Those routes now serve a real **200** file with correct static tags; the rafgraph `404.html` redirect remains only for genuinely unknown paths. No new dependency, no SSR. See §13. |
 | 1.2.10 | 2026-06-14 | **Self-hosted subsetted homepage font.** Replaced the render-blocking Google Fonts chain (two `preconnect`s + a css2 `<link>` → ~1.3 s cross-origin DNS/TLS for a 29.70 KiB woff2) with a self-hosted `public/fonts/great-vibes-subset.woff2` (~6 KB) — Great Vibes (OFL) subset to the 11 hero glyphs in "Raziel Ledger". `index.html` now declares an inline `@font-face` (`font-display: swap`) + a `<link rel="preload" as="font" crossorigin>`, both via `%BASE_URL%`. `scripts/prerender-routes.js` strips the preload from the calc-route pre-renders (font unused there). No Google request at runtime; the hero font loads same-origin on the existing connection. See §14. |
-| 1.2.11 | 2026-06-21 | **Supplies import + per-unit "focus".** Added a navbar **Import supplies** dialog (`SuppliesImport.vue`, paste or `.json` file) that parses the in-game item-list response (`response-example/supplies-response.json` shape) into a `{ key: count }` stock map by matching each `item_id` to the `itemId` on `supplies.js` items (278 match; weapons/currency/evolution items skipped). Added a ★ **focus** button on every calculator unit box that spends that stock against the unit's selected step range (fills progress, earliest step first). Focus is **global + single** (one unit app-wide); switching focus resets the previous unit (restores progress, returns stock) before applying. New `reactive` store `src/js/inventory.js` (no Vuex), persisted under `App-inventory`; pages register their progress with it via the new `calcId` prop on `Calculator.vue`. See §15. |
+| 1.2.11 | 2026-06-21 | **Supplies import, per-unit "focus" & inventory UI.** Added a navbar **Import supplies** dialog (`SuppliesImport.vue`, paste or `.json` file) that parses the in-game item-list response (`response-example/supplies-response.json` shape) into a `{ key: count }` stock map by matching each `item_id` to the `itemId` on `supplies.js` items (278 match; weapons/currency/evolution items skipped). Added a ★ **focus** button on every calculator unit box that spends that stock against the unit's selected step range (fills progress, earliest step first). Focus is **global + single** (one unit app-wide); switching focus resets the previous unit (restores progress, returns stock) before applying. New `reactive` store `src/js/inventory.js` (no Vuex), persisted under `App-inventory`; pages register their progress with it via the new `calcId` prop on `Calculator.vue`. Supporting UI: a dismissable confirm dialog on the ★ warning that focus/unfocus overwrites tracked quantities (persisted `warningDismissed`); a global collapsible right **Supplies** sidebar (`InventorySidebar.vue`) listing every owned item as `remaining / owned` (sorted by category then name; open state under `App-sidebarOpen`); and a navbar **focus chip** (★ + active unit name, rightmost of the left nav group) that routes to its calc (Eternal tab via `?tab=recruit|radiance`). The store carries an `owned` baseline (imported totals, distinct from focus-decremented `stock`), `state.active.name`, `inventoryList()`, and `dismissWarning()`. New FA icons `faStar`, `faFileImport`, `faXmark`, `faWarehouse`, `faTriangleExclamation`. See §15. |
 
 ### 8.1 Constraints that persist
 
@@ -279,7 +279,7 @@ and `og-preview.png` is a pre-rendered PNG).
 
 ---
 
-## 15. Version 1.2.11 — Supplies import + per-unit "focus" (2026-06-21)
+## 15. Version 1.2.11 — Supplies import, per-unit "focus" & inventory UI (2026-06-21)
 
 ### 15.1 Problem / motivation
 
@@ -289,7 +289,9 @@ full item inventory as a JSON response (the array shape in the git-ignored
 `response-example/supplies-response.json`: `{ item_id, number, name, … }`, where `number` is the owned
 count). We can ingest that and let the player **spend** it against a unit to see how far their stock gets
 them — without changing the underlying calculator model (component state + `localStorage`, no backend, no
-Vuex; §3, §6).
+Vuex; §3, §6). Supporting UI rounds out the loop (S6–S9): a heads-up before the ★ overwrites tracked
+quantities, a collapsible **Supplies** sidebar showing `remaining / owned` per item, and a navbar chip
+naming the currently-focused unit.
 
 ### 15.2 Scope
 
@@ -300,7 +302,11 @@ Vuex; §3, §6).
 | S3 | **Per-unit focus.** A ★ button (`faStar`) on each unit box in `Calculator.vue`. Clicking focuses that unit: for each material in the unit's selected `from→to` step range (resolved exactly as `getItemProgressFor` does — element/summon groups included), spend `min(owned, needed)` from `stock`, write it into that step's progress, and snapshot the consumed amounts + overwritten prior values. |
 | S4 | **Global, single focus with reset-on-switch.** Only one unit across the whole app (both Eternal tabs + Evoker) is focused at a time. Switching focus (or re-clicking the star) first **resets** the previous unit — restores its prior progress and returns the spent stock — then applies to the new unit, so the same stock is never counted against two units (answers the "reset previous focus quantity" decision). |
 | S5 | **Registration plumbing.** New `calcId` prop on `Calculator.vue` (`CalcEternal`, `CalcEternalRadiance`, `CalcEvoker`). Each page registers its loaded progress object with the store in `mounted()` (after `localStorage` load, so deferred reverts hit real data) and `unregister()`s in `beforeUnmount()`. A focus owned by an unmounted calc reverts its stock immediately and defers its progress restore until that calc next registers. New FA icons: `faStar`, `faFileImport`, `faXmark`. |
-| S6 | Bump `package.json` `version` to **1.2.11**; sync `CLAUDE.md` and `README.md`. |
+| S6 | **Focus/unfocus warning (dismissable).** A confirm dialog in `Calculator.vue` intercepts the ★ click: it explains that focusing fills the unit's quantities from stock and unfocusing restores them, and that hand edits made *while focused* are overwritten. A **"Don't show this again"** checkbox persists `warningDismissed` in the store; once set, the ★ acts immediately. Local `pendingFocusUnit`/`dontShowAgain` state; the star's handler is `requestFocus()` → `confirmFocus()`/`cancelFocus()`. |
+| S7 | **Global inventory sidebar.** New `InventorySidebar.vue`, mounted in `App.vue` on every route, with an always-visible edge handle (`faWarehouse`) toggling a slide-in **Supplies** panel. Lists every owned item (`owned > 0`) as **`remaining / owned`** — `remaining` is the focus-decremented live stock, `owned` the imported baseline — sorted by category then name (mirroring `Calculator`'s `sortMaterials`), with item icon and gbf.wiki link; fully-spent rows dim. Empty state points at **Import supplies**. Open/closed persists under the new `App-sidebarOpen` key. |
+| S8 | **Navbar focus chip.** The single active focus (★ + unit name) renders in the left nav group, **rightmost** (after the two calc links); hidden when nothing is focused. Clicking routes to the owning calculator via a `calcId → route` map — Eternal recruit/Radiance disambiguated by a `?tab=recruit\|radiance` query that `CalcEternal` reads on mount and watches. |
+| S9 | **Store additions for S6–S8** (`src/js/inventory.js`): a new `owned` baseline (`{ key: count }`, set alongside `stock` on import, **not** decremented by focus); `name` snapshotted into `state.active` at focus time (so the chip has a label even when the owning calc is unmounted); a persisted `warningDismissed` flag; and `inventoryList()` (sorted sidebar rows) / `dismissWarning()`. Load is back-compatible — a persisted `App-inventory` without `owned` falls back to the current `stock` as the baseline. New FA icons `faWarehouse`, `faTriangleExclamation`. |
+| S10 | Bump `package.json` `version` to **1.2.11**; sync `CLAUDE.md` and `README.md`. |
 
 ### 15.3 Notes & constraints
 
@@ -313,6 +319,12 @@ Vuex; §3, §6).
   (`rupie`/`crystal`) or that are absent from the supplies dump won't auto-fill — see S2.
 - `response-example/` stays git-ignored; the imported JSON never ships in the repo or build.
 - `App-inventory` is a new key, not a rename — the frozen-keys constraint (§8.1) is preserved.
+- **The S6–S8 UI is a layer over the focus store.** S6 only gates the existing `inventory.toggleFocus`
+  behind a confirm; S7/S8 are read-only views of `state`. The reset-on-switch / deferred-revert logic is
+  untouched. The new `App-sidebarOpen` key is UI-only and joins the frozen `App-*` family.
+- **The sidebar shows raw `remaining / owned`** — it does not subtract pending needs. Items that never
+  import (the 30 weapon items, currency, evolution items — S2) have no `owned` entry and simply don't
+  appear, an accepted carry-over limitation.
 
 ### 15.4 Acceptance criteria
 
@@ -325,5 +337,13 @@ Vuex; §3, §6).
    prior quantities and the total stock are restored exactly (no double-spend). Re-clicking the active ★
    clears the focus and restores that unit.
 4. Reloading the page preserves the imported stock and the active focus (the ★ stays lit; revert still works).
-5. `npm test` still passes (316 item icons; the store/dialog are not in scope of the check).
-6. `package.json` `version` is `1.2.11`; `CLAUDE.md` and `README.md` reflect v1.2.11.
+5. Clicking ★ (when the warning has not been dismissed) opens a confirm dialog; **Continue** applies the
+   focus/unfocus, **Cancel** leaves state unchanged. Ticking **Don't show this again** then continuing
+   suppresses the dialog for all later ★ clicks (persists across reload).
+6. The right-edge handle opens a **Supplies** panel listing imported items as `remaining / owned`, sorted
+   by category then name; focusing a unit lowers the `remaining` of the spent items live; the open/closed
+   state survives reload.
+7. With a unit focused, a chip (★ + unit name) shows rightmost in the left nav group; clicking it routes
+   to that unit's calculator (and the correct Eternal tab); the chip disappears when focus is cleared.
+8. `npm test` still passes (316 item icons; the store/dialog/sidebar are not in scope of the check).
+9. `package.json` `version` is `1.2.11`; `CLAUDE.md` and `README.md` reflect v1.2.11.

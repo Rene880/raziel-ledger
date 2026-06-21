@@ -90,8 +90,21 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   `localStorage` load) and `unregister()` in `beforeUnmount()`; a focus owned by an unmounted calc
   returns stock immediately and defers its progress restore until that calc re-registers. Persisted under
   the **new** `App-inventory` key (the frozen `CalcEternal-*`/`CalcEvoker-*` progress keys are untouched).
+  The store also keeps an `owned` baseline (imported totals, **not** decremented
+  by focus — `stock` is the live remainder), `state.active.name` (label for the navbar chip, even when
+  the owning calc is unmounted), a persisted `warningDismissed` flag, and exposes `inventoryList()` (sorted
+  sidebar rows) / `dismissWarning()`. Back-compat load: a persisted `App-inventory` lacking `owned` falls
+  back to `stock` as the baseline.
   `src/components/SuppliesImport.vue` is the navbar **Import supplies** dialog (paste or `.json` file)
   wired into `App.vue`.
+- Inventory UI over the focus store (PRD §15): `Calculator.vue`'s ★ button opens a dismissable confirm
+  dialog (`requestFocus`→`confirmFocus`/`cancelFocus`; "don't show again" calls `inventory.dismissWarning()`)
+  before toggling focus. `src/components/InventorySidebar.vue` is a global, collapsible right **Supplies**
+  panel (mounted in `App.vue`, `v-model:open` persisted under the new `App-sidebarOpen` key) listing every
+  owned item as `remaining / owned`, sorted by category then name. `App.vue` also renders a **focus chip**
+  (★ + `state.active.name`) rightmost in the left nav group that routes to the focused unit's calc via a
+  `calcId → route` map (Eternal recruit/Radiance disambiguated by a `?tab=recruit|radiance` query that
+  `CalcEternal` reads on mount and watches). New FA icons: `faWarehouse`, `faTriangleExclamation`.
 - `src/js/supplies*.js` — frozen game data from GranblueParty, trimmed in v1.1 to the items and
   groups the calculators reference (the unused `rustedweapon` item is a deliberate keep — see PRD
   §8), then extended in v1.2 with the Radiance materials (`ETERNALS_DATA.radiance`, plus the

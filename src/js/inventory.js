@@ -32,9 +32,11 @@ for (const [key, item] of Object.entries(supplies.items)) {
 // progress-restore snapshots for calculators that owned a focus but are not
 // currently mounted (applied when they next register).
 const state = reactive({
-  stock: {},          // { suppliesKey: count }
-  active: null,       // { calcId, unitKey, consumed: {key:amt}, prior: [{unitKey,step,key,value}] }
+  stock: {},          // { suppliesKey: count } — remaining after focus spend
+  owned: {},          // { suppliesKey: count } — imported baseline, not spent by focus
+  active: null,       // { calcId, unitKey, name, consumed: {key:amt}, prior: [{unitKey,step,key,value}] }
   pending: {},        // { calcId: [{unitKey,step,key,value}] }
+  warningDismissed: false, // focus/unfocus warning "don't show again"
 })
 
 // Live calculator contexts, keyed by calcId: { unitsData, progress }. Not
@@ -44,8 +46,10 @@ const registry = {}
 function persist() {
   localStorage.setItem(LS_KEY, JSON.stringify({
     stock: state.stock,
+    owned: state.owned,
     active: state.active,
     pending: state.pending,
+    warningDismissed: state.warningDismissed,
   }))
 }
 
@@ -55,8 +59,12 @@ function load() {
   try {
     const parsed = JSON.parse(raw)
     state.stock = parsed.stock || {}
+    // Older inventories have no `owned` baseline — fall back to the
+    // remaining stock so the sidebar still has a denominator.
+    state.owned = parsed.owned || { ...state.stock }
     state.active = parsed.active || null
     state.pending = parsed.pending || {}
+    state.warningDismissed = !!parsed.warningDismissed
   } catch {
     // Ignore corrupt data — start from an empty inventory.
   }
@@ -191,9 +199,37 @@ export default {
     clearActiveFocus()
     if (!wasSame) {
       const { consumed, prior } = applyFocus(ctx, unitKey)
-      state.active = { calcId, unitKey, consumed, prior }
+      const unit = ctx.unitsData.units[unitKey]
+      state.active = { calcId, unitKey, name: unit ? unit.name : String(unitKey), consumed, prior }
     }
     persist()
+  },
+
+  // Persist the focus/unfocus warning "don't show again" choice.
+  dismissWarning() {
+    state.warningDismissed = true
+    persist()
+  },
+
+  // Sorted rows for the inventory sidebar: every owned item with its remaining
+  // stock. Sorted by category then name, mirroring Calculator's sortMaterials.
+  inventoryList() {
+    return Object.keys(state.owned)
+      .filter((key) => (state.owned[key] || 0) > 0)
+      .map((key) => {
+        const item = supplies.items[key] || {}
+        return {
+          key,
+          name: item.name || key,
+          animated: !!item.animated,
+          category: item.category || 0,
+          owned: state.owned[key] || 0,
+          remaining: state.stock[key] || 0,
+        }
+      })
+      .sort((a, b) => (a.category === b.category
+        ? a.name.localeCompare(b.name)
+        : a.category - b.category))
   },
 
   // Replace the whole stock from a parsed supplies-response.json array.
@@ -213,6 +249,7 @@ export default {
     }
     clearActiveFocus()
     state.stock = map
+    state.owned = { ...map }
     persist()
     return { total: arr.length, matched, unmatched: arr.length - matched }
   },

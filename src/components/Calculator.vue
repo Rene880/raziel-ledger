@@ -33,7 +33,7 @@
 
       <span class="flex flex-row justify-between text-3xl font-bold">
         <a class="cursor-pointer"
-          @click="toggleFocus(unitKey)"
+          @click="requestFocus(unitKey)"
           :title="isFocused(unitKey) ? 'Unfocus — restore your supplies' : 'Focus — spend your supplies on this unit'">
           <fa-icon :icon="['fas', 'star']" class="ml-2"
             :class="isFocused(unitKey) ? 'text-yellow-400' : 'opacity-30 hover:opacity-60'"></fa-icon>
@@ -104,6 +104,31 @@
         </div>
 
       </span>
+    </div>
+
+    <!-- Focus/unfocus warning -->
+    <div v-if="pendingFocusUnit !== null"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+      @click.self="cancelFocus">
+      <div class="flex flex-col gap-4 w-full max-w-md bg-tertiary text-primary border-4 border-secondary rounded p-4 lg:p-6">
+        <div class="flex flex-row items-center gap-2 text-xl font-bold">
+          <fa-icon :icon="['fas', 'triangle-exclamation']" class="text-yellow-400"></fa-icon>
+          <span>{{ isFocused(pendingFocusUnit) ? 'Unfocus this unit?' : 'Focus this unit?' }}</span>
+        </div>
+        <p class="text-sm opacity-80">
+          Focusing fills this unit's quantities from your imported supplies, and unfocusing restores
+          the values it replaced. Either way, any quantities you edited <strong>by hand while a unit was
+          focused</strong> will be overwritten.
+        </p>
+        <label class="flex flex-row items-center gap-2 text-sm cursor-pointer select-none">
+          <input type="checkbox" v-model="dontShowAgain">
+          Don't show this again
+        </label>
+        <div class="flex flex-row justify-end gap-2">
+          <button class="btn btn-white" @click="cancelFocus">Cancel</button>
+          <button class="btn btn-blue" @click="confirmFocus">Continue</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -192,6 +217,9 @@ export default {
   data() {
     return {
       unit_index: -1,
+      // Unit awaiting focus/unfocus confirmation (null = no dialog open).
+      pendingFocusUnit: null,
+      dontShowAgain: false,
     };
   },
   methods: {
@@ -335,8 +363,25 @@ export default {
     toggleFolded(progressForUnit) {
       progressForUnit.fold = ! progressForUnit.fold;
     },
-    toggleFocus(unitKey) {
+    requestFocus(unitKey) {
+      // Warn before mutating tracked quantities, unless the user opted out.
+      if (inventory.state.warningDismissed) {
+        inventory.toggleFocus(this.calcId, unitKey);
+        return;
+      }
+      this.dontShowAgain = false;
+      this.pendingFocusUnit = unitKey;
+    },
+    confirmFocus() {
+      const unitKey = this.pendingFocusUnit;
+      this.pendingFocusUnit = null;
+      if (this.dontShowAgain) {
+        inventory.dismissWarning();
+      }
       inventory.toggleFocus(this.calcId, unitKey);
+    },
+    cancelFocus() {
+      this.pendingFocusUnit = null;
     },
     isFocused(unitKey) {
       return inventory.isFocused(this.calcId, unitKey);
