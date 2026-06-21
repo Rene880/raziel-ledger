@@ -71,11 +71,11 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   `SITE_NAME`, defaults, `OG_IMAGE`, the `ROUTES` table (`{ path, title, description, prerender }`), and
   `urlForPath()`. Imported by both `src/router/index.js` (runtime hook) and `scripts/prerender-routes.js`
   (build-time pre-render) so the two can't drift. See PRD §13.
-- `src/pages/` — `Home`, `CalcEternal`, `CalcEvoker`, `NotFound`, and `SuppliesGuide` (since v1.2.11
+- `src/pages/` — `Home`, `CalcEternal`, `CalcEvoker`, `NotFound`, and `SuppliesGuide` (since v1.3.0
   S24, route `/import-guide`) — a desktop-only walkthrough of copying the in-game supplies JSON from the
   browser's DevTools Network tab (`article_list_by_filter_mode` → Copy response → paste into Import),
   with author-supplied screenshots in `public/img/docs/` (`step1-inspect`…`step5-paste.png`; **not** game
-  assets, outside `check-item-images.js`). Since v1.2.11 S29 it has **no** `ROUTES` entry in
+  assets, outside `check-item-images.js`). Since v1.3.0 S29 it has **no** `ROUTES` entry in
   `src/seo/meta.js` (de-listed from SEO — it was already `prerender: false` and absent from `sitemap.xml`);
   the route still resolves and `metaForPath('/import-guide')` falls back to the default title/description,
   and `scripts/prerender-routes.js` (which only emits `prerender: true` routes) still skips it so deep-links
@@ -90,13 +90,13 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   toggles are shared, the active tab persists under `CalcEternal-activeTab`.
 - `src/components/Calculator.vue` — generic step/material calculator driven by the data shape in
   `src/js/supplies-{eternals,evokers}.js`. Material "groups" resolve to concrete items per unit
-  element/id using `src/js/supplies.js`. Since v1.2.11 (PRD §15) it takes a `calcId` prop
+  element/id using `src/js/supplies.js`. Since v1.3.0 (PRD §15) it takes a `calcId` prop
   (`CalcEternal` / `CalcEternalRadiance` / `CalcEvoker`) and renders a ★ "focus" button per unit box
   that delegates to the inventory store. Each unit box carries `id="focus-anchor-{calcId}-{unitKey}"`
   (`focusAnchorId()`) so the navbar focus chip can scroll to it (PRD §15 S18), and `removeUnit` calls
   `inventory.unfocusIfActive(calcId, unitKey)` before deleting so removing a focused unit returns its
   stock and drops the focus (S17).
-- `src/js/inventory.js` (since v1.2.11, PRD §15) — a Vue `reactive` module store (no Vuex) for the
+- `src/js/inventory.js` (since v1.3.0, PRD §15) — a Vue `reactive` module store (no Vuex) for the
   player's imported supplies stock and the single app-global unit "focus". Builds a one-time reverse
   `itemId → suppliesKey` map from `supplies.js`. `importFromResponse(arr)` parses the in-game item-list
   JSON (`response-example/supplies-response.json` shape: `{ item_id, number, … }`) into a
@@ -137,7 +137,7 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   themed scrollbar via the theme CSS vars; S22): per cell an `img` (gbf.wiki link, name as a hover `title`
   tooltip) with `remaining / owned` underneath, sorted left-to-right by import order (see `state.order` above).
   The Import view embeds the inline `SuppliesImport.vue` form. The whole sidebar (rail + panel) is pinned at `top-12`
-  with a **fixed height** of `h-[calc(100vh-3rem)]` (v1.2.11 height amendment) — flush under the 3rem (`h-12`)
+  with a **fixed height** of `h-[calc(100vh-3rem)]` (v1.3.0 height amendment) — flush under the 3rem (`h-12`)
   navbar so it reaches as high as possible (was `top-20` / `h-[calc(100vh-5rem)]`); the grid is the
   `flex-1 min-h-0 overflow-y-auto` scroll region). `App.vue` also renders a **focus chip**
   (★ + `state.active.name`, plus a small `bg-secondary` badge from the `focusTabLabel` computed naming the
@@ -150,7 +150,7 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   (`offsetParent !== null`, which guards the Eternal `v-show` tab swap) before `scrollIntoView` (PRD §15
   S18). New FA icons: `faWarehouse`, `faTriangleExclamation`, `faBoxArchive`. The top `<nav>` in `App.vue` is
   `sticky top-0 z-50` (S21) so it stays pinned to the top on scroll, above the `z-40` sidebar.
-- `src/components/WhatsNew.vue` (since v1.2.11 S27) — a global "What's new" changelog modal mounted in
+- `src/components/WhatsNew.vue` (since v1.3.0 S27) — a global "What's new" changelog modal mounted in
   `App.vue` (`v-model:open="whatsNewOpen"`): a tl;dr of the supplies-import release plus a `target="_blank"`
   link to `/import-guide`. Clicking the backdrop outside the card closes it (S29 — the close `@click` lives
   on the backdrop `<div>`, since a `@click.self` on the overlaid wrapper would never fire). It

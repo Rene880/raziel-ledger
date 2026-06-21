@@ -1,4 +1,4 @@
-// Shared supplies inventory + "focus" coordination (PRD §15, v1.2.11).
+// Shared supplies inventory + "focus" coordination (PRD §15, v1.3.0).
 //
 // - The player imports their in-game supplies stock (the supplies-response.json
 //   shape: an array of { item_id, number, ... }). `item_id` is matched against

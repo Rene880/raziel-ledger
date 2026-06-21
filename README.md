@@ -8,7 +8,7 @@ Material calculators for Granblue Fantasy long-term goals, served as a static SP
 
 All progress is stored in your browser's `localStorage`. There are no accounts and no backend.
 
-Since v1.2.11 you can also **import your in-game supplies** (the Import view in the supplies side nav) and
+Since v1.3.0 you can also **import your in-game supplies** (the Import view in the supplies side nav) and
 **focus** a unit (the ★ button on each unit box) to spend that imported stock against the unit's
 remaining materials, with a right-edge supplies side nav and a navbar focus chip — see
 [Supplies import & focus](#supplies-import--focus). A **What's new** popup (the 📢 navbar control,
@@ -99,7 +99,7 @@ pre-render step drops the preload from the calc routes (the font isn't used ther
 
 ## Supplies import & focus
 
-Since v1.2.11 ([PRD §15](PRD.md)) you can pour your real Granblue stock into the calculators:
+Since v1.3.0 ([PRD §15](PRD.md)) you can pour your real Granblue stock into the calculators:
 
 - **Import** — the supplies side nav's **Import** view (the file-import icon on the right-edge rail)
   shows an inline form that accepts the in-game item-list JSON
