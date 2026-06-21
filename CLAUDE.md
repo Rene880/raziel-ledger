@@ -18,7 +18,13 @@ Note-taking – Capture context, decisions, and open threads continuously. Check
 Working style – Show reasoning, not just conclusions. Breadth and rigor. Skip filler. If I say "things changed," re-interview me. Show me the draft, then we'll revise.
 
 Whenever changes are made to supplies.js or supplies.images, you should also keep "About items.md" updated by following this table format order: id, type, name
-Always refer to PRD.md and propose the changes on PRD.md first. Always keep latest 3 PRD version but condense the rest.
+Always refer to PRD.md (core requirements §1–§7, changelog table §8, constraints §8.1) and the active version PRD in `PRD/` (e.g. `PRD/v1.3.md`) and propose changes there first.
+
+PRD versioning and archiving policy:
+- When the **minor (y) version** bumps (x.y → x.{y+1}): archive the completed x.y series by moving its detailed specs into `PRD/v{x}.{y}.md`, then start the new series in a fresh `PRD.md` which represents version x.{y+1}.
+- When the **major (x) version** bumps (x.y → {x+1}.y): consolidate all `PRD/v{x}.*.md` files into a single `PRD/v{x}.md` (one archived file per major version), then start the new series in a fresh `PRD.md` which represents version v{x+1}.0.
+- `PRD.md` at the root is the permanent home for §1–§7 (core requirements) + the full changelog table + §8.1 constraints + pointers to `PRD/`. It does **not** contain detailed archived per-version specs — those live in `PRD/`.
+- The archived minor series' PRD lives in `PRD/v{x}.{y}.md`.
 
 Whenever changes are made, make sure it is also reflected in CLAUDE.md and README.md
 
