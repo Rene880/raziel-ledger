@@ -22,6 +22,12 @@ Always refer to PRD.md and propose the changes on PRD.md first. Always keep late
 
 Whenever changes are made, make sure it is also reflected in CLAUDE.md and README.md
 
+Cached per-unit material totals live in `.claude/item-totals.md` (human-readable tables) and
+`.claude/item-totals.json` (machine-readable) — look there instead of recomputing group→item resolution
+by hand. Whenever items, groups, steps, or quantities change in `src/js/supplies-eternals.js`,
+`src/js/supplies-evokers.js`, `src/js/supplies.js`, or the resolution logic in
+`src/components/Calculator.vue`, regenerate both by running `node .claude/gen-item-totals.mjs`.
+
 On every release (any new `## Version x.y.z` section in PRD.md), bump `package.json`'s `version` field to the same `x.y.z` in the same change set. `package.json` `version` is the single source of truth for the app version and must stay in sync with the PRD release heading.
 
 ## Project overview
@@ -126,6 +132,15 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   WikiParser is GPL-3.0, not part of the web build; in v1.2.5 it was reduced to just the fetcher
   (`update_img.py` + `data/supplies.images` + `requirements.txt`) — the upstream DB/preview/wiki-scrape
   pipeline was deleted. Run it with `cd WikiParser && python3 update_img.py`. See PRD §10.
+- `.claude/item-totals.{md,json}` — **cached reference, not shipped** (assistant lookup only, outside the
+  Vite build). Precomputed full-progression material totals per unit for all three calculators
+  (`CalcEternal` recruit/transcend, `CalcEternalRadiance`, `CalcEvoker`): every `group` resolved to its
+  concrete per-unit item(s) and summed across all steps, replaying `Calculator.vue`'s `getItemProgressFor`
+  exactly (element groups keyed by the unit's element, summon groups by unit id; multi-ref splits divide
+  `q` and round split `<5 ⇒ ceil`, `≥5 ⇒ floor`). `.claude/gen-item-totals.mjs` regenerates both — it
+  loads the real `supplies-common.js`/`supplies.js`/`supplies-eternals.js`/`supplies-evokers.js`, so rerun
+  it after any change to those data files or to the resolution logic. These are per-unit full builds, not
+  partial step ranges (which depend on user selection and can't be precomputed).
 - Components use the Options API, mirroring the upstream project; keep that style for consistency.
 - The Vite/router base is `/raziel-ledger/` (`vite.config.js`); asset URLs in code must be prefixed
   with `import.meta.env.BASE_URL` (item images live in `public/img/item/`).
