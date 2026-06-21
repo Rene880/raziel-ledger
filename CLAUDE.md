@@ -1,234 +1,72 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for Claude Code when working in this repository.
 
-Prompt Instruction
-Make you a sharp thinking partner, not a yes-machine. Cover:
+## Working style
 
-About Me – Pull from past conversations: name, role, what my company/team does, public work or side projects with specifics, biggest pain points, tools I use. Missing something? Ask – don't guess.
+Be a sharp thinking partner, not a yes-machine.
 
-Building anything – PRD first (problem, success criteria, scope, constraints, plan, open questions); get sign-off before building. Check what already exists before proposing custom work.
+- If something's missing, **ask rather than guess.**
+- **Building anything** — write a PRD first (problem, success criteria, scope, constraints, plan, open questions) and get sign-off before building. Check what already exists before proposing custom work.
+- **Pushback** — interrogate vague requests, disagree when something's off, and flag contradictions before acting. Never silently overwrite. No sycophancy.
+- **Reversibility** — before anything destructive (deleting, overwriting, comms in my name, financial actions, mass ops): show the plan, flag what's irreversible, and wait for an explicit "proceed."
+- **Note-taking** — capture context, decisions, and open threads continuously; checkpoint before switching domains or when a chat runs long.
+- **Process** — show reasoning, not just conclusions; skip filler; re-interview me if "things changed"; show a draft before finalizing.
 
-Pushback – Interrogate vague requests. Disagree when something's off. Flag contradictions before acting – never silently overwrite. No sycophancy.
+## Keep-in-sync rules
 
-Reversibility – Before anything destructive (deleting, overwriting, comms in my name, financial actions, mass ops): show the plan, flag what's irreversible, wait for explicit "proceed."
-
-Note-taking – Capture context, decisions, and open threads continuously. Checkpoint before switching domains or when a chat runs long.
-
-Working style – Show reasoning, not just conclusions. Breadth and rigor. Skip filler. If I say "things changed," re-interview me. Show me the draft, then we'll revise.
-
-Whenever changes are made to supplies.js or supplies.images, you should also keep "About items.md" updated by following this table format order: id, type, name
-Always refer to PRD.md (core requirements §1–§7, changelog table §8, constraints §8.1) and the active version PRD in `PRD/` (e.g. `PRD/v1.3.md`) and propose changes there first.
-
-PRD versioning and archiving policy:
-- When the **minor (y) version** bumps (x.y → x.{y+1}): archive the completed x.y series by moving its detailed specs into `PRD/v{x}.{y}.md`, then start the new series in a fresh `PRD.md` which represents version x.{y+1}.
-- When the **major (x) version** bumps (x.y → {x+1}.y): consolidate all `PRD/v{x}.*.md` files into a single `PRD/v{x}.md` (one archived file per major version), then start the new series in a fresh `PRD.md` which represents version v{x+1}.0.
-- `PRD.md` at the root is the permanent home for §1–§7 (core requirements) + the full changelog table + §8.1 constraints + pointers to `PRD/`. It does **not** contain detailed archived per-version specs — those live in `PRD/`.
-- The archived minor series' PRD lives in `PRD/v{x}.{y}.md`.
-
-Whenever changes are made, make sure it is also reflected in CLAUDE.md and README.md
-
-Cached per-unit material totals live in `.claude/item-totals.md` (human-readable tables) and
-`.claude/item-totals.json` (machine-readable) — look there instead of recomputing group→item resolution
-by hand. Whenever items, groups, steps, or quantities change in `src/js/supplies-eternals.js`,
-`src/js/supplies-evokers.js`, `src/js/supplies.js`, or the resolution logic in
-`src/components/Calculator.vue`, regenerate both by running `node .claude/gen-item-totals.mjs`.
-
-On every release (any new `## Version x.y.z` section in PRD.md), bump `package.json`'s `version` field to the same `x.y.z` in the same change set. `package.json` `version` is the single source of truth for the app version and must stay in sync with the PRD release heading.
+- **Item data changes** (`supplies.js` / `supplies.images`) → update `About items.md`, table columns `id, type, name`.
+- **PRD changes** — propose them in `PRD.md` (§1–§7 core requirements, §8 changelog, §8.1 constraints) and the active version file in `PRD/` (e.g. `PRD/v1.3.md`) first.
+  - Minor bump (x.y → x.{y+1}): move the completed series' detailed specs into `PRD/v{x}.{y}.md`, then start the new series in a fresh `PRD.md`.
+  - Major bump (x.y → {x+1}.0): consolidate all `PRD/v{x}.*.md` into one `PRD/v{x}.md`, then start the new series in a fresh `PRD.md`.
+  - Root `PRD.md` only ever holds §1–§7 + the changelog + §8.1 + pointers into `PRD/` — never archived per-version detail.
+- **Whenever behavior or structure changes:** → update  `CLAUDE.md` and `README.md`.
+- **Items/groups/steps/quantities change** in `src/js/supplies-eternals.js`, `src/js/supplies-evokers.js`, `src/js/supplies.js`, or the resolution logic in `src/components/Calculator.vue` → regenerate `.claude/item-totals.{md,json}` via `node .claude/gen-item-totals.mjs` (don't hand-recompute group→item totals — these caches exist so you don't have to).
+- **New release** (a `## Version x.y.z` heading lands in `PRD.md`) → bump `package.json`'s `version` to match in the same change set. `package.json` is the single source of truth for app version.
 
 ## Project overview
 
-Raziel Ledger is a Vue 3 + Vite SPA hosting two Granblue Fantasy material calculators
-(`/calceternal`, `/calcevoker`), deployed to GitHub Pages. It is a rewrite of the calculators from
-[Minimalist3/GranblueParty](https://github.com/Minimalist3/GranblueParty) (GPL-3.0) — keep attribution
-intact. There is no backend, no authentication, and no Vuex; all state lives in component data and
-`localStorage`. See `PRD.md` (repo root) for the full requirements.
+Raziel Ledger is a Vue 3 + Vite SPA hosting two Granblue Fantasy material calculators (`/calceternal`, `/calcevoker`), deployed to GitHub Pages. It's a rewrite of the calculators from [Minimalist3/GranblueParty](https://github.com/Minimalist3/GranblueParty) (GPL-3.0) — keep attribution intact. No backend, no auth, no Vuex; all state lives in component data and `localStorage`. Full requirements: `PRD.md` (repo root).
 
-A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52`, removed in
-`c05488c`) — treat it as abandoned; do not restore or reference it.
+A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52`, removed in `c05488c`) — treat it as abandoned; don't restore or reference it.
 
 ## Commands
 
-- `npm run dev` — local dev server
-- `npm run test` — runs `scripts/check-item-images.js`: fails if any `supplies.js` item lacks its
-  icon in `public/img/item/<key>.<jpg|gif>` (since v1.2.3, PRD §8 changelog). There are no other tests or linters.
-- `npm run build` — runs the image check first (`prebuild`), then production build into `dist/`, then a
-  `postbuild` pre-render (since v1.2.9). Since v1.2.6 the GitHub Pages SPA deep-link fallback is a dedicated
-  rafgraph `public/404.html` redirect that Vite copies to `dist/404.html` (pre-1.2.6 the build `cp`-ed
-  `index.html`; PRD §11 S5). A missing item icon fails the build. `postbuild` runs
-  `scripts/prerender-routes.js`, which clones `dist/index.html` into `dist/calceternal/index.html` and
-  `dist/calcevoker/index.html` with each route's static `<title>`/canonical/`og:`/`twitter:` tags so non-JS
-  link scrapers get a per-page card (OG image stays sitewide; PRD §13).
-- `npm run preview` — serve the production build locally
-- A committed `.githooks/pre-commit` runs `npm test` on every commit (since v1.2.3, PRD §8 changelog);
-  it is wired by the `prepare` script (`git config core.hooksPath .githooks`) on `npm install`.
-  Bypassable with `git commit --no-verify` — `prebuild`/CI is the hard gate.
+- `npm run dev` — local dev server.
+- `npm run test` — runs `scripts/check-item-images.js`; fails if any `supplies.js` item lacks its icon at `public/img/item/<key>.<jpg|gif>`. No other tests/linters.
+- `npm run build` — `prebuild` runs the image check, then a production build to `dist/`, then `postbuild` runs `scripts/prerender-routes.js`, which clones `dist/index.html` into `dist/calceternal/index.html` and `dist/calcevoker/index.html` with each route's static `<title>`/canonical/OG/Twitter tags (OG image stays sitewide), so non-JS link scrapers get a real per-page card. The GitHub Pages SPA deep-link fallback is a rafgraph `public/404.html`, which Vite copies to `dist/404.html`.
+- `npm run preview` — serve the production build locally.
+- `.githooks/pre-commit` runs `npm test` on every commit (wired via `git config core.hooksPath .githooks` on `npm install`); bypassable with `--no-verify` — `prebuild`/CI is the hard gate.
 
 ## Architecture
 
-- `src/router/index.js` — vue-router (`createWebHistory(import.meta.env.BASE_URL)`). Each route's
-  `meta: { title, description }` is pulled (by path) from the shared `src/seo/meta.js` `ROUTES` table; a
-  `router.afterEach` hook (since v1.2.8) sets `document.title` and updates the in-document
-  `<meta name="title|description">`, `<link rel="canonical">`, and `og:`/`twitter:` title/description/url per
-  route — JS-rendered, so it serves the browser tab + Googlebot, while the static `index.html` tags stay the
-  defaults that no-JS link scrapers read. No head library; the hook mutates existing DOM tags. `public/sitemap.xml`
-  (v1.2.8) lists the three routes for manual GSC submission. See PRD §12.
-- `src/seo/meta.js` (since v1.2.9) — dependency-free single source of truth for route SEO: `SITE_ORIGIN`,
-  `SITE_NAME`, defaults, `OG_IMAGE`, the `ROUTES` table (`{ path, title, description, prerender }`), and
-  `urlForPath()`. Imported by both `src/router/index.js` (runtime hook) and `scripts/prerender-routes.js`
-  (build-time pre-render) so the two can't drift. See PRD §13.
-- `src/pages/` — `Home`, `CalcEternal`, `CalcEvoker`, `NotFound`, and `SuppliesGuide` (since v1.3.0
-  S24, route `/import-guide`) — a desktop-only walkthrough of copying the in-game supplies JSON from the
-  browser's DevTools Network tab (`article_list_by_filter_mode` → Copy response → paste into Import),
-  with author-supplied screenshots in `public/img/docs/` (`step1-inspect`…`step5-paste.png`; **not** game
-  assets, outside `check-item-images.js`). Since v1.3.0 S29 it has **no** `ROUTES` entry in
-  `src/seo/meta.js` (de-listed from SEO — it was already `prerender: false` and absent from `sitemap.xml`);
-  the route still resolves and `metaForPath('/import-guide')` falls back to the default title/description,
-  and `scripts/prerender-routes.js` (which only emits `prerender: true` routes) still skips it so deep-links
-  fall through `404.html`. The
-  `SuppliesImport.vue` Import view and the `WhatsNew.vue` popup both link to it via
-  `<router-link :to="{ name: 'import-guide' }" target="_blank">` (new tab). The two calc pages own the progress
-  state, persist it to `localStorage` (keys `CalcEternal-*` / `CalcEvoker-*` via `js/utils.js`
-  `LocalStorageMgt`), and delegate all logic to `components/Calculator.vue`. `CalcEternal` has two
-  tabs (since v1.2, PRD §9): "Recruit & Transcend" and "Radiance", each rendered by its own
-  `Calculator` instance — recruit/transcend uses `ETERNALS_DATA.materials` (key `CalcEternal-progress`),
-  Radiance uses `ETERNALS_DATA.radiance` (key `CalcEternal-radianceProgress`); the split/hide/display
-  toggles are shared, the active tab persists under `CalcEternal-activeTab`.
-- `src/components/Calculator.vue` — generic step/material calculator driven by the data shape in
-  `src/js/supplies-{eternals,evokers}.js`. Material "groups" resolve to concrete items per unit
-  element/id using `src/js/supplies.js`. Since v1.3.0 (PRD §15) it takes a `calcId` prop
-  (`CalcEternal` / `CalcEternalRadiance` / `CalcEvoker`) and renders a ★ "focus" button per unit box
-  that delegates to the inventory store. Each unit box carries `id="focus-anchor-{calcId}-{unitKey}"`
-  (`focusAnchorId()`) so the navbar focus chip can scroll to it (PRD §15 S18), and `removeUnit` calls
-  `inventory.unfocusIfActive(calcId, unitKey)` before deleting so removing a focused unit returns its
-  stock and drops the focus (S17).
-- `src/js/inventory.js` (since v1.3.0, PRD §15) — a Vue `reactive` module store (no Vuex) for the
-  player's imported supplies stock and the single app-global unit "focus". Builds a one-time reverse
-  `itemId → suppliesKey` map from `supplies.js`. `importFromResponse(arr)` parses the in-game item-list
-  JSON (`response-example/supplies-response.json` shape: `{ item_id, number, … }`) into a
-  `{ key: count }` stock map (278 match; the 30 weapon-namespace items, `rupie`/`crystal`, and the
-  evolution items have no item-path id and are skipped). `toggleFocus(calcId, unitKey)` spends
-  `min(owned, needed)` from stock against a unit's selected step range (resolving groups exactly like
-  `Calculator.getItemProgressFor`, earliest step first) and snapshots consumed amounts + overwritten
-  progress; focus is **global + single**, so switching first resets the previous unit (restores its
-  progress, returns stock). Pages `register()` their loaded progress object in `mounted()` (after the
-  `localStorage` load) and `unregister()` in `beforeUnmount()`; a focus owned by an unmounted calc
-  returns stock immediately and defers its progress restore until that calc re-registers. Persisted under
-  the **new** `App-inventory` key (the frozen `CalcEternal-*`/`CalcEvoker-*` progress keys are untouched).
-  `unfocusIfActive(calcId, unitKey)` (called by `Calculator.removeUnit`) clears the focus via
-  `clearActiveFocus()` when the deleted unit is the active one, so deleting a focused unit returns its
-  spent stock and drops `state.active` instead of leaking them (PRD §15 S17).
-  The store also keeps an `owned` baseline (imported totals, **not** decremented
-  by focus — `stock` is the live remainder), `state.active.name` (label for the navbar chip, even when
-  the owning calc is unmounted), a persisted `warningDismissed` flag, and exposes `inventoryList()` (sorted
-  sidebar rows) / `dismissWarning()`. Back-compat load: a persisted `App-inventory` lacking `owned` falls
-  back to `stock` as the baseline. The amendment also adds a `state.order` map (`{ key: seqIndex }`,
-  captured at import time from the array position = game `seq_id` order, persisted in `App-inventory`);
-  `inventoryList()` sorts by it and falls back to category→name for pre-amendment inventories (`order`
-  defaults to `{}` on load).
-  `src/components/SuppliesImport.vue` is the **inline import form** (paste textarea or `.json` file
-  picker + Import button + result line) rendered as the sidebar's Import view — since the S19–S20 amendment
-  it is no longer a modal and is no longer wired directly into `App.vue` (the navbar Import control is gone).
-- Inventory UI over the focus store (PRD §15): `Calculator.vue`'s ★ button opens a dismissable confirm
-  dialog (`requestFocus`→`confirmFocus`/`cancelFocus`; "don't show again" calls `inventory.dismissWarning()`)
-  before toggling focus. `src/components/InventorySidebar.vue` is a global right **Supplies side nav**
-  (mounted in `App.vue`, `v-model:open` persisted under the new `App-sidebarOpen` key). Since the S19–S20
-  amendment it is a **side navigation bar**: an always-visible right-edge **icon rail** with two clickable
-  views — `faWarehouse` → **Supplies** (tab id stays `treasure`; relabeled from "Treasure" in the S21–S23
-  amendment, display label only), `faFileImport` → **Import supplies** (`tabs` array; `selectTab(id)`
-  opens the panel on that view and re-clicking the active icon collapses it; the panel's `angle-right`
-  header button also collapses). The panel sits to the **left** of the rail and its header shows the active
-  view's label. The Supplies view has its own **search box** (`searches.treasure`, name substring match) and
-  is a **3-column icon grid** (the scroll region carries a `.supplies-scroll` scoped class giving it a thin
-  themed scrollbar via the theme CSS vars; S22): per cell an `img` (gbf.wiki link, name as a hover `title`
-  tooltip) with `remaining / owned` underneath, sorted left-to-right by import order (see `state.order` above).
-  The Import view embeds the inline `SuppliesImport.vue` form. The whole sidebar (rail + panel) is pinned at `top-12`
-  with a **fixed height** of `h-[calc(100vh-3rem)]` (v1.3.0 height amendment) — flush under the 3rem (`h-12`)
-  navbar so it reaches as high as possible (was `top-20` / `h-[calc(100vh-5rem)]`); the grid is the
-  `flex-1 min-h-0 overflow-y-auto` scroll region). `App.vue` also renders a **focus chip**
-  (★ + `state.active.name`, plus a small `bg-secondary` badge from the `focusTabLabel` computed naming the
-  Eternal tab the focus came from — **Recruit & Transcend** for `CalcEternal`, **Radiance** for
-  `CalcEternalRadiance`, nothing for `CalcEvoker`; `hidden sm:inline`, also folded into the chip `title` —
-  PRD §15 S30) rightmost in the left nav group that routes to the focused unit's calc via a
-  `calcId → route` map (Eternal recruit/Radiance disambiguated by a `?tab=recruit|radiance` query that
-  `CalcEternal` reads on mount and watches), then `scrollToAnchor()` scrolls the focused unit box into view
-  — it polls (`$nextTick` + retry) until `focus-anchor-{calcId}-{unitKey}` exists **and** is visible
-  (`offsetParent !== null`, which guards the Eternal `v-show` tab swap) before `scrollIntoView` (PRD §15
-  S18). New FA icons: `faWarehouse`, `faTriangleExclamation`, `faBoxArchive`. The top `<nav>` in `App.vue` is
-  `sticky top-0 z-50` (S21) so it stays pinned to the top on scroll, above the `z-40` sidebar.
-- `src/components/WhatsNew.vue` (since v1.3.0 S27) — a global "What's new" changelog modal mounted in
-  `App.vue` (`v-model:open="whatsNewOpen"`): a tl;dr of the supplies-import release plus a `target="_blank"`
-  link to `/import-guide`. Clicking the backdrop outside the card closes it (S29 — the close `@click` lives
-  on the backdrop `<div>`, since a `@click.self` on the overlaid wrapper would never fire). It
-  **auto-shows once per app version** — `App.vue` persists `whatsNewSeenVersion`
-  via the existing `LocalStorageMgt('App')` (new **`App-whatsNewSeenVersion`** key, joins the frozen `App-*`
-  family); `mounted()` opens it when the seen version ≠ `package.json` version **and records the current
-  version in the same step** (not on close), so it auto-shows exactly once even if the user reloads or
-  navigates away before dismissing it (won't recur until the next bump). A `faBullhorn` **What's new** control beside the
-  navbar version indicator reopens it on demand. New FA icon: `faBullhorn`.
-- `src/js/supplies*.js` — frozen game data from GranblueParty, trimmed in v1.1 to the items and
-  groups the calculators reference (the unused `rustedweapon` item is a deliberate keep — see PRD
-  §8), then extended in v1.2 with the Radiance materials (`ETERNALS_DATA.radiance`, plus the
-  `enneadomegaanima` / `omega3omegaanima` groups and their items, `immortalfragment`, `terraadamant` —
-  PRD §8 changelog), and in v1.2.4 each item carries an optional `itemId` (its GBF in-game id, from
-  the API dumps in the git-ignored `response-example/`); the 30 weapon-namespace items (rusted /
-  silver relic / revenant) carry their weapon id instead (resolved on the CDN weapon path, not
-  `item/article/s/`), and only the 4 animated `.gif` items have none (PRD §9). `public/img/item/` is
-  one image per item. WikiParser (since v1.2.5) is a standalone item-image fetcher: `update_img.py`
-  reads a `URL⇥dest` manifest and downloads icons into `public/img/item/` (skips existing files).
-  `WikiParser/data/supplies.images`
-  is the manifest for every static (`.jpg`) item — since v1.2.4 the 282 items with an `itemId` point
-  at the official CDN (`prd-game-a-granbluefantasy.akamaized.net/.../item/article/s/<itemId>.jpg`, with
-  exceptions: `item/normal/s/` for `rupie`/`crystal`, and `item/evolution/s/` for `goldbrick`/`sunlightstone`). All 30 weapons carry their weapon id as `itemId`, on the
-  CDN's weapon path (`.../assets/weapon/s/<itemId>.jpg` — rusted `1030…`, silver relics +
-  revenant `1040…`; extracted from the manifest's weapon URLs); the 4 animated (`.gif`) items are
-  excluded (different source). Full id reference: `About items.md`. `scripts/check-item-images.js`
-  (npm `test` / `prebuild`) asserts every `supplies.js` item has its `public/img/item/<key>.<jpg|gif>`.
-  WikiParser is GPL-3.0, not part of the web build; in v1.2.5 it was reduced to just the fetcher
-  (`update_img.py` + `data/supplies.images` + `requirements.txt`) — the upstream DB/preview/wiki-scrape
-  pipeline was deleted. Run it with `cd WikiParser && python3 update_img.py`. See PRD §10.
-- `.claude/item-totals.{md,json}` — **cached reference, not shipped** (assistant lookup only, outside the
-  Vite build). Precomputed full-progression material totals per unit for all three calculators
-  (`CalcEternal` recruit/transcend, `CalcEternalRadiance`, `CalcEvoker`): every `group` resolved to its
-  concrete per-unit item(s) and summed across all steps, replaying `Calculator.vue`'s `getItemProgressFor`
-  exactly (element groups keyed by the unit's element, summon groups by unit id; multi-ref splits divide
-  `q` and round split `<5 ⇒ ceil`, `≥5 ⇒ floor`). `.claude/gen-item-totals.mjs` regenerates both — it
-  loads the real `supplies-common.js`/`supplies.js`/`supplies-eternals.js`/`supplies-evokers.js`, so rerun
-  it after any change to those data files or to the resolution logic. These are per-unit full builds, not
-  partial step ranges (which depend on user selection and can't be precomputed).
-- Components use the Options API, mirroring the upstream project; keep that style for consistency.
-- The Vite/router base is `/raziel-ledger/` (`vite.config.js`); asset URLs in code must be prefixed
-  with `import.meta.env.BASE_URL` (item images live in `public/img/item/`).
-- Theming: three CSS-variable themes (`theme-dark`/`theme-blue`/`theme-light`) in `src/css/theme.css`,
-  consumed by Tailwind config colors (`bg-primary`, `text-primary`, etc.).
-- `public/img/raziel-ledger-lettering.svg` — hand-authored calligraphy SVG (Great Vibes font, `fill: currentColor`);
-  inlined in `Home.vue` with `class="text-primary"` so it inherits `--color-text-primary` and responds to all three
-  themes. Since v1.2.10 (PRD §14) the Great Vibes hero font is **self-hosted**, not loaded from Google Fonts:
-  `public/fonts/great-vibes-subset.woff2` (~6 KB, OFL, subset to the 11 glyphs in "Raziel Ledger") is declared via an
-  inline `@font-face` (`font-display: swap`) + `<link rel="preload" as="font" crossorigin>` in `index.html`, both
-  referenced through `%BASE_URL%` (Vite does not rewrite `url()` inside an inline `<style>`). This replaced the old
-  render-blocking `preconnect`+css2 chain (~1.3 s cross-origin for a 29.70 KiB woff2); there is no Google Fonts request
-  at runtime. `scripts/prerender-routes.js` strips the preload from the calc-route pre-renders (font unused there; the
-  inert `@font-face` stays). The font file is **not** a game asset (outside `check-item-images.js`). The standalone
-  lettering SVG keeps its own now-unused Google Fonts `@import` but is not loaded by the app. This SVG file is **not**
-  a game asset — never overwrite with `download()`. See PRD §9, §14.
-- SEO / social previews (since v1.2.5… v1.2.6, PRD §11): `index.html` carries **static** `<head>` tags —
-  `<link rel="canonical">`, Open Graph (`og:*`), and Twitter Card (`summary_large_image`) — all hardcoding the
-  absolute production URL `https://rene880.github.io/raziel-ledger/` (scrapers don't run JS, and a subpath base
-  makes relative OG URLs unreliable). The link-preview image is `public/img/og-preview.png` (1200×630, "Raziel
-  Ledger" in Great Vibes on the dark theme bg) — like the lettering SVG it is hand-authored, **not** a game asset,
-  and is not covered by `check-item-images.js`. No SSR. Since v1.2.8 there **is** runtime per-route meta (the
-  `src/router/index.js` `afterEach` hook, above) layered over these static defaults, and a `public/sitemap.xml`
-  for **manual** GSC submission (PRD §12). Since v1.2.9 the static `index.html` defaults are no longer the only
-  per-route signal scrapers see: the `postbuild` `scripts/prerender-routes.js` emits `dist/calceternal/index.html`
-  and `dist/calcevoker/index.html` with their own static `<title>`/canonical/`og:`/`twitter:` tags (OG image stays
-  the sitewide `og-preview.png`), so those deep routes serve a real 200 file with a per-page card instead of
-  falling through to `404.html` (PRD §13). `robots.txt` is still intentionally absent: a `public/robots.txt`
-  would deploy to `/raziel-ledger/robots.txt`, which crawlers ignore (they read
-  `https://rene880.github.io/robots.txt`, owned by the separate user-page repo); the same non-discovery applies
-  to the subpath sitemap, which is why it's submitted directly in Search Console rather than auto-found.
+- **`src/router/index.js`** — vue-router (`createWebHistory(BASE_URL)`). A `router.afterEach` hook sets `document.title` plus `<meta>`/canonical/OG/Twitter tags per route, sourced from `src/seo/meta.js`'s `ROUTES` table. This is JS-rendered (serves the browser tab + Googlebot), while the static `index.html` tags stay the defaults that no-JS scrapers read. `public/sitemap.xml` lists the three routes for manual Search Console submission.
+- **`src/seo/meta.js`** — dependency-free single source of truth for route SEO: `SITE_ORIGIN`, `SITE_NAME`, defaults, `OG_IMAGE`, the `ROUTES` table (`{ path, title, description, prerender }`), and `urlForPath()`. Imported by both the router hook (runtime) and `scripts/prerender-routes.js` (build-time) so the two can't drift.
+- **`src/pages/`** — `Home`, `CalcEternal`, `CalcEvoker`, `NotFound`, and `SuppliesGuide` (route `/import-guide`): a desktop-only walkthrough for copying the in-game supplies JSON from the browser DevTools Network tab (`article_list_by_filter_mode` → Copy response → paste into Import), with author screenshots in `public/img/docs/` (not game assets, excluded from `check-item-images.js`). `/import-guide` has no `ROUTES` entry in `meta.js` (falls back to the default title/description) and is skipped by `prerender-routes.js`, so deep-links fall through `404.html`. `SuppliesImport.vue` and `WhatsNew.vue` link to it via `<router-link :to="{ name: 'import-guide' }" target="_blank">`.
+  The two calc pages own progress state, persist it to `localStorage` (keys `CalcEternal-*` / `CalcEvoker-*` via `js/utils.js`'s `LocalStorageMgt`), and delegate all logic to `Calculator.vue`. `CalcEternal` has two tabs, each its own `Calculator` instance: "Recruit & Transcend" (`ETERNALS_DATA.materials`, key `CalcEternal-progress`) and "Radiance" (`ETERNALS_DATA.radiance`, key `CalcEternal-radianceProgress`). Split/hide/display toggles are shared; the active tab persists under `CalcEternal-activeTab`.
+- **`src/components/Calculator.vue`** — generic step/material calculator driven by `src/js/supplies-{eternals,evokers}.js`. Material "groups" resolve to concrete items per unit element/id via `supplies.js`. Takes a `calcId` prop (`CalcEternal` / `CalcEternalRadiance` / `CalcEvoker`) and renders a ★ focus button per unit box that delegates to `inventory.js`. Each unit box carries `id="focus-anchor-{calcId}-{unitKey}"` (`focusAnchorId()`) for navbar-chip scrolling; `removeUnit` calls `inventory.unfocusIfActive(calcId, unitKey)` before deleting, so removing a focused unit returns its stock and drops the focus.
+- **`src/js/inventory.js`** — a reactive (non-Vuex) store for the player's imported supplies stock and the single app-global unit "focus." Builds a one-time reverse `itemId → suppliesKey` map from `supplies.js`. `importFromResponse(arr)` parses the in-game item-list JSON (`response-example/supplies-response.json` shape: `{ item_id, number, … }`) into a `{ key: count }` stock map (278 match; the 30 weapon-namespace items, `rupie`/`crystal`, and the evolution items have no item-path id and are skipped).
+  `toggleFocus(calcId, unitKey)` spends `min(owned, needed)` from stock against a unit's selected step range (resolved exactly like `Calculator.getItemProgressFor`, earliest step first), snapshotting consumed amounts and overwritten progress. Focus is **global and single**: switching first resets the previous unit (restores progress, returns stock). Pages `register()`/`unregister()` their progress object on mount/unmount; a focus owned by an unmounted calc returns stock immediately and defers its progress restore until that calc re-registers.
+  Persisted under `App-inventory` (separate from the `CalcEternal-*`/`CalcEvoker-*` progress keys). `unfocusIfActive(calcId, unitKey)` (called by `Calculator.removeUnit`) clears focus via `clearActiveFocus()` when the deleted unit is the active one.
+  Also tracks: an `owned` baseline (import totals, never decremented — `stock` is the live remainder; a persisted `App-inventory` lacking `owned` falls back to `stock`), `state.active.name` (navbar chip label, survives the owning calc unmounting), a persisted `warningDismissed` flag, `inventoryList()` (sorted sidebar rows), `dismissWarning()`, and `state.order` (`{ key: seqIndex }`, captured at import time from array position = game `seq_id` order — `inventoryList()` sorts by it, falling back to category→name when absent).
+  `src/components/SuppliesImport.vue` is the inline import form (paste textarea or `.json` file picker + Import button + result line) — it's the sidebar's Import view, not a modal, and isn't wired directly into `App.vue`.
+- **Inventory UI**: `Calculator.vue`'s ★ button opens a dismissable confirm dialog (`requestFocus` → `confirmFocus`/`cancelFocus`; "don't show again" calls `inventory.dismissWarning()`) before toggling focus.
+  `src/components/InventorySidebar.vue` is a global right side nav (mounted in `App.vue`, `v-model:open` persisted as `App-sidebarOpen`): an always-visible icon rail with two views — `faWarehouse` **Supplies** (tab id `treasure`) and `faFileImport` **Import supplies**. `selectTab(id)` opens that view; re-clicking the active icon, or the panel's `angle-right` header button, collapses it. The panel sits left of the rail and its header shows the active view's label.
+  The Supplies view has its own search box (`searches.treasure`, name substring match) and is a 3-column icon grid (`.supplies-scroll` gives it a themed scrollbar): each cell shows the item image (gbf.wiki link, name as a hover tooltip) and `remaining / owned`, sorted by `state.order`. The Import view embeds `SuppliesImport.vue`.
+  The sidebar is pinned `top-12` with fixed height `h-[calc(100vh-3rem)]`, flush under the navbar; the grid is the `flex-1 min-h-0 overflow-y-auto` scroll region.
+  `App.vue` also renders a focus chip (★ + `state.active.name`, plus a badge naming the source Eternal tab — "Recruit & Transcend" / "Radiance" / nothing for `CalcEvoker`; `hidden sm:inline`) in the left nav group, which routes to the focused unit's calc via a `calcId → route` map (Eternal recruit/Radiance disambiguated by a `?tab=recruit|radiance` query that `CalcEternal` reads and watches), then calls `scrollToAnchor()`, which polls until `focus-anchor-{calcId}-{unitKey}` exists **and** is visible (`offsetParent !== null`, guards the Eternal `v-show` tab swap) before `scrollIntoView`.
+  FA icons used: `faWarehouse`, `faTriangleExclamation`, `faBoxArchive`, `faBullhorn`. The top `<nav>` is `sticky top-0 z-50`, above the `z-40` sidebar.
+- **`src/components/WhatsNew.vue`** — a global "What's new" changelog modal mounted in `App.vue` (`v-model:open="whatsNewOpen"`): a tl;dr of the supplies-import release plus a `target="_blank"` link to `/import-guide`. The close handler is on the backdrop `<div>` itself (not `@click.self`, which wouldn't fire through the overlay). It auto-shows once per app version — `App.vue` persists `whatsNewSeenVersion` (key `App-whatsNewSeenVersion`, via `LocalStorageMgt('App')`); `mounted()` opens it when the seen version ≠ `package.json` version and records the current version in that same step (not on close), so it shows exactly once even across reload/navigation before dismissal. A `faBullhorn` control beside the navbar version indicator reopens it on demand.
+- **`src/js/supplies*.js`** — game data trimmed from GranblueParty to the items/groups the calculators reference (the unused `rustedweapon` item is a deliberate keep — see PRD §8), plus the Radiance materials (`ETERNALS_DATA.radiance`, the `enneadomegaanima`/`omega3omegaanima` groups, `immortalfragment`, `terraadamant`). Each item carries an optional `itemId` (its in-game id, from the API dumps in the git-ignored `response-example/`); the 30 weapon-namespace items (rusted / silver relic / revenant) carry their weapon id instead, resolved on the CDN weapon path rather than `item/article/s/`; only the 4 animated `.gif` items have none.
+  `public/img/item/` holds one image per item. WikiParser is a standalone item-image fetcher: `update_img.py` reads a `URL⇥dest` manifest (`WikiParser/data/supplies.images`) and downloads icons into `public/img/item/`, skipping existing files. The manifest points the 282 `itemId` items at the official CDN (`prd-game-a-granbluefantasy.akamaized.net/.../item/article/s/<itemId>.jpg`, with exceptions `item/normal/s/` for `rupie`/`crystal` and `item/evolution/s/` for `goldbrick`/`sunlightstone`); the 30 weapons use `.../assets/weapon/s/<itemId>.jpg`; the 4 `.gif` items are excluded (different source). Full id reference: `About items.md`. `scripts/check-item-images.js` (npm `test`/`prebuild`) asserts every `supplies.js` item has its `public/img/item/<key>.<jpg|gif>`.
+  WikiParser is GPL-3.0 and not part of the web build; it now contains only the fetcher (`update_img.py` + `data/supplies.images` + `requirements.txt`). Run via `cd WikiParser && python3 update_img.py`. See PRD §10.
+- **`.claude/item-totals.{md,json}`** — cached reference only (assistant lookup, outside the Vite build, not shipped). Precomputed full-progression material totals per unit for all three calculators, replaying `Calculator.vue`'s `getItemProgressFor` exactly (element groups keyed by unit element, summon groups by unit id; multi-ref splits divide `q`, rounding `<5 ⇒ ceil` / `≥5 ⇒ floor`). `.claude/gen-item-totals.mjs` regenerates both from the real data/resolution files — rerun it after any change to those. These are per-unit full builds, not partial step ranges (which depend on user selection and can't be precomputed).
+- Components use the Options API, mirroring the upstream project — keep that style for consistency.
+- The Vite/router base is `/raziel-ledger/` (`vite.config.js`); asset URLs in code must be prefixed with `import.meta.env.BASE_URL` (item images live in `public/img/item/`).
+- Theming: three CSS-variable themes (`theme-dark`/`theme-blue`/`theme-light`) in `src/css/theme.css`, consumed by Tailwind config colors (`bg-primary`, `text-primary`, etc.).
+- `public/img/raziel-ledger-lettering.svg` — hand-authored calligraphy (Great Vibes font, `fill: currentColor`), inlined in `Home.vue` with `class="text-primary"` so it follows the active theme. The Great Vibes hero font is self-hosted at `public/fonts/great-vibes-subset.woff2` (~6 KB, OFL, subset to the 11 glyphs in "Raziel Ledger"), declared via an inline `@font-face` (`font-display: swap`) plus a `<link rel="preload" as="font" crossorigin>` in `index.html`, both referenced through `%BASE_URL%` (Vite doesn't rewrite `url()` inside an inline `<style>`) — there's no Google Fonts request at runtime. `scripts/prerender-routes.js` strips the preload from the calc-route pre-renders (font unused there). The font file isn't a game asset (outside `check-item-images.js`). The standalone lettering SVG keeps its own unused Google Fonts `@import`, but the app never loads it — never overwrite this SVG with `download()`.
+- SEO/social previews: `index.html` carries static `<head>` tags — canonical link, Open Graph, and Twitter Card (`summary_large_image`) — hardcoding the absolute production URL `https://rene880.github.io/raziel-ledger/` (scrapers don't run JS, and relative OG URLs are unreliable under a subpath base). The preview image is `public/img/og-preview.png` (1200×630, hand-authored, not a game asset, outside `check-item-images.js`). There's no SSR. Runtime per-route meta (the router `afterEach` hook above) layers over these static defaults, and `scripts/prerender-routes.js` additionally emits `dist/calceternal/index.html` / `dist/calcevoker/index.html` with their own static title/canonical/OG/Twitter tags (OG image stays sitewide), so those routes serve a real 200 with a per-page card instead of falling through `404.html`. `robots.txt` is intentionally absent: a `public/robots.txt` would deploy to `/raziel-ledger/robots.txt`, which crawlers ignore (they read the bare `https://rene880.github.io/robots.txt`, owned by the separate user-page repo) — the same reasoning is why the sitemap is submitted manually in Search Console rather than auto-discovered.
 
 ## Deployment
 
-Push to `main` runs `.github/workflows/deploy.yml` (build + `actions/deploy-pages`). Repository
-setting **Pages → Source** must be **GitHub Actions**.
+Push to `main` runs `.github/workflows/deploy.yml` (build + `actions/deploy-pages`). Repository setting **Pages → Source** must be **GitHub Actions**.
