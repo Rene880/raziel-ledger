@@ -21,7 +21,8 @@
 
       <!-- right -->
       <div class="flex flex-row items-center gap-x-4 px-4">
-        <div class="cursor-pointer select-none hover:text-link-hover" title="Import supplies" @click="showImport = true">
+        <div class="flex items-center gap-1.5 cursor-pointer select-none hover:text-link-hover" title="Import supplies" @click="showImport = true">
+          <span class="text-sm">Import supplies</span>
           <fa-icon :icon="['fas', 'file-import']"></fa-icon>
         </div>
         <span class="select-none hidden sm:block text-xs opacity-70" title="App version">v{{ appVersion }}</span>

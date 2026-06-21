@@ -307,6 +307,12 @@ naming the currently-focused unit.
 | S8 | **Navbar focus chip.** The single active focus (★ + unit name) renders in the left nav group, **rightmost** (after the two calc links); hidden when nothing is focused. Clicking routes to the owning calculator via a `calcId → route` map — Eternal recruit/Radiance disambiguated by a `?tab=recruit\|radiance` query that `CalcEternal` reads on mount and watches. |
 | S9 | **Store additions for S6–S8** (`src/js/inventory.js`): a new `owned` baseline (`{ key: count }`, set alongside `stock` on import, **not** decremented by focus); `name` snapshotted into `state.active` at focus time (so the chip has a label even when the owning calc is unmounted); a persisted `warningDismissed` flag; and `inventoryList()` (sorted sidebar rows) / `dismissWarning()`. Load is back-compatible — a persisted `App-inventory` without `owned` falls back to the current `stock` as the baseline. New FA icons `faWarehouse`, `faTriangleExclamation`. |
 | S10 | Bump `package.json` `version` to **1.2.11**; sync `CLAUDE.md` and `README.md`. |
+| S11 | **Tabbed inventory sidebar.** `InventorySidebar.vue` gains a tab bar under the "Supplies" header. First tab **Treasure** holds the imported supplies list. The structure is scaffolded to accept a future **Recovery** tab (a separate import targeting recovery items / `category_type`) — out of scope now, only the tab framework lands. Each tab carries its **own search box** (`searches[tabId]`, case-insensitive substring match on item name). |
+| S12 | **3-column Treasure grid.** The Treasure tab renders items in a **3-wide grid** (`grid-cols-3`), one icon per cell. The item name moves into a hover **tooltip** (native `title`) instead of an inline label; the icon stays a gbf.wiki link (hover ring). The **`remaining / owned`** count sits **under** each icon. Fully-spent items still dim. Panel widens (`w-72 → w-80`) for the 3 columns. |
+| S13 | **Import-order sort.** Items sort **left-to-right by their position in the imported JSON array** (the game's `seq_id` order), not by category/name. `inventory.js` captures an `order` index per key at import time (`state.order`, persisted in `App-inventory`); `inventoryList()` sorts by it, falling back to the old category→name sort for pre-amendment persisted inventories (back-compat load defaults `order` to `{}`). |
+| S14 | **Import button label.** The navbar **Import supplies** control (`App.vue`) gains a visible `Import supplies` text label to the **left** of the `faFileImport` icon (the whole row stays one clickable target). |
+| S15 | **Fixed sidebar height.** The Supplies panel is sized to the **viewport minus the navbar** — `h-[calc(100vh-5rem)]` (the panel is `fixed top-20` = `5rem`) — replacing the content-hugging `max-h-[70vh]`. It holds that height regardless of how many items are imported; the Treasure grid becomes the scroll region (`flex-1 min-h-0 overflow-y-auto`). |
+| S16 | **Chest tab icon.** The Treasure tab icon changes from `faWarehouse` to a chest-style icon. FontAwesome **free** has no literal treasure chest (`faTreasureChest` is Pro), so `faBoxArchive` (`box-archive`) is used; registered in `main.js`. The sidebar edge handle keeps `faWarehouse`. |
 
 ### 15.3 Notes & constraints
 
@@ -325,6 +331,14 @@ naming the currently-focused unit.
 - **The sidebar shows raw `remaining / owned`** — it does not subtract pending needs. Items that never
   import (the 30 weapon items, currency, evolution items — S2) have no `owned` entry and simply don't
   appear, an accepted carry-over limitation.
+- **S11–S13 (amendment, 2026-06-21, still v1.2.11).** The sidebar list became a tabbed, searchable
+  3-column grid sorted by import order. Order comes from the user's own pasted array (same shape/order as
+  the git-ignored `response-example/supplies-response.json`), so nothing new ships and no new store concept
+  beyond the `order` map is introduced. No version bump — this refines S7's read-only view, the focus
+  store/logic is untouched. The Recovery tab is scaffolded only (future import).
+- **S14–S16 (amendment, 2026-06-21, still v1.2.11).** Cosmetic UI polish on the import control and Supplies
+  panel: a text label on the import button, a fixed panel height (viewport − navbar, holds regardless of
+  item count), and a chest-style (`faBoxArchive`) Treasure tab icon. No store/logic change, no version bump.
 
 ### 15.4 Acceptance criteria
 
@@ -347,3 +361,7 @@ naming the currently-focused unit.
    to that unit's calculator (and the correct Eternal tab); the chip disappears when focus is cleared.
 8. `npm test` still passes (316 item icons; the store/dialog/sidebar are not in scope of the check).
 9. `package.json` `version` is `1.2.11`; `CLAUDE.md` and `README.md` reflect v1.2.11.
+10. (S11–S13) The Supplies panel shows a **Treasure** tab with a search box and a 3-column icon grid;
+    each cell shows `remaining / owned` under the icon, the name as a hover tooltip, and links to gbf.wiki.
+    Items are ordered left-to-right by their position in the imported JSON (game seq order). Typing in the
+    search box filters the grid by name; clearing it restores the full ordered list.

@@ -7,7 +7,8 @@ import { library as faCore, config as faConfig } from '@fortawesome/fontawesome-
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import {
   faAngleDown, faAngleRight, faBook, faCheck, faExternalLinkAlt, faMoon, faSun, faTrash,
-  faToggleOn, faToggleOff, faWater, faStar, faFileImport, faXmark, faWarehouse, faTriangleExclamation
+  faToggleOn, faToggleOff, faWater, faStar, faFileImport, faXmark, faWarehouse, faTriangleExclamation,
+  faBoxArchive
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import '@fortawesome/fontawesome-svg-core/styles.css'
@@ -19,7 +20,8 @@ import './css/app.css'
 faConfig.autoAddCss = false;
 faCore.add(
   faGithub, faAngleDown, faAngleRight, faBook, faCheck, faExternalLinkAlt, faMoon, faSun, faTrash,
-  faToggleOn, faToggleOff, faWater, faStar, faFileImport, faXmark, faWarehouse, faTriangleExclamation
+  faToggleOn, faToggleOff, faWater, faStar, faFileImport, faXmark, faWarehouse, faTriangleExclamation,
+  faBoxArchive
 );
 
 const app = createApp(App);

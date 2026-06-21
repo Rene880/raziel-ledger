@@ -111,8 +111,9 @@ Since v1.2.11 ([PRD §15](PRD.md)) you can pour your real Granblue stock into th
   the previous unit (restores its progress and returns the spent stock), then applies to the new one,
   so your stock is never double-counted. Clicking ★ first shows a **confirm dialog** (with a
   "don't show this again" option) warning that focus/unfocus overwrites the unit's tracked quantities.
-- **Supplies sidebar** — a collapsible panel on the right edge lists every owned item as
-  `remaining / owned`, so you can see what you have and how much a focus has spent.
+- **Supplies sidebar** — a collapsible, fixed-height panel on the right edge with a **Treasure** tab
+  (chest icon) and a search box, showing every owned item as a 3-column icon grid with `remaining / owned`
+  underneath, so you can see what you have and how much a focus has spent.
 - **Focus chip** — when a unit is focused, its name shows (with a ★) at the right of the navbar's
   left link group; clicking it jumps to that unit's calculator and tab.
 
