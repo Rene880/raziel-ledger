@@ -34,6 +34,7 @@ for (const [key, item] of Object.entries(supplies.items)) {
 const state = reactive({
   stock: {},          // { suppliesKey: count } — remaining after focus spend
   owned: {},          // { suppliesKey: count } — imported baseline, not spent by focus
+  order: {},          // { suppliesKey: seqIndex } — import-array position (game seq order)
   active: null,       // { calcId, unitKey, name, consumed: {key:amt}, prior: [{unitKey,step,key,value}] }
   pending: {},        // { calcId: [{unitKey,step,key,value}] }
   warningDismissed: false, // focus/unfocus warning "don't show again"
@@ -47,6 +48,7 @@ function persist() {
   localStorage.setItem(LS_KEY, JSON.stringify({
     stock: state.stock,
     owned: state.owned,
+    order: state.order,
     active: state.active,
     pending: state.pending,
     warningDismissed: state.warningDismissed,
@@ -62,6 +64,9 @@ function load() {
     // Older inventories have no `owned` baseline — fall back to the
     // remaining stock so the sidebar still has a denominator.
     state.owned = parsed.owned || { ...state.stock }
+    // Pre-amendment inventories have no import-order map — fall back to the
+    // category→name sort in inventoryList() when it's empty.
+    state.order = parsed.order || {}
     state.active = parsed.active || null
     state.pending = parsed.pending || {}
     state.warningDismissed = !!parsed.warningDismissed
@@ -212,8 +217,11 @@ export default {
   },
 
   // Sorted rows for the inventory sidebar: every owned item with its remaining
-  // stock. Sorted by category then name, mirroring Calculator's sortMaterials.
+  // stock. Sorted left-to-right by import-array position (the game's seq order);
+  // pre-amendment inventories with no `order` map fall back to category then name,
+  // mirroring Calculator's sortMaterials.
   inventoryList() {
+    const hasOrder = Object.keys(state.order).length > 0
     return Object.keys(state.owned)
       .filter((key) => (state.owned[key] || 0) > 0)
       .map((key) => {
@@ -223,13 +231,16 @@ export default {
           name: item.name || key,
           animated: !!item.animated,
           category: item.category || 0,
+          order: state.order[key] != null ? state.order[key] : Infinity,
           owned: state.owned[key] || 0,
           remaining: state.stock[key] || 0,
         }
       })
-      .sort((a, b) => (a.category === b.category
-        ? a.name.localeCompare(b.name)
-        : a.category - b.category))
+      .sort((a, b) => {
+        if (hasOrder && a.order !== b.order) return a.order - b.order
+        if (a.category !== b.category) return a.category - b.category
+        return a.name.localeCompare(b.name)
+      })
   },
 
   // Replace the whole stock from a parsed supplies-response.json array.
@@ -239,17 +250,21 @@ export default {
       throw new Error('Expected a JSON array of supply entries.')
     }
     const map = {}
+    const order = {}
     let matched = 0
-    for (const entry of arr) {
+    for (let i = 0; i < arr.length; i++) {
+      const entry = arr[i]
       const key = itemIdToKey[String(entry?.item_id)]
       if (key) {
         map[key] = Number(entry.number) || 0
+        order[key] = i  // import-array position == game seq order
         matched++
       }
     }
     clearActiveFocus()
     state.stock = map
     state.owned = { ...map }
+    state.order = order
     persist()
     return { total: arr.length, matched, unmatched: arr.length - matched }
   },
