@@ -10,13 +10,13 @@
         </a>
       </div>
 
-      <!-- Search (Treasure tab only) -->
+      <!-- Search (Supplies tab only) -->
       <div v-if="activeTab === 'treasure'" class="p-2 border-b border-secondary">
-        <input v-model="searches.treasure" type="text" placeholder="Search Treasure…"
+        <input v-model="searches.treasure" type="text" placeholder="Search Supplies…"
           class="w-full bg-primary text-primary border border-secondary rounded px-2 py-1 text-sm">
       </div>
 
-      <!-- Treasure tab -->
+      <!-- Supplies tab -->
       <template v-if="activeTab === 'treasure'">
         <p v-if="! items.length" class="p-3 text-sm opacity-70">
           No supplies imported yet — open the
@@ -25,7 +25,7 @@
         <p v-else-if="! filtered.length" class="p-3 text-sm opacity-70">
           No items match “{{ searches.treasure }}”.
         </p>
-        <div v-else class="grid grid-cols-3 gap-2 flex-1 min-h-0 overflow-y-auto p-3">
+        <div v-else class="supplies-scroll grid grid-cols-3 gap-2 flex-1 min-h-0 overflow-y-auto p-3">
           <div v-for="item in filtered" :key="item.key"
             class="flex flex-col items-center gap-1"
             :class="item.remaining === 0 ? 'opacity-50' : ''">
@@ -83,7 +83,7 @@ export default {
         treasure: '',
       },
       tabs: [
-        { id: 'treasure', label: 'Treasure', icon: 'warehouse' },
+        { id: 'treasure', label: 'Supplies', icon: 'warehouse' },
         { id: 'import', label: 'Import supplies', icon: 'file-import' },
       ],
     };
@@ -119,3 +119,24 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* Themed scrollbar for the Supplies item list (uses theme CSS variables). */
+.supplies-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-secondary) transparent;
+}
+.supplies-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.supplies-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.supplies-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-secondary);
+  border-radius: 4px;
+}
+.supplies-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-border-primary);
+}
+</style>

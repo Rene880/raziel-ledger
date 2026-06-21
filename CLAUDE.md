@@ -118,13 +118,15 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   before toggling focus. `src/components/InventorySidebar.vue` is a global right **Supplies side nav**
   (mounted in `App.vue`, `v-model:open` persisted under the new `App-sidebarOpen` key). Since the S19–S20
   amendment it is a **side navigation bar**: an always-visible right-edge **icon rail** with two clickable
-  views — `faWarehouse` → **Treasure**, `faFileImport` → **Import supplies** (`tabs` array; `selectTab(id)`
+  views — `faWarehouse` → **Supplies** (tab id stays `treasure`; relabeled from "Treasure" in the S21–S23
+  amendment, display label only), `faFileImport` → **Import supplies** (`tabs` array; `selectTab(id)`
   opens the panel on that view and re-clicking the active icon collapses it; the panel's `angle-right`
   header button also collapses). The panel sits to the **left** of the rail and its header shows the active
-  view's label. The Treasure view has its own **search box** (`searches.treasure`, name substring match) and
-  is a **3-column icon grid**: per cell an `img` (gbf.wiki link, name as a hover `title` tooltip) with
-  `remaining / owned` underneath, sorted left-to-right by import order (see `state.order` above). The Import
-  view embeds the inline `SuppliesImport.vue` form. The whole sidebar (rail + panel) is pinned at `top-12`
+  view's label. The Supplies view has its own **search box** (`searches.treasure`, name substring match) and
+  is a **3-column icon grid** (the scroll region carries a `.supplies-scroll` scoped class giving it a thin
+  themed scrollbar via the theme CSS vars; S22): per cell an `img` (gbf.wiki link, name as a hover `title`
+  tooltip) with `remaining / owned` underneath, sorted left-to-right by import order (see `state.order` above).
+  The Import view embeds the inline `SuppliesImport.vue` form. The whole sidebar (rail + panel) is pinned at `top-12`
   with a **fixed height** of `h-[calc(100vh-3rem)]` (v1.2.11 height amendment) — flush under the 3rem (`h-12`)
   navbar so it reaches as high as possible (was `top-20` / `h-[calc(100vh-5rem)]`); the grid is the
   `flex-1 min-h-0 overflow-y-auto` scroll region). `App.vue` also renders a **focus chip**
@@ -133,7 +135,8 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   `CalcEternal` reads on mount and watches), then `scrollToAnchor()` scrolls the focused unit box into view
   — it polls (`$nextTick` + retry) until `focus-anchor-{calcId}-{unitKey}` exists **and** is visible
   (`offsetParent !== null`, which guards the Eternal `v-show` tab swap) before `scrollIntoView` (PRD §15
-  S18). New FA icons: `faWarehouse`, `faTriangleExclamation`, `faBoxArchive`.
+  S18). New FA icons: `faWarehouse`, `faTriangleExclamation`, `faBoxArchive`. The top `<nav>` in `App.vue` is
+  `sticky top-0 z-50` (S21) so it stays pinned to the top on scroll, above the `z-40` sidebar.
 - `src/js/supplies*.js` — frozen game data from GranblueParty, trimmed in v1.1 to the items and
   groups the calculators reference (the unused `rustedweapon` item is a deliberate keep — see PRD
   §8), then extended in v1.2 with the Radiance materials (`ETERNALS_DATA.radiance`, plus the

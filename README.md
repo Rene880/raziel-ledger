@@ -113,11 +113,11 @@ Since v1.2.11 ([PRD §15](PRD.md)) you can pour your real Granblue stock into th
   so your stock is never double-counted. Clicking ★ first shows a **confirm dialog** (with a
   "don't show this again" option) warning that focus/unfocus overwrites the unit's tracked quantities.
   Deleting a focused unit (🗑) returns its spent stock and clears the focus.
-- **Supplies side nav** — an always-visible right-edge **icon rail** with two views: **Treasure**
+- **Supplies side nav** — an always-visible right-edge **icon rail** with two views: **Supplies**
   (warehouse icon) and **Import supplies** (file-import icon). Clicking either opens its panel (re-clicking
-  the active icon collapses it). The Treasure view is a fixed-height, searchable 3-column icon grid showing
-  every owned item with `remaining / owned` underneath, so you can see what you have and how much a focus
-  has spent.
+  the active icon collapses it). The Supplies view is a fixed-height, searchable 3-column icon grid (with a
+  thin themed scrollbar) showing every owned item with `remaining / owned` underneath, so you can see what
+  you have and how much a focus has spent.
 - **Focus chip** — when a unit is focused, its name shows (with a ★) at the right of the navbar's
   left link group; clicking it jumps to that unit's calculator and tab and scrolls the unit box into view.
 

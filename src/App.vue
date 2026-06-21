@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="flex flex-col text-primary bg-primary min-h-screen" :class="getTheme">
     <!-- Menu -->
-    <nav class="bg-tertiary shadow-md flex flex-row justify-between items-center">
+    <nav class="bg-tertiary shadow-md flex flex-row justify-between items-center sticky top-0 z-50">
       <!-- left -->
       <div class="flex flex-row">
         <router-link to="/" class="flex items-center hover:bg-tertiary px-2">

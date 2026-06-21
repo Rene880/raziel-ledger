@@ -317,6 +317,9 @@ naming the currently-focused unit.
 | S18 | **Focus chip scrolls to the unit.** Clicking the navbar focus chip (S8) still routes to the owning calculator (and the correct Eternal tab) but now also **scrolls the focused unit box into view**. `Calculator.vue` gives each unit box a stable `id="focus-anchor-{calcId}-{unitKey}"` (`focusAnchorId()`) plus `scroll-mt-24`; `App.vue`'s `goToFocus()` resolves the same id and, after the route push settles, `scrollToAnchor()` polls (`$nextTick` + retry) until the element exists **and** is visible (`offsetParent !== null` — guards the Eternal `v-show` tab swap) then `scrollIntoView({ behavior: 'smooth', block: 'start' })`. |
 | S19 | **Sidebar → side nav with an icon rail.** `InventorySidebar.vue` replaces the single edge toggle handle with an **always-visible vertical icon rail** at the right edge holding two clickable view icons — **`faWarehouse` → Treasure** and **`faFileImport` → Import supplies**. Clicking an icon opens the panel on that view; clicking the **active** icon (or the panel's `angle-right` header button) collapses back to the bare rail. The panel sits to the **left** of the rail; the panel header now shows the active view's label. Open/closed state still persists under the existing `App-sidebarOpen` key (`open` prop). The S16 `faBoxArchive` chest icon is dropped from the rail in favour of `faWarehouse` for the Treasure view (warehouse was previously only the edge handle). |
 | S20 | **Import moves into the sidebar (inline, no modal).** The navbar **Import supplies** control and the modal `SuppliesImport.vue` dialog are removed from `App.vue`. `SuppliesImport.vue` is reduced to a **plain inline form** (the backdrop/header-X/Close-button/`close` emit are gone — file picker + paste textarea + Import button + result line remain, logic unchanged) and is rendered as the sidebar's **Import** view. The navbar's right group keeps only version / JST / theme controls. |
+| S21 | **Sticky navbar.** The top `<nav>` in `App.vue` is `sticky top-0 z-50` so it stays pinned to the top while the page scrolls (was static, scrolled away). `z-50` keeps it above the `z-40` sidebar; the sidebar's `top-12` offset already matches the 3rem navbar so nothing else shifts. |
+| S22 | **Themed Supplies scrollbar.** The Supplies (Treasure) item-grid scroll region in `InventorySidebar.vue` gets a thin, themed scrollbar (`.supplies-scroll` scoped style: `scrollbar-width: thin` + `::-webkit-scrollbar` thumb/track) driven by the existing theme CSS variables (`--color-border-secondary`/`-primary`, transparent track) so it matches all three themes instead of the browser default. |
+| S23 | **Treasure view label → "Supplies".** The Treasure view's display label is renamed to **Supplies** (rail icon tooltip, panel header, and search placeholder). The **tab id stays `treasure`** — `activeTab === 'treasure'`, `searches.treasure`, and `state.order`/store logic are untouched; only the human-facing label changes. |
 
 ### 15.3 Notes & constraints
 
@@ -354,6 +357,10 @@ naming the currently-focused unit.
   moved inline into the sidebar** (the navbar control and the modal dialog are gone; `SuppliesImport.vue` is
   now an inline form embedded in the Import view). Pure UI re-housing — the inventory/focus store, the import
   logic, and the `App-sidebarOpen`/`App-inventory` keys are untouched. No version bump.
+- **S21–S23 (amendment, 2026-06-21, still v1.2.11).** Sticky top navbar (`sticky top-0 z-50`, stays pinned while
+  scrolling), a themed thin scrollbar on the Supplies item grid, and the Treasure view relabeled **Supplies**
+  (display label only — the `treasure` tab id and store logic are unchanged). Pure CSS/label polish, no store/logic
+  change, no version bump.
 
 ### 15.4 Acceptance criteria
 
