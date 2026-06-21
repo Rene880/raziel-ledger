@@ -315,6 +315,8 @@ naming the currently-focused unit.
 | S16 | **Chest tab icon.** The Treasure tab icon changes from `faWarehouse` to a chest-style icon. FontAwesome **free** has no literal treasure chest (`faTreasureChest` is Pro), so `faBoxArchive` (`box-archive`) is used; registered in `main.js`. The sidebar edge handle keeps `faWarehouse`. |
 | S17 | **Unfocus on delete.** Removing a unit box (the 🗑 button in `Calculator.vue`) that is the **active focus** now clears the focus first: new store method `inventory.unfocusIfActive(calcId, unitKey)` runs `clearActiveFocus()` (returns the spent stock to `state.stock`, drops `state.active`, persists) before `delete this.progress[unitKey]`. Previously a deleted focused unit left `state.active` dangling and its supplies permanently spent. The progress-restore half of `clearActiveFocus` is moot here (the unit is deleted next line), but returning the stock and clearing the focus are the point. |
 | S18 | **Focus chip scrolls to the unit.** Clicking the navbar focus chip (S8) still routes to the owning calculator (and the correct Eternal tab) but now also **scrolls the focused unit box into view**. `Calculator.vue` gives each unit box a stable `id="focus-anchor-{calcId}-{unitKey}"` (`focusAnchorId()`) plus `scroll-mt-24`; `App.vue`'s `goToFocus()` resolves the same id and, after the route push settles, `scrollToAnchor()` polls (`$nextTick` + retry) until the element exists **and** is visible (`offsetParent !== null` — guards the Eternal `v-show` tab swap) then `scrollIntoView({ behavior: 'smooth', block: 'start' })`. |
+| S19 | **Sidebar → side nav with an icon rail.** `InventorySidebar.vue` replaces the single edge toggle handle with an **always-visible vertical icon rail** at the right edge holding two clickable view icons — **`faWarehouse` → Treasure** and **`faFileImport` → Import supplies**. Clicking an icon opens the panel on that view; clicking the **active** icon (or the panel's `angle-right` header button) collapses back to the bare rail. The panel sits to the **left** of the rail; the panel header now shows the active view's label. Open/closed state still persists under the existing `App-sidebarOpen` key (`open` prop). The S16 `faBoxArchive` chest icon is dropped from the rail in favour of `faWarehouse` for the Treasure view (warehouse was previously only the edge handle). |
+| S20 | **Import moves into the sidebar (inline, no modal).** The navbar **Import supplies** control and the modal `SuppliesImport.vue` dialog are removed from `App.vue`. `SuppliesImport.vue` is reduced to a **plain inline form** (the backdrop/header-X/Close-button/`close` emit are gone — file picker + paste textarea + Import button + result line remain, logic unchanged) and is rendered as the sidebar's **Import** view. The navbar's right group keeps only version / JST / theme controls. |
 
 ### 15.3 Notes & constraints
 
@@ -346,6 +348,12 @@ naming the currently-focused unit.
   a dangling `state.active`), and the navbar focus chip scrolls the focused unit into view after routing
   (S18). S17 reuses the existing `clearActiveFocus()`; S18 is a read-only navigation/scroll layer. No new
   store concept, no version bump.
+- **S19–S20 (amendment, 2026-06-21, still v1.2.11).** The Supplies sidebar became a **side navigation bar**:
+  an always-visible right-edge icon rail (`faWarehouse` → Treasure view, `faFileImport` → Import view) that
+  expands the panel to the chosen view and collapses when the active icon is re-clicked, and **Import supplies
+  moved inline into the sidebar** (the navbar control and the modal dialog are gone; `SuppliesImport.vue` is
+  now an inline form embedded in the Import view). Pure UI re-housing — the inventory/focus store, the import
+  logic, and the `App-sidebarOpen`/`App-inventory` keys are untouched. No version bump.
 
 ### 15.4 Acceptance criteria
 

@@ -110,21 +110,24 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
   captured at import time from the array position = game `seq_id` order, persisted in `App-inventory`);
   `inventoryList()` sorts by it and falls back to category→name for pre-amendment inventories (`order`
   defaults to `{}` on load).
-  `src/components/SuppliesImport.vue` is the navbar **Import supplies** dialog (paste or `.json` file)
-  wired into `App.vue`.
+  `src/components/SuppliesImport.vue` is the **inline import form** (paste textarea or `.json` file
+  picker + Import button + result line) rendered as the sidebar's Import view — since the S19–S20 amendment
+  it is no longer a modal and is no longer wired directly into `App.vue` (the navbar Import control is gone).
 - Inventory UI over the focus store (PRD §15): `Calculator.vue`'s ★ button opens a dismissable confirm
   dialog (`requestFocus`→`confirmFocus`/`cancelFocus`; "don't show again" calls `inventory.dismissWarning()`)
-  before toggling focus. `src/components/InventorySidebar.vue` is a global, collapsible right **Supplies**
-  panel (mounted in `App.vue`, `v-model:open` persisted under the new `App-sidebarOpen` key). Since the
-  v1.2.11 amendment it is **tabbed** (`tabs` scaffold; only **Treasure** is live, icon `faBoxArchive`
-  `box-archive` — a future Recovery import tab is planned), each tab has its own **search box**
-  (`searches[tabId]`, name substring match), and the Treasure tab is a **3-column icon grid**: per cell an
-  `img` (gbf.wiki link, name as a hover `title` tooltip) with `remaining / owned` underneath, sorted
-  left-to-right by import order (see `state.order` above). The panel is a **fixed height**
-  (`h-[calc(100vh-5rem)]` = viewport minus the `fixed top-20` navbar; it holds that height regardless of
-  item count, with the grid as the `flex-1 min-h-0 overflow-y-auto` scroll region). The navbar
-  **Import supplies** control carries a visible text label left of its `faFileImport` icon. `App.vue` also
-  renders a **focus chip**
+  before toggling focus. `src/components/InventorySidebar.vue` is a global right **Supplies side nav**
+  (mounted in `App.vue`, `v-model:open` persisted under the new `App-sidebarOpen` key). Since the S19–S20
+  amendment it is a **side navigation bar**: an always-visible right-edge **icon rail** with two clickable
+  views — `faWarehouse` → **Treasure**, `faFileImport` → **Import supplies** (`tabs` array; `selectTab(id)`
+  opens the panel on that view and re-clicking the active icon collapses it; the panel's `angle-right`
+  header button also collapses). The panel sits to the **left** of the rail and its header shows the active
+  view's label. The Treasure view has its own **search box** (`searches.treasure`, name substring match) and
+  is a **3-column icon grid**: per cell an `img` (gbf.wiki link, name as a hover `title` tooltip) with
+  `remaining / owned` underneath, sorted left-to-right by import order (see `state.order` above). The Import
+  view embeds the inline `SuppliesImport.vue` form. The whole sidebar (rail + panel) is pinned at `top-12`
+  with a **fixed height** of `h-[calc(100vh-3rem)]` (v1.2.11 height amendment) — flush under the 3rem (`h-12`)
+  navbar so it reaches as high as possible (was `top-20` / `h-[calc(100vh-5rem)]`); the grid is the
+  `flex-1 min-h-0 overflow-y-auto` scroll region). `App.vue` also renders a **focus chip**
   (★ + `state.active.name`) rightmost in the left nav group that routes to the focused unit's calc via a
   `calcId → route` map (Eternal recruit/Radiance disambiguated by a `?tab=recruit|radiance` query that
   `CalcEternal` reads on mount and watches), then `scrollToAnchor()` scrolls the focused unit box into view

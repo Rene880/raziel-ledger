@@ -7,9 +7,9 @@ Material calculators for Granblue Fantasy long-term goals, served as a static SP
 
 All progress is stored in your browser's `localStorage`. There are no accounts and no backend.
 
-Since v1.2.11 you can also **import your in-game supplies** (the navbar import button, ⎘) and
+Since v1.2.11 you can also **import your in-game supplies** (the Import view in the supplies side nav) and
 **focus** a unit (the ★ button on each unit box) to spend that imported stock against the unit's
-remaining materials, with a collapsible supplies sidebar and a navbar focus chip — see
+remaining materials, with a right-edge supplies side nav and a navbar focus chip — see
 [Supplies import & focus](#supplies-import--focus).
 
 ## Attribution
@@ -98,12 +98,13 @@ pre-render step drops the preload from the calc routes (the font isn't used ther
 
 Since v1.2.11 ([PRD §15](PRD.md)) you can pour your real Granblue stock into the calculators:
 
-- **Import** — the navbar import button opens a dialog that accepts the in-game item-list JSON
+- **Import** — the supplies side nav's **Import** view (the file-import icon on the right-edge rail)
+  shows an inline form that accepts the in-game item-list JSON
   (the `game.granbluefantasy.jp` supplies response — an array of `{ item_id, number, … }`; sample in
   the git-ignored `response-example/supplies-response.json`), pasted or loaded from a `.json` file.
   Each `item_id` is matched against the `itemId` on every [supplies.js](src/js/supplies.js) item to
   build a `{ key: count }` stock map. **278** items match; weapon-namespace items (they carry weapon
-  ids), `rupie`/`crystal`, and the evolution items have no item-path id and are skipped (the dialog
+  ids), `rupie`/`crystal`, and the evolution items have no item-path id and are skipped (the form
   reports the matched/skipped counts).
 - **Focus** — the ★ button on each unit box spends your stock against that unit's selected
   step range, filling its progress up to what's needed (earliest step first). Focus is **global and
@@ -112,9 +113,11 @@ Since v1.2.11 ([PRD §15](PRD.md)) you can pour your real Granblue stock into th
   so your stock is never double-counted. Clicking ★ first shows a **confirm dialog** (with a
   "don't show this again" option) warning that focus/unfocus overwrites the unit's tracked quantities.
   Deleting a focused unit (🗑) returns its spent stock and clears the focus.
-- **Supplies sidebar** — a collapsible, fixed-height panel on the right edge with a **Treasure** tab
-  (chest icon) and a search box, showing every owned item as a 3-column icon grid with `remaining / owned`
-  underneath, so you can see what you have and how much a focus has spent.
+- **Supplies side nav** — an always-visible right-edge **icon rail** with two views: **Treasure**
+  (warehouse icon) and **Import supplies** (file-import icon). Clicking either opens its panel (re-clicking
+  the active icon collapses it). The Treasure view is a fixed-height, searchable 3-column icon grid showing
+  every owned item with `remaining / owned` underneath, so you can see what you have and how much a focus
+  has spent.
 - **Focus chip** — when a unit is focused, its name shows (with a ★) at the right of the navbar's
   left link group; clicking it jumps to that unit's calculator and tab and scrolls the unit box into view.
 

@@ -1,46 +1,35 @@
 <template>
-  <!-- Backdrop -->
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" @click.self="$emit('close')">
-    <!-- Dialog -->
-    <div class="flex flex-col gap-4 w-full max-w-lg bg-tertiary text-primary border-4 border-secondary rounded p-4 lg:p-6">
-      <div class="flex flex-row justify-between items-center">
-        <h2 class="text-2xl font-bold">Import supplies</h2>
-        <a class="cursor-pointer" @click="$emit('close')" title="Close">
-          <fa-icon :icon="['fas', 'xmark']" class="text-2xl"></fa-icon>
-        </a>
-      </div>
+  <!-- Inline import form (rendered inside the supplies side nav's Import tab) -->
+  <div class="flex flex-col gap-3 text-primary">
+    <p class="text-sm opacity-80">
+      Paste your supplies JSON (the <code>game.granbluefantasy.jp</code> item list response),
+      or load it from a <code>.json</code> file. Matched items become your stock and can be spent
+      on a unit with the <fa-icon :icon="['fas', 'star']" class="text-yellow-400"></fa-icon> focus button.
+    </p>
 
-      <p class="text-sm opacity-80">
-        Paste your supplies JSON (the <code>game.granbluefantasy.jp</code> item list response),
-        or load it from a <code>.json</code> file. Matched items become your stock and can be spent
-        on a unit with the <fa-icon :icon="['fas', 'star']" class="text-yellow-400"></fa-icon> focus button.
-      </p>
+    <label class="btn btn-white self-start cursor-pointer">
+      Choose JSON file…
+      <input type="file" accept=".json,application/json" class="hidden" @change="onFile">
+    </label>
 
-      <label class="btn btn-white self-start cursor-pointer">
-        Choose JSON file…
-        <input type="file" accept=".json,application/json" class="hidden" @change="onFile">
-      </label>
+    <textarea
+      v-model="text"
+      rows="6"
+      spellcheck="false"
+      placeholder='[ { "item_id": "2", "number": "17691", ... }, ... ]'
+      class="w-full bg-primary text-primary border border-secondary rounded p-2 font-mono text-xs"
+    ></textarea>
 
-      <textarea
-        v-model="text"
-        rows="8"
-        spellcheck="false"
-        placeholder='[ { "item_id": "2", "number": "17691", ... }, ... ]'
-        class="w-full bg-primary text-primary border border-secondary rounded p-2 font-mono text-xs"
-      ></textarea>
+    <p v-if="result" class="text-sm" :class="result.error ? 'text-red-400' : 'text-green-400'">
+      <template v-if="result.error">{{ result.error }}</template>
+      <template v-else>
+        Imported {{ result.matched }} item{{ result.matched === 1 ? '' : 's' }}
+        ({{ result.unmatched }} of {{ result.total }} entries skipped — weapons / currency / unknown ids).
+      </template>
+    </p>
 
-      <p v-if="result" class="text-sm" :class="result.error ? 'text-red-400' : 'text-green-400'">
-        <template v-if="result.error">{{ result.error }}</template>
-        <template v-else>
-          Imported {{ result.matched }} item{{ result.matched === 1 ? '' : 's' }}
-          ({{ result.unmatched }} of {{ result.total }} entries skipped — weapons / currency / unknown ids).
-        </template>
-      </p>
-
-      <div class="flex flex-row justify-end gap-2">
-        <button class="btn btn-white" @click="$emit('close')">Close</button>
-        <button class="btn btn-blue" @click="doImport" :disabled="! text.trim()">Import</button>
-      </div>
+    <div class="flex flex-row justify-end">
+      <button class="btn btn-blue" @click="doImport" :disabled="! text.trim()">Import</button>
     </div>
   </div>
 </template>
@@ -49,7 +38,6 @@
 import inventory from '@/js/inventory'
 
 export default {
-  emits: ['close'],
   data() {
     return {
       text: '',

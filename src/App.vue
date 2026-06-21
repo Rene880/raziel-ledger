@@ -21,10 +21,6 @@
 
       <!-- right -->
       <div class="flex flex-row items-center gap-x-4 px-4">
-        <div class="flex items-center gap-1.5 cursor-pointer select-none hover:text-link-hover" title="Import supplies" @click="showImport = true">
-          <span class="text-sm">Import supplies</span>
-          <fa-icon :icon="['fas', 'file-import']"></fa-icon>
-        </div>
         <span class="select-none hidden sm:block text-xs opacity-70" title="App version">v{{ appVersion }}</span>
         <span class="select-none hidden sm:block">{{ getJST }} JST</span>
         <div class="cursor-pointer select-none hover:text-link-hover" title="Dark mode" @click="theme_dark = true"><fa-icon :icon="['fas', 'moon']"></fa-icon></div>
@@ -38,14 +34,11 @@
       <router-view></router-view>
     </main>
 
-    <!-- Supplies import dialog -->
-    <supplies-import v-if="showImport" @close="showImport = false"></supplies-import>
-
     <!-- Inventory sidebar (global) -->
     <inventory-sidebar v-model:open="sidebarOpen"></inventory-sidebar>
 
     <!-- Footer -->
-    <footer class="flex flex-col items-center bg-tertiary shadow-md w-full py-4 text-xs text-center">
+    <footer class="flex flex-col items-center bg-tertiary border-t border-secondary w-full py-4 text-xs text-center">
       <p class="flex flex-wrap place-content-center">
         <a href="https://github.com/Minimalist3/GranblueParty" target="_blank" class="pr-4">
           <fa-icon :icon="['fab', 'github']" class="text-primary text-lg"></fa-icon> Based on Minimalist3/GranblueParty (GPL-3.0)
@@ -65,7 +58,6 @@
 import Utils from '@/js/utils.js'
 import pkg from '../package.json'
 import inventory from '@/js/inventory'
-import SuppliesImport from '@/components/SuppliesImport.vue'
 import InventorySidebar from '@/components/InventorySidebar.vue'
 
 const lsMgt = new Utils.LocalStorageMgt('App');
@@ -86,7 +78,6 @@ const getJST_options = {
 
 export default {
   components: {
-    SuppliesImport,
     InventorySidebar,
   },
   data() {
@@ -94,7 +85,6 @@ export default {
       now: new Date(),
       theme_dark: true,
       appVersion: pkg.version,
-      showImport: false,
       sidebarOpen: false,
     }
   },
