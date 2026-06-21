@@ -37,6 +37,7 @@
       :unitsProgress="progress"
       :unitsData="getEternalData"
       unitsLabel="an Eternal"
+      calcId="CalcEternal"
       v-model:unitsSplitMats="splitMats"
       v-model:unitsHideCompletedMats="hideCompletedMats"
       v-model:unitsDisplayList="displayList"
@@ -47,6 +48,7 @@
       :unitsProgress="radianceProgress"
       :unitsData="getRadianceData"
       unitsLabel="an Eternal"
+      calcId="CalcEternalRadiance"
       v-model:unitsSplitMats="splitMats"
       v-model:unitsHideCompletedMats="hideCompletedMats"
       v-model:unitsDisplayList="displayList"
@@ -57,6 +59,7 @@
 <script>
 import utils from '@/js/utils'
 import supplies from '@/js/supplies-eternals'
+import inventory from '@/js/inventory'
 
 import Calculator from '@/components/Calculator.vue'
 
@@ -90,6 +93,10 @@ export default {
     }
   },
   watch: {
+    // The navbar focus chip routes here with ?tab=recruit|radiance.
+    '$route.query.tab'() {
+      this.applyTabFromQuery();
+    },
     progress: {
       handler() {
         lsMgt.setValue('progress', this);
@@ -115,6 +122,13 @@ export default {
       lsMgt.setValue('displayList', this);
     }
   },
+  methods: {
+    applyTabFromQuery() {
+      const tab = this.$route.query.tab;
+      if (tab === 'radiance') this.activeTab = 1;
+      else if (tab === 'recruit') this.activeTab = 0;
+    },
+  },
   mounted() {
     // Per-route <title>/meta is set centrally by the router afterEach hook (src/router/index.js).
     lsMgt.getValue(this, 'progress');
@@ -123,6 +137,17 @@ export default {
     lsMgt.getValue(this, 'splitMats');
     lsMgt.getValue(this, 'hideCompletedMats');
     lsMgt.getValue(this, 'displayList');
+    // A ?tab= query (from the focus chip) overrides the persisted tab.
+    this.applyTabFromQuery();
+
+    // Register the loaded progress objects with the inventory focus store
+    // (after getValue so any deferred focus revert applies to real data).
+    inventory.register('CalcEternal', this.getEternalData, this.progress);
+    inventory.register('CalcEternalRadiance', this.getRadianceData, this.radianceProgress);
+  },
+  beforeUnmount() {
+    inventory.unregister('CalcEternal');
+    inventory.unregister('CalcEternalRadiance');
   }
 };
 </script>

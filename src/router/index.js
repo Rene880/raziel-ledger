@@ -46,6 +46,12 @@ const router = createRouter({
       meta: metaForPath('/calcevoker'),
     },
     {
+      path: '/import-guide',
+      name: 'import-guide',
+      component: () => import('@/pages/SuppliesGuide.vue'),
+      meta: metaForPath('/import-guide'),
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('@/pages/NotFound.vue'),

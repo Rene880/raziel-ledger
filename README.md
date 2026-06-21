@@ -4,8 +4,16 @@ Material calculators for Granblue Fantasy long-term goals, served as a static SP
 
 - **/calceternal** — materials to recruit, uncap (5★), and transcend (6★) an Eternal ("40 boxes" method), plus a **Radiance** tab for the Radiance of the Eternal levels 1–5
 - **/calcevoker** — materials to obtain an Arcarum summon, recruit its Evoker, and uncap the New World Foundation weapon
+- **/import-guide** — a desktop-only walkthrough of copying your in-game supplies JSON from the browser's DevTools so you can import it
 
 All progress is stored in your browser's `localStorage`. There are no accounts and no backend.
+
+Since v1.3.0 you can also **import your in-game supplies** (the Import view in the supplies side nav) and
+**focus** a unit (the ★ button on each unit box) to spend that imported stock against the unit's
+remaining materials, with a right-edge supplies side nav and a navbar focus chip — see
+[Supplies import & focus](#supplies-import--focus). A **What's new** popup (the 📢 navbar control,
+beside the version) summarizes the latest release and links the [import guide](#); the Import view links
+it too.
 
 ## Attribution
 
@@ -89,6 +97,37 @@ render-blocking `preconnect` + css2 stylesheet chain (~1.3 s cross-origin DNS/TL
 the font now loads same-origin on the connection already open for the HTML, with no Google request. The
 pre-render step drops the preload from the calc routes (the font isn't used there). See PRD §14.
 
+## Supplies import & focus
+
+Since v1.3.0 ([PRD/v1.3.md §15](PRD/v1.3.md)) you can pour your real Granblue stock into the calculators:
+
+- **Import** — the supplies side nav's **Import** view (the file-import icon on the right-edge rail)
+  shows an inline form that accepts the in-game item-list JSON
+  (the `game.granbluefantasy.jp` supplies response — an array of `{ item_id, number, … }`; sample in
+  the git-ignored `response-example/supplies-response.json`), pasted or loaded from a `.json` file.
+  Each `item_id` is matched against the `itemId` on every [supplies.js](src/js/supplies.js) item to
+  build a `{ key: count }` stock map. **278** items match; weapon-namespace items (they carry weapon
+  ids), `rupie`/`crystal`, and the evolution items have no item-path id and are skipped (the form
+  reports the matched/skipped counts).
+- **Focus** — the ★ button on each unit box spends your stock against that unit's selected
+  step range, filling its progress up to what's needed (earliest step first). Focus is **global and
+  single**: only one unit across all calculators is focused at a time. Switching focus first **resets**
+  the previous unit (restores its progress and returns the spent stock), then applies to the new one,
+  so your stock is never double-counted. Clicking ★ first shows a **confirm dialog** (with a
+  "don't show this again" option) warning that focus/unfocus overwrites the unit's tracked quantities.
+  Deleting a focused unit (🗑) returns its spent stock and clears the focus.
+- **Supplies side nav** — an always-visible right-edge **icon rail** with two views: **Supplies**
+  (warehouse icon) and **Import supplies** (file-import icon). Clicking either opens its panel (re-clicking
+  the active icon collapses it). The Supplies view is a fixed-height, searchable 3-column icon grid (with a
+  thin themed scrollbar) showing every owned item with `remaining / owned` underneath, so you can see what
+  you have and how much a focus has spent.
+- **Focus chip** — when a unit is focused, its name shows (with a ★) at the right of the navbar's
+  left link group; clicking it jumps to that unit's calculator and tab and scrolls the unit box into view.
+
+State lives in a small `reactive` store, [src/js/inventory.js](src/js/inventory.js) (no Vuex),
+persisted under the `App-inventory` `localStorage` key alongside the other `App-*` keys (the sidebar's
+open/closed state under `App-sidebarOpen`).
+
 ## Project documentation
 
-See [PRD.md](PRD.md) for the product requirements of this rewrite.
+See [PRD.md](PRD.md) for the core product requirements (§1–§7), full changelog table (§8), and constraints (§8.1). Detailed per-version specs live in [`PRD/`](PRD/): [`PRD/v1.2.md`](PRD/v1.2.md) (archived v1.2.x) and [`PRD/v1.3.md`](PRD/v1.3.md) (active v1.3.x).

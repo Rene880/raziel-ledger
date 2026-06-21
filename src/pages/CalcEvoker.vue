@@ -21,6 +21,7 @@
       :unitsProgress="progress"
       :unitsData="getEvokerData"
       unitsLabel="an Evoker"
+      calcId="CalcEvoker"
       v-model:unitsSplitMats="splitMats"
       v-model:unitsHideCompletedMats="hideCompletedMats"
       v-model:unitsDisplayList="displayList"
@@ -31,6 +32,7 @@
 <script>
 import utils from '@/js/utils'
 import supplies from '@/js/supplies-evokers'
+import inventory from '@/js/inventory'
 
 import Calculator from '@/components/Calculator.vue'
 
@@ -77,6 +79,11 @@ export default {
     lsMgt.getValue(this, 'splitMats');
     lsMgt.getValue(this, 'hideCompletedMats');
     lsMgt.getValue(this, 'displayList');
+
+    inventory.register('CalcEvoker', this.getEvokerData, this.progress);
+  },
+  beforeUnmount() {
+    inventory.unregister('CalcEvoker');
   }
 };
 </script>
