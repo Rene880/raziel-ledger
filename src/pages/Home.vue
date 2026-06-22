@@ -6,10 +6,7 @@
       >Raziel Ledger</text>
     </svg>
     <p class="mb-8 text-center">
-      Material calculators for Granblue Fantasy long-term goals. <br> 
-      Eternal or Evoker. <br>
-      Unlock, Uncap, Transcend or Domain.<br>
-      Pick a calculator to get started. Your progress is saved in your browser.
+      Eternals and Evokers material trackers/calculators for Granblue Fantasy (GBF) <br>
     </p>
 
     <div class="flex flex-row flex-wrap justify-center gap-8">
