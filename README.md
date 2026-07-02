@@ -23,7 +23,7 @@ licensed under the [GPL-3.0](LICENSE). The calculator logic, game data, item ima
 from that project; the game data and item images are trimmed to the entries the two calculators use
 (see PRD §8 for the details and exceptions). [WikiParser/](WikiParser/) is the standalone item-image fetcher
 (`update_img.py` + `data/supplies.images`) that downloads the calculators' icons into `public/img/item/`;
-since v1.2.5 it is reduced to just that (the upstream wiki-scrape/Postgres pipeline was removed — see PRD §10).
+since v1.2.5 it is reduced to just that (the upstream wiki-scrape/Postgres pipeline was removed — see [PRD/v1.2.md](PRD/v1.2.md), v1.2.5).
 
 Granblue Fantasy content and materials are trademarks and copyrights of Cygames, Inc. or its licensors.
 
@@ -43,8 +43,8 @@ fails with the missing key/filename if not (see PRD §8 changelog). The icon dow
 [WikiParser/data/supplies.images](WikiParser/data/supplies.images); since v1.2.4 it sources each item's
 icon from the official GBF CDN by the item's `itemId`; all 30 weapon-namespace items also use the
 CDN's weapon path (ids in `About items.md`); only the 4 animated `.gif` icons remain
-outside the CDN (see PRD §9). The homepage title is a hand-authored SVG (`public/img/raziel-ledger-lettering.svg`)
-that uses `fill: currentColor` to adapt to the active theme (see PRD §10).
+outside the CDN (see [PRD/v1.2.md](PRD/v1.2.md), v1.2.4). The homepage title is a hand-authored SVG (`public/img/raziel-ledger-lettering.svg`)
+that uses `fill: currentColor` to adapt to the active theme (also v1.2.4).
 
 `npm install` also enables a `.githooks/pre-commit` hook (via the `prepare` script) that runs
 `npm test` before each commit. It's a convenience guard — bypass with `git commit --no-verify`; the
@@ -78,7 +78,7 @@ it benefits the browser tab and JS-rendering crawlers (Googlebot); the static `i
 defaults that no-JS link scrapers read. [public/sitemap.xml](public/sitemap.xml) lists the three routes and
 deploys to `https://rene880.github.io/raziel-ledger/sitemap.xml` for **manual** submission in Google Search
 Console. A `robots.txt` is still omitted: at a project subpath it isn't honored — crawlers only read
-`https://<user>.github.io/robots.txt`, served from your user/org page repo. See PRD §11–§12.
+`https://<user>.github.io/robots.txt`, served from your user/org page repo. See [PRD/v1.2.md](PRD/v1.2.md), v1.2.6–v1.2.8.
 
 Since v1.2.9, the deep routes get **static** per-page cards too, so link scrapers (which never run the
 runtime hook) unfurl a correct card for `/calceternal` and `/calcevoker` — not just `/`. A `postbuild`
@@ -87,7 +87,7 @@ step, [scripts/prerender-routes.js](scripts/prerender-routes.js), clones the bui
 canonical / `og:` / `twitter:` title-description-url (the OG **image** stays the sitewide `og-preview.png`).
 The route SEO table lives in [src/seo/meta.js](src/seo/meta.js), shared by both the router hook and the
 pre-render script so they can't drift. These two routes now serve a real **200** file instead of falling
-through to `404.html`; the rafgraph redirect remains for genuinely unknown paths. See PRD §13.
+through to `404.html`; the rafgraph redirect remains for genuinely unknown paths. See [PRD/v1.2.md](PRD/v1.2.md), v1.2.9.
 
 Since v1.2.10, the homepage hero font (Great Vibes) is **self-hosted** instead of fetched from Google
 Fonts. [public/fonts/great-vibes-subset.woff2](public/fonts/great-vibes-subset.woff2) (~6 KB, OFL,
@@ -95,11 +95,11 @@ subset to the 11 glyphs in "Raziel Ledger") is declared in `index.html` via an i
 (`font-display: swap`) plus a `<link rel="preload" as="font" crossorigin>`. This removed the old
 render-blocking `preconnect` + css2 stylesheet chain (~1.3 s cross-origin DNS/TLS for a 29.70 KiB woff2):
 the font now loads same-origin on the connection already open for the HTML, with no Google request. The
-pre-render step drops the preload from the calc routes (the font isn't used there). See PRD §14.
+pre-render step drops the preload from the calc routes (the font isn't used there). See [PRD/v1.2.md](PRD/v1.2.md), v1.2.10.
 
 ## Supplies import & focus
 
-Since v1.3.0 ([PRD/v1.3.md §15](PRD/v1.3.md)) you can pour your real Granblue stock into the calculators:
+Since v1.3.0 ([PRD.md §8](PRD.md)) you can pour your real Granblue stock into the calculators:
 
 - **Import** — the supplies side nav's **Import** view (the file-import icon on the right-edge rail)
   shows an inline form that accepts the in-game item-list JSON
@@ -130,4 +130,4 @@ open/closed state under `App-sidebarOpen`).
 
 ## Project documentation
 
-See [PRD.md](PRD.md) for the core product requirements (§1–§7), full changelog table (§8), and constraints (§8.1). Detailed per-version specs live in [`PRD/`](PRD/): [`PRD/v1.2.md`](PRD/v1.2.md) (archived v1.2.x) and [`PRD/v1.3.md`](PRD/v1.3.md) (active v1.3.x).
+See [PRD.md](PRD.md) for the core product requirements (§1–§7), full changelog table (§8), constraints (§8.1), and the active series' (v1.3.x) detailed specs. Completed series are archived in [`PRD/`](PRD/): [`PRD/v1.2.md`](PRD/v1.2.md) (v1.2.x).
