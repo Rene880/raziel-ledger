@@ -16,10 +16,10 @@ Be a sharp thinking partner, not a yes-machine.
 ## Keep-in-sync rules
 
 - **Item data changes** (`supplies.js` / `supplies.images`) → update `About items.md`, table columns `id, type, name`.
-- **PRD changes** — propose them in `PRD.md` (§1–§7 core requirements, §8 changelog, §8.1 constraints) and the active version file in `PRD/` (e.g. `PRD/v1.3.md`) first.
-  - Minor bump (x.y → x.{y+1}): move the completed series' detailed specs into `PRD/v{x}.{y}.md`, then start the new series in a fresh `PRD.md`.
+- **PRD changes** — propose them in `PRD.md` first (§1–§7 core requirements, §8 changelog, §8.1 constraints, plus the active series' detailed specs). The active series never gets a file in `PRD/` — that directory holds archived (completed) series only.
+  - Minor bump (x.y → x.{y+1}): move the completed series' detailed specs out of `PRD.md` into `PRD/v{x}.{y}.md`, then start the new series in a fresh `PRD.md`.
   - Major bump (x.y → {x+1}.0): consolidate all `PRD/v{x}.*.md` into one `PRD/v{x}.md`, then start the new series in a fresh `PRD.md`.
-  - Root `PRD.md` only ever holds §1–§7 + the changelog + §8.1 + pointers into `PRD/` — never archived per-version detail.
+  - Root `PRD.md` holds §1–§7 + the changelog + §8.1 + the active series' detail + pointers into `PRD/` — never archived per-version detail.
 - **Whenever behavior or structure changes:** → update  `CLAUDE.md` and `README.md`.
 - **Items/groups/steps/quantities change** in `src/js/supplies-eternals.js`, `src/js/supplies-evokers.js`, `src/js/supplies.js`, or the resolution logic in `src/components/Calculator.vue` → regenerate `.claude/item-totals.{md,json}` via `node .claude/gen-item-totals.mjs` (don't hand-recompute group→item totals — these caches exist so you don't have to).
 - **New release** (a `## Version x.y.z` heading lands in `PRD.md`) → bump `package.json`'s `version` to match in the same change set. `package.json` is the single source of truth for app version.

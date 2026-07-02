@@ -99,7 +99,7 @@ pre-render step drops the preload from the calc routes (the font isn't used ther
 
 ## Supplies import & focus
 
-Since v1.3.0 ([PRD/v1.3.md §15](PRD/v1.3.md)) you can pour your real Granblue stock into the calculators:
+Since v1.3.0 ([PRD.md §8](PRD.md)) you can pour your real Granblue stock into the calculators:
 
 - **Import** — the supplies side nav's **Import** view (the file-import icon on the right-edge rail)
   shows an inline form that accepts the in-game item-list JSON
@@ -130,4 +130,4 @@ open/closed state under `App-sidebarOpen`).
 
 ## Project documentation
 
-See [PRD.md](PRD.md) for the core product requirements (§1–§7), full changelog table (§8), and constraints (§8.1). Detailed per-version specs live in [`PRD/`](PRD/): [`PRD/v1.2.md`](PRD/v1.2.md) (archived v1.2.x) and [`PRD/v1.3.md`](PRD/v1.3.md) (active v1.3.x).
+See [PRD.md](PRD.md) for the core product requirements (§1–§7), full changelog table (§8), constraints (§8.1), and the active series' (v1.3.x) detailed specs. Completed series are archived in [`PRD/`](PRD/): [`PRD/v1.2.md`](PRD/v1.2.md) (v1.2.x).

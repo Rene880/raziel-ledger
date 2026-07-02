@@ -81,10 +81,9 @@ Granblue Fantasy players tracking multi-month grinds for Eternals/Evokers. They 
 ### 6.2 Repository layout
 ```
 raziel-ledger/
-├── PRD.md                   ← this document (core requirements + changelog)
-├── PRD/                     ← archived version-series PRDs
-│   ├── v1.2.md              ← v1.2.x archive (2026-06-12 to 2026-06-14)
-│   └── v1.3.md              ← v1.3.x active PRD
+├── PRD.md                   ← this document (core requirements + changelog + active-series detail)
+├── PRD/                     ← archived version-series PRDs (completed series only)
+│   └── v1.2.md              ← v1.2.x archive (2026-06-12 to 2026-06-14)
 ├── .github/workflows/deploy.yml
 ├── index.html               ← Vite entry
 ├── vite.config.js / tailwind.config.js / postcss.config.js
@@ -115,16 +114,15 @@ The original `API/` folder is **not** carried over (G3).
 
 ## 8. Changelog
 
-Each released version is summarised in the table below. Detailed specs per version series live in [`PRD/`](PRD/):
+Each released version is summarised in the table below. The active series (v1.3.x, from 2026-06-21) is documented in this file; detailed specs for completed series are archived in [`PRD/`](PRD/):
 
 - [`PRD/v1.2.md`](PRD/v1.2.md) — v1.2.x archive (2026-06-12 to 2026-06-14)
-- [`PRD/v1.3.md`](PRD/v1.3.md) — v1.3.x active PRD (from 2026-06-21)
 
 Per the versioning policy, every release bumps `package.json` `version` to the same `x.y.z` in the same change set (single source of truth for the app version) and syncs `CLAUDE.md` / `README.md`.
 
 | Version | Date | Summary |
 |---------|------|---------|
-| 1.3.0 | 2026-06-21 | **Supplies import, per-unit "focus" & inventory UI.** Added sidebar Import view, ★ focus button, `reactive` inventory store (`src/js/inventory.js`), dismissable confirm dialog, Supplies sidebar (`InventorySidebar.vue`), navbar focus chip with Eternal-tab badge, `/import-guide` page, and What's new popup. See [PRD/v1.3.md](PRD/v1.3.md). |
+| 1.3.0 | 2026-06-21 | **Supplies import, per-unit "focus" & inventory UI.** Added sidebar Import view, ★ focus button, `reactive` inventory store (`src/js/inventory.js`), dismissable confirm dialog, Supplies sidebar (`InventorySidebar.vue`), navbar focus chip with Eternal-tab badge, `/import-guide` page, and What's new popup. |
 
 ### 8.1 Constraints that persist
 
