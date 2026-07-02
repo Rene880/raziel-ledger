@@ -16,7 +16,7 @@
         to="/calceternal"
         class="flex flex-col items-center border-4 border-secondary rounded bg-tertiary p-8 w-72 hover:border-primary"
       >
-        <img :src="baseUrl + 'img/item/goldbrick.jpg'" alt="Eternals" class="mb-4 w-16 h-16">
+        <img :src="baseUrl + 'img/item/terraadamant.jpg'" alt="Eternals" class="mb-4 w-16 h-16">
         <h2 class="mb-4">Eternals</h2>
         <p class="text-primary text-center">
           Recruit, uncap, radiance, and transcend the Eternals using the "40 boxes" method.
