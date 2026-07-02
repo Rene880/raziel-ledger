@@ -8,7 +8,7 @@
 // The Vite base is a subpath, so these must be absolute (see PRD §11/§12).
 export const SITE_ORIGIN = 'https://rene880.github.io/raziel-ledger'
 export const SITE_NAME = 'Raziel Ledger'
-export const DEFAULT_TITLE = 'Raziel Ledger - Granblue Fantasy Calculators'
+export const DEFAULT_TITLE = 'Granblue Fantasy Eternal & Evoker Calculators/Tracker'
 export const DEFAULT_DESCRIPTION =
   'Eternals and Evokers material trackers/calculators for Granblue Fantasy (GBF)'
 export const OG_IMAGE = `${SITE_ORIGIN}/img/og-preview.png`
