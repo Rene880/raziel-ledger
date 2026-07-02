@@ -20,10 +20,16 @@ They may also paste raw data (item names, wiki text, etc.) for you to interpret.
 ### Item format
 
 ```js
-keyname: new Item('Display Name', Categories.category),
-// or animated variant:
-keyname: new Item('Display Name', Categories.category, true),
+keyname: new Item('Display Name', Categories.category, itemId),
+// or animated variant (no itemId — animated icons are .gif, sourced differently):
+keyname: new Item('Display Name', Categories.category, null, true),
 ```
+
+`Item`'s constructor is `(name, category, itemId = null, animated = false)`. `itemId` is the
+in-game item id (or weapon id for the 30 weapon-namespace items) used to build the CDN icon URL —
+required for every item except the 4 animated `.gif` placeholders (`loworb`, `trueanima`, `whorl`,
+`rustedweapon`), which pass `null`. Look up the id in `About items.md` or the raw API dump in
+`response-example/` before adding the item; ask the user for it if it can't be found.
 
 **Categories available:** `quest`, `coop`, `anima`, `arcarum`
 
@@ -49,6 +55,7 @@ The `items` object has these comment-delimited sections. Insert new items in the
 - `// Astra` / `// Idean` / `// Veritas` / `// Verum` / `// Luster` / `// Haze`
 - `// Arcarum Fragment` / `// Gospel`
 - `// Anima` / `// Omega Anima` / `// Omega Unique items` / `// Omega 2 Omega Anima`
+- `// Ennead Omega Anima` / `// Omega 3 Omega Anima`
 - `// Six-Dragon Advent` / `// Six-Dragon Jewels`
 - `// Tier 1 Summon Anima` / `// Tier 2 Summon Anima`
 - `// Primarch Anima` / `// Halo` / `// Sacred beasts Omega Anima`
@@ -115,8 +122,12 @@ new MaterialStep('Step label shown in UI',
 3. After confirmation, make the edit with the Edit tool.
 4. If new item keys are referenced in steps but don't yet exist in `supplies.js`, add them first.
 5. Verify no typos in item/group keys by checking `supplies.js`.
-6. Report what was added and where.
+6. If you added or changed items, add matching rows (`id, type, name`) to `About items.md` (per
+   `CLAUDE.md`'s keep-in-sync rules).
+7. If you changed items, groups, steps, or quantities, regenerate `.claude/item-totals.{md,json}`:
+   `node .claude/gen-item-totals.mjs`.
+8. Report what was added and where.
 
 Do not add image files — images are managed separately in `public/img/item/` via the
 `/download-images` skill (which appends to `WikiParser/data/supplies.images` and runs the fetcher).
-Do not modify `CLAUDE.md`, `README.md`, or `PRD.md` for data-only additions.
+Do not modify `README.md` or `PRD.md` for data-only additions.
