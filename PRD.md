@@ -16,7 +16,7 @@ The original project is a Vue 2 SSR application (webpack + Express) backed by a 
 | G1 | Migrate the frontend stack from Vue 2 / Vuex / webpack SSR to **Vue 3 + Vite**, deployed as a static **SPA on GitHub Pages**. |
 | G2 | Serve **only** the two calculator routes `/calceternal` and `/calcevoker`, plus a minimal homepage at `/` that lets the user choose between them, and a 404 fallback. |
 | G3 | **Remove the API** — no backend, no axios, no accounts, no authentication of any kind. |
-| G4 | **WikiParser is the standalone item-image fetcher** (`WikiParser/update_img.py` + `data/supplies.images`): it downloads the calculators' item icons into `public/img/item/` from a hand-authored manifest. Reduced from the upstream wiki-scrape/Postgres pipeline in v1.2.5 (PRD/v1.2.md §10); remains GPL-3.0. |
+| G4 | **WikiParser is the standalone item-image fetcher** (`WikiParser/update_img.py` + `data/supplies.images`): it downloads the calculators' item icons into `public/img/item/` from a hand-authored manifest. Reduced from the upstream wiki-scrape/Postgres pipeline in v1.2.5 (PRD/v1.2.md); remains GPL-3.0. |
 | G5 | Keep feature parity for the two calculators: unit selection, completed/target step ranges, split/merged materials, hide-completed filter, grid/list display, per-item quantity tracking, and `localStorage` persistence. |
 
 ## 3. Non-goals
@@ -24,7 +24,7 @@ The original project is a Vue 2 SSR application (webpack + Express) backed by a 
 - Party Builder, Collection Tracker, Daily Grind, Spark, Teams, Search, Replicard, Friend Summons, Release Schedule, Room Name, and the other calculators (Bullets, GW, Dread, Event) are **not** ported.
 - No user accounts, login, signup, or JWT handling (G3).
 - No ads, analytics, or consent management.
-- No server-side rendering. Since v1.2.6 (PRD/v1.2.md §11) the social-preview/SEO meta tags (title, description, canonical, Open Graph, Twitter Card) are **static** in `index.html` so non-JS scrapers can read them; v1.2.8 (§12) added a runtime per-route `afterEach` hook, and v1.2.9 (§13) added build-time pre-rendered per-route HTML (`dist/calceternal`, `dist/calcevoker`) so scrapers get per-page cards — all without SSR.
+- No server-side rendering. Since v1.2.6 (PRD/v1.2.md) the social-preview/SEO meta tags (title, description, canonical, Open Graph, Twitter Card) are **static** in `index.html` so non-JS scrapers can read them; v1.2.8 added a runtime per-route `afterEach` hook, and v1.2.9 added build-time pre-rendered per-route HTML (`dist/calceternal`, `dist/calcevoker`) so scrapers get per-page cards — all without SSR.
 - No translation/JP-names toggle (the dropped pages were the main consumers; calculator data is English).
 
 ## 4. Users
@@ -38,7 +38,7 @@ Granblue Fantasy players tracking multi-month grinds for Eternals/Evokers. They 
 - `/calceternal` → Eternals calculator.
 - `/calcevoker` → Evokers calculator.
 - Any other path → 404 page with a link back home.
-- HTML5 history mode. Since v1.2.6 (PRD/v1.2.md §11) GitHub Pages serves a dedicated rafgraph `404.html` redirect that bounces unknown paths to `…/?/<path>` (a 200 home document), which `index.html` rewrites back to the real path before the router boots — so deep links resolve to the SPA router on a 200 document. (Pre-1.2.6 this was a verbatim copy of `index.html`.)
+- HTML5 history mode. Since v1.2.6 (PRD/v1.2.md) GitHub Pages serves a dedicated rafgraph `404.html` redirect that bounces unknown paths to `…/?/<path>` (a 200 home document), which `index.html` rewrites back to the real path before the router boots — so deep links resolve to the SPA router on a 200 document. (Pre-1.2.6 this was a verbatim copy of `index.html`.)
 - The app is hosted at `https://<user>.github.io/raziel-ledger/`, so the Vite/router base is `/raziel-ledger/`.
 
 ### 5.2 Calculator behavior (parity with original)
@@ -68,14 +68,14 @@ Granblue Fantasy players tracking multi-month grinds for Eternals/Evokers. They 
 | Icons | Font Awesome via `@fortawesome/vue-fontawesome@3` (Vue 3 build), only the icons actually used. |
 | Data | `supplies.js`, `supplies-common.js`, `supplies-eternals.js`, `supplies-evokers.js` carried over from GranblueParty (frozen data, no API); since v1.1, `supplies.js` is trimmed to referenced entries (§8). |
 | Images | Item images in `public/img/item/`, referenced via `import.meta.env.BASE_URL`; since v1.1, swept to the images `supplies.js` references (one `<key>.<jpg\|gif>` per item). Regenerable by WikiParser. |
-| Deploy | GitHub Actions workflow → `actions/deploy-pages` on push to `main`. Since v1.2.6 the deep-link fallback is a dedicated rafgraph `public/404.html` redirect (auto-copied to `dist/`), not a copy of `index.html` (PRD/v1.2.md §11 S5). |
+| Deploy | GitHub Actions workflow → `actions/deploy-pages` on push to `main`. Since v1.2.6 the deep-link fallback is a dedicated rafgraph `public/404.html` redirect (auto-copied to `dist/`), not a copy of `index.html` (PRD/v1.2.md, v1.2.6). |
 | License | GPL-3.0 retained (derivative work). |
 
 ### 6.1 Vue 2 → Vue 3 migration notes
 - `.sync` props → `v-model:` arguments (`:prop.sync` → `v-model:prop`); components declare `emits`.
 - Custom `v-model` (`value`/`input`) → `modelValue`/`update:modelValue` (Checkbox, Dropdown); `v-model.number` on components handled via `modelModifiers`.
 - `this.$set` / `this.$delete` → plain property assignment / `delete` (Vue 3 proxy reactivity).
-- SSR head mixin → per-page client-side `setHead()` helper (v1.0); replaced in v1.2.8 by a single router `afterEach` hook driven by `route.meta` (PRD/v1.2.md §12).
+- SSR head mixin → per-page client-side `setHead()` helper (v1.0); replaced in v1.2.8 by a single router `afterEach` hook driven by `route.meta` (PRD/v1.2.md).
 - Global axios mixin, `serverPrefetch`, entry-client/entry-server split → removed.
 
 ### 6.2 Repository layout
@@ -131,4 +131,4 @@ Per the versioning policy, every release bumps `package.json` `version` to the s
 - **`localStorage` keys are frozen** for back-compat: `CalcEternal-progress` (recruit/transcend), `CalcEternal-radianceProgress` (Radiance), `CalcEternal-activeTab`, `CalcEvoker-*`, shared `App-*`/UI toggles. Do not rename them.
 - **`public/img/item/` is one image per item** — `<key>.jpg`, or `<key>.gif` for the 4 animated items (`loworb`, `trueanima`, `whorl`, `rustedweapon`). `check-item-images.js` (npm `test` / `prebuild`) enforces this for all 316 items; it does not cover `favicon.svg`.
 - **`WikiParser/data/supplies.images`** is the hand-authored `URL⇥dest` manifest (no comment/blank lines — `download()` splits each on `\t`). The 4 animated `.gif` items are excluded (different source). `download(manifest, dest_dir)` skips files that already exist, so re-running is a no-op; manifest URLs are unverified against the live source. `goldbrick` and `sunlightstone` use `item/evolution/s/` (not `item/article/s/`).
-- **WikiParser is a standalone item-image fetcher** (PRD/v1.2.md §10): `update_img.py` reads `data/supplies.images` and writes `public/img/item/`; it no longer carries the upstream DB/preview/wiki-scrape pipeline and is no longer "preserved verbatim."
+- **WikiParser is a standalone item-image fetcher** (PRD/v1.2.md, v1.2.5): `update_img.py` reads `data/supplies.images` and writes `public/img/item/`; it no longer carries the upstream DB/preview/wiki-scrape pipeline and is no longer "preserved verbatim."
