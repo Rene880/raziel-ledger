@@ -306,7 +306,7 @@ const items = Object.freeze({
   deathbelief: new Item('Belief in Death', Categories.arcarum, '25092'),
   temperancebelief: new Item('Belief in Temperance', Categories.arcarum, '25093'),
   devilbelief: new Item('Belief in Devil', Categories.arcarum, '25094'),
-  // To be released: placeholders (no itemId, icon is a copy of justicebelief.jpg)
+  // To be released: placeholders (no itemId, icon is an intentionally empty .jpg so it renders as a broken image)
   towerbelief: new Item('Belief in Tower', Categories.arcarum),
   starbelief: new Item('Belief in Star', Categories.arcarum),
   moonbelief: new Item('Belief in Moon', Categories.arcarum),
