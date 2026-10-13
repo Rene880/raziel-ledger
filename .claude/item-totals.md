@@ -1683,7 +1683,7 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `lightrevansunique` | Arbitration Cloth | 60 |
 | `allotropicagate` | Allotropic Agate | 1 |
 | `sephiraevolite` | Sephira Evolite | 2 |
-| `lightwheel` | Wheel of Solaris | 18 |
+| `lightwheel` | Wheel of "Light" | 18 |
 | `gospelofgenea` | Gospel of Genea | 25 |
 | `gospelofegeiro` | Gospel of Egeiro | 25 |
 | `celsusfragment` | Celsus Fragment | 90 |

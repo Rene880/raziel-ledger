@@ -317,7 +317,7 @@ const items = Object.freeze({
   waterwheel: new Item('Wheel of Aqua', Categories.arcarum, '25101'),
   earthwheel: new Item('Wheel of Terra', Categories.arcarum, '25102'),
   windwheel: new Item('Wheel of Ventus', Categories.arcarum, '25103'),
-  lightwheel: new Item('Wheel of Solaris', Categories.arcarum, '25104'),
+  lightwheel: new Item('Wheel of "Light"', Categories.arcarum, '25104'), // stand-in name: to be released
   darkwheel: new Item('Wheel of Tenebrae', Categories.arcarum, '25105'),
   // Anima
   animafire: new Item('Colossus Anima', Categories.anima, '11'),

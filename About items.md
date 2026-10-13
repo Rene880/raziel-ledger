@@ -325,7 +325,7 @@ Weapons use the `weapon/s/<id>.jpg` CDN path; their weapon id is carried as `ite
 | 25101 | item | Wheel of Aqua |
 | 25102 | item | Wheel of Terra |
 | 25103 | item | Wheel of Ventus |
-| 25104 | item | Wheel of Solaris |
+| 25104 | item | Wheel of "Light" (stand-in name) |
 | 25105 | item | Wheel of Tenebrae |
 | 1030002900 | weapon | Rusted Sword |
 | 1030102500 | weapon | Rusted Dagger |
