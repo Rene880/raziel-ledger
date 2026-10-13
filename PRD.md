@@ -158,6 +158,7 @@ Evokers can now be transcended to 6★ in five stages ([gbf.wiki/Evoker_Transcen
 - New groups: `belief` (summon-keyed), `wheel`, `fellcore`, `odiousunique`, `revansunique`, `tomeofsecrets` (element-keyed). Revans mapping per user: water 585, fire 586, earth 587, wind 589, light 590, dark 588. `tomeofsecrets`: fire/water → Esoteric, earth/wind → Virtuosic, light/dark → Martial (light from the wiki's icon order; the wiki text names only the dark Evoker).
 - 33 icons fetched from the CDN via `supplies.images`; 5 placeholder icons copied locally.
 - `WhatsNew.vue` rewritten for this release (keeps the import-guide link).
+- `CalcEvoker.vue` wiki list gains a "To transcend an Evoker" link to [gbf.wiki/Evoker_Transcendence](https://gbf.wiki/Evoker_Transcendence).
 - `.claude/gen-item-totals.mjs` now resolves its read/write paths relative to itself (it hardcoded a lowercase `/home/octa/project/…` path that broke on case-sensitive filesystems).
 
 ### Notes & constraints
