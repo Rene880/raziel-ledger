@@ -124,6 +124,12 @@ Weapons use the `weapon/s/<id>.jpg` CDN path; their weapon id is carried as `ite
 | 582 | item | Ra Omega Anima |
 | 583 | item | Horus Omega Anima |
 | 584 | item | Osiris Omega Anima |
+| 585 | item | Automagod Plating |
+| 586 | item | Extinction Vestige |
+| 587 | item | Dragonslayer's Edge |
+| 588 | item | Abominable Reminder |
+| 589 | item | Remnants of the Star-Sea's Edge |
+| 590 | item | Arbitration Cloth |
 | 601 | item | Aura Omega Anima |
 | 603 | item | Ira Omega Anima |
 | 605 | item | Mare Omega Anima |
@@ -131,6 +137,21 @@ Weapons use the `weapon/s/<id>.jpg` CDN path; their weapon id is carried as `ite
 | 609 | item | Credo Omega Anima |
 | 611 | item | Ater Omega Anima |
 | 612 | item | Immortal Fragment |
+| 614 | item | Tome of Martial Secrets |
+| 616 | item | Tome of Esoteric Secrets |
+| 618 | item | Tome of Virtuosic Secrets |
+| 627 | item | Belmervolk Fellcore |
+| 628 | item | Nihuyvintae Fellcore |
+| 629 | item | Narophirmidas Fellcore |
+| 630 | item | Macutanmacar Fellcore |
+| 631 | item | Papahlukruva Fellcore |
+| 632 | item | Zamalvoch Fellcore |
+| 633 | item | Doomfire Missile |
+| 634 | item | Azurn Allowater |
+| 635 | item | Gilded Corpsehand |
+| 636 | item | Stone of Sealed Tempest |
+| 637 | item | Fruit of Blighted Knowledge |
+| 638 | item | Netherfell Scrap |
 | 1011 | item | Fire Orb |
 | 1012 | item | Inferno Orb |
 | 1021 | item | Water Orb |
@@ -289,6 +310,23 @@ Weapons use the `weapon/s/<id>.jpg` CDN path; their weapon id is carried as `ite
 | 25086 | item | Gospel of Analipsis |
 | 25087 | item | Gospel of Thysia |
 | 25088 | item | Gospel of Genea |
+| 25089 | item | Allotropic Agate |
+| 25090 | item | Belief in Justice |
+| 25091 | item | Belief in The Hanged Man |
+| 25092 | item | Belief in Death |
+| 25093 | item | Belief in Temperance |
+| 25094 | item | Belief in The Devil |
+| TBR | item | Belief in The Tower |
+| TBR | item | Belief in The Star |
+| TBR | item | Belief in The Moon |
+| TBR | item | Belief in The Sun |
+| TBR | item | Belief in Judgement |
+| 25100 | item | Wheel of Ignis |
+| 25101 | item | Wheel of Aqua |
+| 25102 | item | Wheel of Terra |
+| 25103 | item | Wheel of Ventus |
+| 25104 | item | Wheel of "Light" (stand-in name) |
+| 25105 | item | Wheel of Tenebrae |
 | 1030002900 | weapon | Rusted Sword |
 | 1030102500 | weapon | Rusted Dagger |
 | 1030202400 | weapon | Rusted Lance |

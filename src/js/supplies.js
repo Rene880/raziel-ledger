@@ -298,6 +298,27 @@ const items = Object.freeze({
   gospelofegeiro: new Item('Gospel of Egeiro', Categories.arcarum, '25085'),
   gospelofthysia: new Item('Gospel of Thysia', Categories.arcarum, '25087'),
   gospelofanalipsis: new Item('Gospel of Analipsis', Categories.arcarum, '25086'),
+  // Evoker Transcendence
+  allotropicagate: new Item('Allotropic Agate', Categories.arcarum, '25089'),
+  // Belief
+  justicebelief: new Item('Belief in Justice', Categories.arcarum, '25090'),
+  hangedmanbelief: new Item('Belief in The Hanged Man', Categories.arcarum, '25091'),
+  deathbelief: new Item('Belief in Death', Categories.arcarum, '25092'),
+  temperancebelief: new Item('Belief in Temperance', Categories.arcarum, '25093'),
+  devilbelief: new Item('Belief in The Devil', Categories.arcarum, '25094'),
+  // To be released: placeholders (no itemId, icon is an intentionally empty .jpg so it renders as a broken image)
+  towerbelief: new Item('Belief in The Tower', Categories.arcarum),
+  starbelief: new Item('Belief in The Star', Categories.arcarum),
+  moonbelief: new Item('Belief in The Moon', Categories.arcarum),
+  sunbelief: new Item('Belief in The Sun', Categories.arcarum),
+  judgementbelief: new Item('Belief in Judgement', Categories.arcarum),
+  // Wheel
+  firewheel: new Item('Wheel of Ignis', Categories.arcarum, '25100'),
+  waterwheel: new Item('Wheel of Aqua', Categories.arcarum, '25101'),
+  earthwheel: new Item('Wheel of Terra', Categories.arcarum, '25102'),
+  windwheel: new Item('Wheel of Ventus', Categories.arcarum, '25103'),
+  lightwheel: new Item('Wheel of "Light"', Categories.arcarum, '25104'), // stand-in name: to be released
+  darkwheel: new Item('Wheel of Tenebrae', Categories.arcarum, '25105'),
   // Anima
   animafire: new Item('Colossus Anima', Categories.anima, '11'),
   animawater: new Item('Leviathan Anima', Categories.anima, '12'),
@@ -340,6 +361,31 @@ const items = Object.freeze({
   windomega3omegaanima: new Item('Aura Omega Anima', Categories.anima, '601'),
   lightomega3omegaanima: new Item('Credo Omega Anima', Categories.anima, '609'),
   darkomega3omegaanima: new Item('Ater Omega Anima', Categories.anima, '611'),
+  // Fellcores
+  firefellcore: new Item('Belmervolk Fellcore', Categories.anima, '627'),
+  waterfellcore: new Item('Nihuyvintae Fellcore', Categories.anima, '628'),
+  earthfellcore: new Item('Narophirmidas Fellcore', Categories.anima, '629'),
+  windfellcore: new Item('Macutanmacar Fellcore', Categories.anima, '630'),
+  lightfellcore: new Item('Papahlukruva Fellcore', Categories.anima, '631'),
+  darkfellcore: new Item('Zamalvoch Fellcore', Categories.anima, '632'),
+  // Odious Unique items
+  fireodiousunique: new Item('Doomfire Missile', Categories.anima, '633'),
+  waterodiousunique: new Item('Azurn Allowater', Categories.anima, '634'),
+  earthodiousunique: new Item('Gilded Corpsehand', Categories.anima, '635'),
+  windodiousunique: new Item('Stone of Sealed Tempest', Categories.anima, '636'),
+  lightodiousunique: new Item('Fruit of Blighted Knowledge', Categories.anima, '637'),
+  darkodiousunique: new Item('Netherfell Scrap', Categories.anima, '638'),
+  // Revans Unique items
+  firerevansunique: new Item('Extinction Vestige', Categories.anima, '586'),
+  waterrevansunique: new Item('Automagod Plating', Categories.anima, '585'),
+  earthrevansunique: new Item('Dragonslayer\'s Edge', Categories.anima, '587'),
+  windrevansunique: new Item('Remnants of the Star-Sea\'s Edge', Categories.anima, '589'),
+  lightrevansunique: new Item('Arbitration Cloth', Categories.anima, '590'),
+  darkrevansunique: new Item('Abominable Reminder', Categories.anima, '588'),
+  // Tomes of Secrets
+  tomeofmartialsecrets: new Item('Tome of Martial Secrets', Categories.anima, '614'),
+  tomeofesotericsecrets: new Item('Tome of Esoteric Secrets', Categories.anima, '616'),
+  tomeofvirtuosicsecrets: new Item('Tome of Virtuosic Secrets', Categories.anima, '618'),
   // Six-Dragon Advent
   firesixdragon: new Item('Smoldering Rubble', Categories.anima, '549'),
   watersixdragon: new Item('Abyssal Tragedy', Categories.anima, '550'),
@@ -628,7 +674,20 @@ const groups = Object.freeze({
     2040242: 'staridean',
     2040243: 'moonidean',
     2040244: 'sunidean',
-    2040245: 'judgementidean',    
+    2040245: 'judgementidean',
+  },
+  belief: {
+		type: GroupType.summon,
+    2040236: 'justicebelief',
+    2040237: 'hangedmanbelief',
+    2040238: 'deathbelief',
+    2040239: 'temperancebelief',
+    2040240: 'devilbelief',
+    2040241: 'towerbelief',
+    2040242: 'starbelief',
+    2040243: 'moonbelief',
+    2040244: 'sunbelief',
+    2040245: 'judgementbelief'
   },
 	veritas: {
 		type: GroupType.summon,
@@ -759,6 +818,51 @@ const groups = Object.freeze({
     wind: 'windomega3omegaanima',
     light: 'lightomega3omegaanima',
     dark: 'darkomega3omegaanima'
+  },
+  fellcore: {
+		type: GroupType.element,
+    fire: 'firefellcore',
+    water: 'waterfellcore',
+    earth: 'earthfellcore',
+    wind: 'windfellcore',
+    light: 'lightfellcore',
+    dark: 'darkfellcore'
+  },
+  wheel: {
+		type: GroupType.element,
+    fire: 'firewheel',
+    water: 'waterwheel',
+    earth: 'earthwheel',
+    wind: 'windwheel',
+    light: 'lightwheel',
+    dark: 'darkwheel'
+  },
+  odiousunique: {
+		type: GroupType.element,
+    fire: 'fireodiousunique',
+    water: 'waterodiousunique',
+    earth: 'earthodiousunique',
+    wind: 'windodiousunique',
+    light: 'lightodiousunique',
+    dark: 'darkodiousunique'
+  },
+  revansunique: {
+		type: GroupType.element,
+    fire: 'firerevansunique',
+    water: 'waterrevansunique',
+    earth: 'earthrevansunique',
+    wind: 'windrevansunique',
+    light: 'lightrevansunique',
+    dark: 'darkrevansunique'
+  },
+  tomeofsecrets: {
+		type: GroupType.element,
+    fire: 'tomeofesotericsecrets',
+    water: 'tomeofesotericsecrets',
+    earth: 'tomeofvirtuosicsecrets',
+    wind: 'tomeofvirtuosicsecrets',
+    light: 'tomeofmartialsecrets',
+    dark: 'tomeofmartialsecrets'
   },
   sixdragon: {
 		type: GroupType.element,

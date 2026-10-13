@@ -111,7 +111,7 @@ new MaterialStep('Step label shown in UI',
 
 **supplies-eternals.js** — steps are in `ETERNALS_DATA.materials[]`. They cover Eternal upgrade from 4★ → 6★ Transcendence Stage 5.
 
-**supplies-evokers.js** — steps are in `EVOKERS_DATA.materials[]`. They cover Evoker path from SR Summon 0★ through Unlock 4th Skill.
+**supplies-evokers.js** — steps are in `EVOKERS_DATA.materials[]`. They cover Evoker path from SR Summon 0★ through Transcendence Stage 2.
 
 ---
 

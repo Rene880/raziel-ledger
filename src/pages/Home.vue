@@ -30,7 +30,7 @@
         <img :src="baseUrl + 'img/item/newworldquartz.jpg'" alt="Evokers" class="mb-4 w-16 h-16">
         <h2 class="mb-4">Evokers</h2>
         <p class="text-primary text-center">
-          Obtain Arcarum summons, recruit the Evokers, and uncap their weapons.
+          Obtain Arcarum summons, recruit the Evokers, uncap their weapons and transcend.
         </p>
       </router-link>
     </div>

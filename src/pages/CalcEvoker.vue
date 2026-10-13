@@ -14,6 +14,9 @@
           <li><a target="_blank" href="https://gbf.wiki/New_World_Foundation_Weapons">To obtain New World Foundation Weapons
             <fa-icon :icon="['fas', 'external-link-alt']" class="text-sm"></fa-icon></a>
           </li>
+          <li><a target="_blank" href="https://gbf.wiki/Evoker_Transcendence">To transcend an Evoker
+            <fa-icon :icon="['fas', 'external-link-alt']" class="text-sm"></fa-icon></a>
+          </li>
       </ul>
     </span>
 
