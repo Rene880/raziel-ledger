@@ -1352,8 +1352,8 @@
       "items": {
         "sephirastone": 387,
         "flawlessprism": 115,
-        "aquaborneastra": 864,
-        "justiceidean": 519,
+        "aquaborneastra": 1104,
+        "justiceidean": 639,
         "waterverum": 1632,
         "wateromegaanima": 30,
         "chaotichaze": 136,
@@ -1374,9 +1374,9 @@
         "primevalhorn": 10,
         "sephiraevolite": 2,
         "suprememerit": 20,
-        "rupie": 127000,
+        "rupie": 5227000,
         "bluedragonscale": 1,
-        "newworldquartz": 120,
+        "newworldquartz": 140,
         "waterluster": 300,
         "justiceveritas": 720,
         "malicefragment": 30,
@@ -1387,7 +1387,15 @@
         "eternitysand": 3,
         "gospelofanalipsis": 50,
         "worldidean": 100,
-        "damascuscrystal": 10
+        "damascuscrystal": 10,
+        "justicebelief": 100,
+        "waterwheel": 18,
+        "allotropicagate": 1,
+        "waterfellcore": 60,
+        "wateromega3omegaanima": 30,
+        "waterodiousunique": 40,
+        "waterrevansunique": 60,
+        "tomeofesotericsecrets": 15
       }
     },
     "2040237": {
@@ -1396,8 +1404,8 @@
       "items": {
         "sephirastone": 387,
         "flawlessprism": 115,
-        "earthborneastra": 864,
-        "hangedmanidean": 519,
+        "earthborneastra": 1104,
+        "hangedmanidean": 639,
         "earthverum": 1632,
         "earthomegaanima": 30,
         "chaotichaze": 136,
@@ -1418,9 +1426,9 @@
         "primevalhorn": 10,
         "sephiraevolite": 2,
         "suprememerit": 20,
-        "rupie": 127000,
+        "rupie": 5227000,
         "browndragonscale": 1,
-        "newworldquartz": 120,
+        "newworldquartz": 140,
         "earthluster": 300,
         "hangedmanveritas": 720,
         "malicefragment": 30,
@@ -1431,7 +1439,15 @@
         "eternitysand": 3,
         "gospelofthysia": 50,
         "worldidean": 100,
-        "damascuscrystal": 10
+        "damascuscrystal": 10,
+        "hangedmanbelief": 100,
+        "earthwheel": 18,
+        "allotropicagate": 1,
+        "earthfellcore": 60,
+        "earthomega3omegaanima": 30,
+        "earthodiousunique": 40,
+        "earthrevansunique": 60,
+        "tomeofvirtuosicsecrets": 15
       }
     },
     "2040238": {
@@ -1440,8 +1456,8 @@
       "items": {
         "sephirastone": 387,
         "flawlessprism": 115,
-        "darkborneastra": 864,
-        "deathidean": 519,
+        "darkborneastra": 1104,
+        "deathidean": 639,
         "waterverum": 816,
         "earthverum": 816,
         "darkomegaanima": 30,
@@ -1465,9 +1481,9 @@
         "primevalhorn": 10,
         "sephiraevolite": 2,
         "suprememerit": 20,
-        "rupie": 127000,
+        "rupie": 5227000,
         "blackdragonscale": 1,
-        "newworldquartz": 120,
+        "newworldquartz": 140,
         "waterluster": 150,
         "earthluster": 150,
         "deathveritas": 720,
@@ -1480,7 +1496,15 @@
         "gospelofanalipsis": 25,
         "gospelofthysia": 25,
         "worldidean": 100,
-        "damascuscrystal": 10
+        "damascuscrystal": 10,
+        "deathbelief": 100,
+        "darkwheel": 18,
+        "allotropicagate": 1,
+        "darkfellcore": 60,
+        "darkomega3omegaanima": 30,
+        "darkodiousunique": 40,
+        "darkrevansunique": 60,
+        "tomeofmartialsecrets": 15
       }
     },
     "2040239": {
@@ -1489,8 +1513,8 @@
       "items": {
         "sephirastone": 387,
         "flawlessprism": 115,
-        "windborneastra": 864,
-        "temperanceidean": 519,
+        "windborneastra": 1104,
+        "temperanceidean": 639,
         "windverum": 1632,
         "windomegaanima": 30,
         "aurorahaze": 136,
@@ -1511,9 +1535,9 @@
         "primevalhorn": 10,
         "sephiraevolite": 2,
         "suprememerit": 20,
-        "rupie": 127000,
+        "rupie": 5227000,
         "greendragonscale": 1,
-        "newworldquartz": 120,
+        "newworldquartz": 140,
         "windluster": 300,
         "temperanceveritas": 720,
         "malicefragment": 30,
@@ -1524,7 +1548,15 @@
         "eternitysand": 3,
         "gospelofgenea": 50,
         "worldidean": 100,
-        "damascuscrystal": 10
+        "damascuscrystal": 10,
+        "temperancebelief": 100,
+        "windwheel": 18,
+        "allotropicagate": 1,
+        "windfellcore": 60,
+        "windomega3omegaanima": 30,
+        "windodiousunique": 40,
+        "windrevansunique": 60,
+        "tomeofvirtuosicsecrets": 15
       }
     },
     "2040240": {
@@ -1533,8 +1565,8 @@
       "items": {
         "sephirastone": 387,
         "flawlessprism": 115,
-        "flameborneastra": 864,
-        "devilidean": 519,
+        "flameborneastra": 1104,
+        "devilidean": 639,
         "fireverum": 1632,
         "fireomegaanima": 30,
         "aurorahaze": 136,
@@ -1555,9 +1587,9 @@
         "primevalhorn": 10,
         "sephiraevolite": 2,
         "suprememerit": 20,
-        "rupie": 127000,
+        "rupie": 5227000,
         "reddragonscale": 1,
-        "newworldquartz": 120,
+        "newworldquartz": 140,
         "fireluster": 300,
         "devilveritas": 720,
         "malicefragment": 30,
@@ -1568,7 +1600,15 @@
         "eternitysand": 3,
         "gospelofegeiro": 50,
         "worldidean": 100,
-        "damascuscrystal": 10
+        "damascuscrystal": 10,
+        "devilbelief": 100,
+        "firewheel": 18,
+        "allotropicagate": 1,
+        "firefellcore": 60,
+        "fireomega3omegaanima": 30,
+        "fireodiousunique": 40,
+        "firerevansunique": 60,
+        "tomeofesotericsecrets": 15
       }
     },
     "2040241": {
@@ -1577,8 +1617,8 @@
       "items": {
         "sephirastone": 387,
         "flawlessprism": 115,
-        "earthborneastra": 864,
-        "toweridean": 519,
+        "earthborneastra": 1104,
+        "toweridean": 639,
         "earthverum": 1632,
         "earthomegaanima": 30,
         "chaotichaze": 136,
@@ -1599,9 +1639,9 @@
         "primevalhorn": 10,
         "sephiraevolite": 2,
         "suprememerit": 20,
-        "rupie": 127000,
+        "rupie": 5227000,
         "browndragonscale": 1,
-        "newworldquartz": 120,
+        "newworldquartz": 140,
         "earthluster": 300,
         "towerveritas": 720,
         "malicefragment": 30,
@@ -1612,7 +1652,15 @@
         "eternitysand": 3,
         "gospelofthysia": 50,
         "worldidean": 100,
-        "damascuscrystal": 10
+        "damascuscrystal": 10,
+        "towerbelief": 100,
+        "earthwheel": 18,
+        "allotropicagate": 1,
+        "earthfellcore": 60,
+        "earthomega3omegaanima": 30,
+        "earthodiousunique": 40,
+        "earthrevansunique": 60,
+        "tomeofvirtuosicsecrets": 15
       }
     },
     "2040242": {
@@ -1621,8 +1669,8 @@
       "items": {
         "sephirastone": 387,
         "flawlessprism": 115,
-        "lightborneastra": 864,
-        "staridean": 519,
+        "lightborneastra": 1104,
+        "staridean": 639,
         "fireverum": 816,
         "windverum": 816,
         "lightomegaanima": 30,
@@ -1646,9 +1694,9 @@
         "primevalhorn": 10,
         "sephiraevolite": 2,
         "suprememerit": 20,
-        "rupie": 127000,
+        "rupie": 5227000,
         "whitedragonscale": 1,
-        "newworldquartz": 120,
+        "newworldquartz": 140,
         "fireluster": 150,
         "windluster": 150,
         "starveritas": 720,
@@ -1661,7 +1709,15 @@
         "gospelofgenea": 25,
         "gospelofegeiro": 25,
         "worldidean": 100,
-        "damascuscrystal": 10
+        "damascuscrystal": 10,
+        "starbelief": 100,
+        "lightwheel": 18,
+        "allotropicagate": 1,
+        "lightfellcore": 60,
+        "lightomega3omegaanima": 30,
+        "lightodiousunique": 40,
+        "lightrevansunique": 60,
+        "tomeofmartialsecrets": 15
       }
     },
     "2040243": {
@@ -1670,8 +1726,8 @@
       "items": {
         "sephirastone": 387,
         "flawlessprism": 115,
-        "aquaborneastra": 864,
-        "moonidean": 519,
+        "aquaborneastra": 1104,
+        "moonidean": 639,
         "waterverum": 1632,
         "wateromegaanima": 30,
         "chaotichaze": 136,
@@ -1692,9 +1748,9 @@
         "primevalhorn": 10,
         "sephiraevolite": 2,
         "suprememerit": 20,
-        "rupie": 127000,
+        "rupie": 5227000,
         "bluedragonscale": 1,
-        "newworldquartz": 120,
+        "newworldquartz": 140,
         "waterluster": 300,
         "moonveritas": 720,
         "malicefragment": 30,
@@ -1705,7 +1761,15 @@
         "eternitysand": 3,
         "gospelofanalipsis": 50,
         "worldidean": 100,
-        "damascuscrystal": 10
+        "damascuscrystal": 10,
+        "moonbelief": 100,
+        "waterwheel": 18,
+        "allotropicagate": 1,
+        "waterfellcore": 60,
+        "wateromega3omegaanima": 30,
+        "waterodiousunique": 40,
+        "waterrevansunique": 60,
+        "tomeofesotericsecrets": 15
       }
     },
     "2040244": {
@@ -1714,8 +1778,8 @@
       "items": {
         "sephirastone": 387,
         "flawlessprism": 115,
-        "flameborneastra": 864,
-        "sunidean": 519,
+        "flameborneastra": 1104,
+        "sunidean": 639,
         "fireverum": 1632,
         "fireomegaanima": 30,
         "aurorahaze": 136,
@@ -1736,9 +1800,9 @@
         "primevalhorn": 10,
         "sephiraevolite": 2,
         "suprememerit": 20,
-        "rupie": 127000,
+        "rupie": 5227000,
         "reddragonscale": 1,
-        "newworldquartz": 120,
+        "newworldquartz": 140,
         "fireluster": 300,
         "sunveritas": 720,
         "malicefragment": 30,
@@ -1749,7 +1813,15 @@
         "eternitysand": 3,
         "gospelofegeiro": 50,
         "worldidean": 100,
-        "damascuscrystal": 10
+        "damascuscrystal": 10,
+        "sunbelief": 100,
+        "firewheel": 18,
+        "allotropicagate": 1,
+        "firefellcore": 60,
+        "fireomega3omegaanima": 30,
+        "fireodiousunique": 40,
+        "firerevansunique": 60,
+        "tomeofesotericsecrets": 15
       }
     },
     "2040245": {
@@ -1758,8 +1830,8 @@
       "items": {
         "sephirastone": 387,
         "flawlessprism": 115,
-        "windborneastra": 864,
-        "judgementidean": 519,
+        "windborneastra": 1104,
+        "judgementidean": 639,
         "windverum": 1632,
         "windomegaanima": 30,
         "aurorahaze": 136,
@@ -1780,9 +1852,9 @@
         "primevalhorn": 10,
         "sephiraevolite": 2,
         "suprememerit": 20,
-        "rupie": 127000,
+        "rupie": 5227000,
         "greendragonscale": 1,
-        "newworldquartz": 120,
+        "newworldquartz": 140,
         "windluster": 300,
         "judgementveritas": 720,
         "malicefragment": 30,
@@ -1793,7 +1865,15 @@
         "eternitysand": 3,
         "gospelofgenea": 50,
         "worldidean": 100,
-        "damascuscrystal": 10
+        "damascuscrystal": 10,
+        "judgementbelief": 100,
+        "windwheel": 18,
+        "allotropicagate": 1,
+        "windfellcore": 60,
+        "windomega3omegaanima": 30,
+        "windodiousunique": 40,
+        "windrevansunique": 60,
+        "tomeofvirtuosicsecrets": 15
       }
     }
   }

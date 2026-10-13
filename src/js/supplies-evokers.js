@@ -87,6 +87,12 @@ const EVOKERS_DATA = Object.freeze({
     new MaterialStep('Unlock 4th skill',
       [{"item":"sunlightstone","q":1},{"item":"worldidean","q":100},{"item":"newworldquartz","q":30},{"item":"damascuscrystal","q":10}]
     ),
+    new MaterialStep('Transcendence Stage 1',
+      [{"group":"belief","q":40},{"group":"wheel","q":8},{"group":"idean","q":120},{"item":"allotropicagate","q":1},{"item":"newworldquartz","q":20},{"group":"fellcore","q":60},{"group":"astra","q":240},{"item":"rupie","q":100000}]
+    ),
+    new MaterialStep('Transcendence Stage 2',
+      [{"group":"belief","q":60},{"group":"wheel","q":10},{"group":"omega3omegaanima","q":30},{"group":"odiousunique","q":40},{"group":"revansunique","q":60},{"group":"tomeofsecrets","q":15},{"item":"rupie","q":5000000}]
+    ),
   ]
 });
 

@@ -17,20 +17,17 @@
       </div>
 
       <div class="p-4 flex flex-col gap-3 text-sm">
-        <p class="opacity-80">You can now track what you actually own against what a unit needs:</p>
+        <p class="opacity-80"><strong>Evoker Transcendence</strong> is now in the Evokers calculator:</p>
         <ul class="list-disc list-inside flex flex-col gap-1">
-          <li>Import your in-game <strong>supplies JSON</strong> to record what you own.</li>
-          <li>
-            <fa-icon :icon="['fas', 'star']" class="text-yellow-400"></fa-icon>
-            <strong>Focus</strong> a unit to auto-fill its materials from your stock.
-          </li>
-          <li>The <strong>Supplies</strong> side panel shows <code>remaining / owned</code> per item.</li>
+          <li>New steps <strong>Transcendence Stage 1</strong> and <strong>Stage 2</strong>, after "Unlock 4th skill".</li>
+          <li>Covers the new materials: Belief, Wheels, Fellcores, Odious &amp; Revans unique items, and Tomes of Secrets.</li>
+          <li>Stages 3&ndash;5 will be added once they're released.</li>
         </ul>
 
         <router-link :to="{ name: 'import-guide' }" target="_blank"
           class="underline self-start hover:text-link-hover">
           <fa-icon :icon="['fa', 'external-link-alt']"></fa-icon>
-          How to get your supplies JSON &rarr;
+          New here? How to import your supplies &rarr;
         </router-link>
       </div>
 

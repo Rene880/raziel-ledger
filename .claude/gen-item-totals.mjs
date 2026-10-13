@@ -1,7 +1,7 @@
 import fs from 'fs';
-const root = '/home/octa/project/raziel-ledger/src/js/';
+const root = new URL('../src/js/', import.meta.url);
 function load(f){
-  let t = fs.readFileSync(root+f,'utf8');
+  let t = fs.readFileSync(new URL(f, root),'utf8');
   // drop import lines
   t = t.replace(/^\s*import .*$/gm,'');
   // cut everything from the first top-level `export`
@@ -80,8 +80,8 @@ md += mdTable('CalcEternal — Recruit & Transcend', result.CalcEternal);
 md += mdTable('CalcEternal — Radiance', result.CalcEternalRadiance);
 md += mdTable('CalcEvoker', result.CalcEvoker);
 
-fs.writeFileSync('/home/octa/project/raziel-ledger/.claude/item-totals.md', md);
-fs.writeFileSync('/home/octa/project/raziel-ledger/.claude/item-totals.json', JSON.stringify(result,null,2));
+fs.writeFileSync(new URL('item-totals.md', import.meta.url), md);
+fs.writeFileSync(new URL('item-totals.json', import.meta.url), JSON.stringify(result,null,2));
 console.log('eternal units:', Object.keys(result.CalcEternal).length);
 console.log('radiance units:', Object.keys(result.CalcEternalRadiance).length);
 console.log('evoker units:', Object.keys(result.CalcEvoker).length);

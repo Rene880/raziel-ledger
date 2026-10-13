@@ -1354,26 +1354,34 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `rainbowprism` | Rainbow Prism | 103 |
 | `genesisfragment` | Genesis Fragment | 110 |
 | `flawlessprism` | Flawless Prism | 115 |
-| `rupie` | Rupie | 127000 |
+| `rupie` | Rupie | 5227000 |
 | `frozenhellprism` | Frozen Hell Prism | 100 |
+| `tomeofesotericsecrets` | Tome of Esoteric Secrets | 15 |
 | `gabrielanima` | Gabriel Anima | 20 |
 | `wateromega2omegaanima` | Europa Omega Anima | 20 |
 | `wateromegaanima` | Leviathan Omega Anima | 30 |
 | `watert1anima` | Macula Marius Anima | 30 |
 | `watert2anima` | Grani Anima | 30 |
+| `wateromega3omegaanima` | Mare Omega Anima | 30 |
+| `waterodiousunique` | Azurn Allowater | 40 |
 | `watersixdragonjewel` | Wamdus's Jewel | 50 |
 | `watersixdragon` | Abyssal Tragedy | 60 |
+| `waterfellcore` | Nihuyvintae Fellcore | 60 |
+| `waterrevansunique` | Automagod Plating | 60 |
+| `allotropicagate` | Allotropic Agate | 1 |
 | `sephiraevolite` | Sephira Evolite | 2 |
+| `waterwheel` | Wheel of Aqua | 18 |
 | `gospelofanalipsis` | Gospel of Analipsis | 50 |
 | `bellatorfragment` | Bellator Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `newworldquartz` | New World Quartz | 120 |
+| `justicebelief` | Belief in Justice | 100 |
 | `chaotichaze` | Chaotic Haze | 136 |
+| `newworldquartz` | New World Quartz | 140 |
 | `waterluster` | Aqua Luster | 300 |
 | `sephirastone` | Sephira Stone | 387 |
-| `justiceidean` | Justice Idean | 519 |
+| `justiceidean` | Justice Idean | 639 |
 | `justiceveritas` | Justice Veritas | 720 |
-| `aquaborneastra` | Aquaborne Astra | 864 |
+| `aquaborneastra` | Aquaborne Astra | 1104 |
 | `waterverum` | Water Verum Proof | 1632 |
 
 ### The Hanged Man - Caim - Binds of The Hanged Man  *(earth)*
@@ -1397,26 +1405,34 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `rainbowprism` | Rainbow Prism | 103 |
 | `genesisfragment` | Genesis Fragment | 110 |
 | `flawlessprism` | Flawless Prism | 115 |
-| `rupie` | Rupie | 127000 |
+| `rupie` | Rupie | 5227000 |
 | `eviljudgecrystal` | Evil Judge Crystal | 100 |
+| `tomeofvirtuosicsecrets` | Tome of Virtuosic Secrets | 15 |
 | `urielanima` | Uriel Anima | 20 |
 | `earthomega2omegaanima` | Alexiel Omega Anima | 20 |
 | `earthomegaanima` | Yggdrasil Omega Anima | 30 |
 | `eartht1anima` | Medusa Anima | 30 |
 | `eartht2anima` | Baal Anima | 30 |
+| `earthomega3omegaanima` | Arbos Omega Anima | 30 |
+| `earthodiousunique` | Gilded Corpsehand | 40 |
 | `earthsixdragonjewel` | Galleon's Jewel | 50 |
 | `earthsixdragon` | Insular Core | 60 |
+| `earthfellcore` | Narophirmidas Fellcore | 60 |
+| `earthrevansunique` | Dragonslayer's Edge | 60 |
+| `allotropicagate` | Allotropic Agate | 1 |
 | `sephiraevolite` | Sephira Evolite | 2 |
+| `earthwheel` | Wheel of Terra | 18 |
 | `gospelofthysia` | Gospel of Thysia | 50 |
 | `aquilafragment` | Aquila Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `newworldquartz` | New World Quartz | 120 |
+| `hangedmanbelief` | Belief in The Hanged Man | 100 |
 | `chaotichaze` | Chaotic Haze | 136 |
+| `newworldquartz` | New World Quartz | 140 |
 | `earthluster` | Terra Luster | 300 |
 | `sephirastone` | Sephira Stone | 387 |
-| `hangedmanidean` | Hanged Man Idean | 519 |
+| `hangedmanidean` | Hanged Man Idean | 639 |
 | `hangedmanveritas` | Hanged Man Veritas | 720 |
-| `earthborneastra` | Earthborne Astra | 864 |
+| `earthborneastra` | Earthborne Astra | 1104 |
 | `earthverum` | Earth Verum Proof | 1632 |
 
 ### Death - Nier - Pain of Death  *(dark)*
@@ -1441,31 +1457,39 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `rainbowprism` | Rainbow Prism | 103 |
 | `genesisfragment` | Genesis Fragment | 110 |
 | `flawlessprism` | Flawless Prism | 115 |
-| `rupie` | Rupie | 127000 |
+| `rupie` | Rupie | 5227000 |
 | `phantomdemonjewel` | Phantom Demon Jewel | 100 |
 | `gabrielanima` | Gabriel Anima | 10 |
 | `urielanima` | Uriel Anima | 10 |
+| `tomeofmartialsecrets` | Tome of Martial Secrets | 15 |
 | `darkomega2omegaanima` | Avatar Omega Anima | 20 |
 | `darkomegaanima` | Celeste Omega Anima | 30 |
 | `darkt1anima` | Dark Angel Olivia Anima | 30 |
 | `darkt2anima` | Lich Anima | 30 |
+| `darkomega3omegaanima` | Ater Omega Anima | 30 |
+| `darkodiousunique` | Netherfell Scrap | 40 |
 | `darksixdragonjewel` | Fediel's Jewel | 50 |
 | `darksixdragon` | Todestrieb | 60 |
+| `darkfellcore` | Zamalvoch Fellcore | 60 |
+| `darkrevansunique` | Abominable Reminder | 60 |
+| `allotropicagate` | Allotropic Agate | 1 |
 | `sephiraevolite` | Sephira Evolite | 2 |
+| `darkwheel` | Wheel of Tenebrae | 18 |
 | `gospelofanalipsis` | Gospel of Analipsis | 25 |
 | `gospelofthysia` | Gospel of Thysia | 25 |
 | `celsusfragment` | Celsus Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `newworldquartz` | New World Quartz | 120 |
+| `deathbelief` | Belief in Death | 100 |
 | `chaotichaze` | Chaotic Haze | 136 |
+| `newworldquartz` | New World Quartz | 140 |
 | `waterluster` | Aqua Luster | 150 |
 | `earthluster` | Terra Luster | 150 |
 | `sephirastone` | Sephira Stone | 387 |
-| `deathidean` | Death Idean | 519 |
+| `deathidean` | Death Idean | 639 |
 | `deathveritas` | Death Veritas | 720 |
 | `waterverum` | Water Verum Proof | 816 |
 | `earthverum` | Earth Verum Proof | 816 |
-| `darkborneastra` | Darkborne Astra | 864 |
+| `darkborneastra` | Darkborne Astra | 1104 |
 
 ### Temperance - Estarriola - Theater of Temperance  *(wind)*
 
@@ -1488,26 +1512,34 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `rainbowprism` | Rainbow Prism | 103 |
 | `genesisfragment` | Genesis Fragment | 110 |
 | `flawlessprism` | Flawless Prism | 115 |
-| `rupie` | Rupie | 127000 |
+| `rupie` | Rupie | 5227000 |
 | `horsemansplate` | Horseman's Plate | 100 |
+| `tomeofvirtuosicsecrets` | Tome of Virtuosic Secrets | 15 |
 | `raphaelanima` | Raphael Anima | 20 |
 | `windomega2omegaanima` | Grimnir Omega Anima | 20 |
 | `windomegaanima` | Tiamat Omega Anima | 30 |
 | `windt1anima` | Nezha Anima | 30 |
 | `windt2anima` | Garuda Anima | 30 |
+| `windomega3omegaanima` | Aura Omega Anima | 30 |
+| `windodiousunique` | Stone of Sealed Tempest | 40 |
 | `windsixdragonjewel` | Ewiyar's Jewel | 50 |
 | `windsixdragon` | Gale Rock | 60 |
+| `windfellcore` | Macutanmacar Fellcore | 60 |
+| `windrevansunique` | Remnants of the Star-Sea's Edge | 60 |
+| `allotropicagate` | Allotropic Agate | 1 |
 | `sephiraevolite` | Sephira Evolite | 2 |
+| `windwheel` | Wheel of Ventus | 18 |
 | `gospelofgenea` | Gospel of Genea | 50 |
 | `celsusfragment` | Celsus Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `newworldquartz` | New World Quartz | 120 |
+| `temperancebelief` | Belief in Temperance | 100 |
 | `aurorahaze` | Aurora Haze | 136 |
+| `newworldquartz` | New World Quartz | 140 |
 | `windluster` | Ventus Luster | 300 |
 | `sephirastone` | Sephira Stone | 387 |
-| `temperanceidean` | Temperance Idean | 519 |
+| `temperanceidean` | Temperance Idean | 639 |
 | `temperanceveritas` | Temperance Veritas | 720 |
-| `windborneastra` | Windborne Astra | 864 |
+| `windborneastra` | Windborne Astra | 1104 |
 | `windverum` | Wind Verum Proof | 1632 |
 
 ### The Devil - Fraux - Kiss of The Devil  *(fire)*
@@ -1531,26 +1563,34 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `rainbowprism` | Rainbow Prism | 103 |
 | `genesisfragment` | Genesis Fragment | 110 |
 | `flawlessprism` | Flawless Prism | 115 |
-| `rupie` | Rupie | 127000 |
+| `rupie` | Rupie | 5227000 |
 | `infernalgarnet` | Infernal Garnet | 100 |
+| `tomeofesotericsecrets` | Tome of Esoteric Secrets | 15 |
 | `michaelanima` | Michael Anima | 20 |
 | `fireomega2omegaanima` | Shiva Omega Anima | 20 |
 | `fireomegaanima` | Colossus Omega Anima | 30 |
 | `firet1anima` | Twin Elements Anima | 30 |
 | `firet2anima` | Athena Anima | 30 |
+| `fireomega3omegaanima` | Ira Omega Anima | 30 |
+| `fireodiousunique` | Doomfire Missile | 40 |
 | `firesixdragonjewel` | Wilnas's Jewel | 50 |
 | `firesixdragon` | Smoldering Rubble | 60 |
+| `firefellcore` | Belmervolk Fellcore | 60 |
+| `firerevansunique` | Extinction Vestige | 60 |
+| `allotropicagate` | Allotropic Agate | 1 |
 | `sephiraevolite` | Sephira Evolite | 2 |
+| `firewheel` | Wheel of Ignis | 18 |
 | `gospelofegeiro` | Gospel of Egeiro | 50 |
 | `aquilafragment` | Aquila Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `newworldquartz` | New World Quartz | 120 |
+| `devilbelief` | Belief in Devil | 100 |
 | `aurorahaze` | Aurora Haze | 136 |
+| `newworldquartz` | New World Quartz | 140 |
 | `fireluster` | Ignis Luster | 300 |
 | `sephirastone` | Sephira Stone | 387 |
-| `devilidean` | Devil Idean | 519 |
+| `devilidean` | Devil Idean | 639 |
 | `devilveritas` | Devil Veritas | 720 |
-| `flameborneastra` | Flameborne Astra | 864 |
+| `flameborneastra` | Flameborne Astra | 1104 |
 | `fireverum` | Fire Verum Proof | 1632 |
 
 ### The Tower - Lobelia - Collapse of The Tower  *(earth)*
@@ -1574,26 +1614,34 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `rainbowprism` | Rainbow Prism | 103 |
 | `genesisfragment` | Genesis Fragment | 110 |
 | `flawlessprism` | Flawless Prism | 115 |
-| `rupie` | Rupie | 127000 |
+| `rupie` | Rupie | 5227000 |
 | `eviljudgecrystal` | Evil Judge Crystal | 100 |
+| `tomeofvirtuosicsecrets` | Tome of Virtuosic Secrets | 15 |
 | `urielanima` | Uriel Anima | 20 |
 | `earthomega2omegaanima` | Alexiel Omega Anima | 20 |
 | `earthomegaanima` | Yggdrasil Omega Anima | 30 |
 | `eartht1anima` | Medusa Anima | 30 |
 | `eartht2anima` | Baal Anima | 30 |
+| `earthomega3omegaanima` | Arbos Omega Anima | 30 |
+| `earthodiousunique` | Gilded Corpsehand | 40 |
 | `earthsixdragonjewel` | Galleon's Jewel | 50 |
 | `earthsixdragon` | Insular Core | 60 |
+| `earthfellcore` | Narophirmidas Fellcore | 60 |
+| `earthrevansunique` | Dragonslayer's Edge | 60 |
+| `allotropicagate` | Allotropic Agate | 1 |
 | `sephiraevolite` | Sephira Evolite | 2 |
+| `earthwheel` | Wheel of Terra | 18 |
 | `gospelofthysia` | Gospel of Thysia | 50 |
 | `celsusfragment` | Celsus Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `newworldquartz` | New World Quartz | 120 |
+| `towerbelief` | Belief in Tower | 100 |
 | `chaotichaze` | Chaotic Haze | 136 |
+| `newworldquartz` | New World Quartz | 140 |
 | `earthluster` | Terra Luster | 300 |
 | `sephirastone` | Sephira Stone | 387 |
-| `toweridean` | Tower Idean | 519 |
+| `toweridean` | Tower Idean | 639 |
 | `towerveritas` | Tower Veritas | 720 |
-| `earthborneastra` | Earthborne Astra | 864 |
+| `earthborneastra` | Earthborne Astra | 1104 |
 | `earthverum` | Earth Verum Proof | 1632 |
 
 ### The Star - Geisenborger - Shooting of The Star  *(light)*
@@ -1618,31 +1666,39 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `rainbowprism` | Rainbow Prism | 103 |
 | `genesisfragment` | Genesis Fragment | 110 |
 | `flawlessprism` | Flawless Prism | 115 |
-| `rupie` | Rupie | 127000 |
+| `rupie` | Rupie | 5227000 |
 | `halolightquartz` | Halo Light Quartz | 100 |
 | `michaelanima` | Michael Anima | 10 |
 | `raphaelanima` | Raphael Anima | 10 |
+| `tomeofmartialsecrets` | Tome of Martial Secrets | 15 |
 | `lightomega2omegaanima` | Metatron Omega Anima | 20 |
 | `lightomegaanima` | Luminiera Omega Anima | 30 |
 | `lightt1anima` | Apollo Anima | 30 |
 | `lightt2anima` | Odin Anima | 30 |
+| `lightomega3omegaanima` | Credo Omega Anima | 30 |
+| `lightodiousunique` | Fruit of Blighted Knowledge | 40 |
 | `lightsixdragonjewel` | Lu Woh's Jewel | 50 |
 | `lightsixdragon` | Thunderbolt Wheel | 60 |
+| `lightfellcore` | Papahlukruva Fellcore | 60 |
+| `lightrevansunique` | Arbitration Cloth | 60 |
+| `allotropicagate` | Allotropic Agate | 1 |
 | `sephiraevolite` | Sephira Evolite | 2 |
+| `lightwheel` | Wheel of Solaris | 18 |
 | `gospelofgenea` | Gospel of Genea | 25 |
 | `gospelofegeiro` | Gospel of Egeiro | 25 |
 | `celsusfragment` | Celsus Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `newworldquartz` | New World Quartz | 120 |
+| `starbelief` | Belief in Star | 100 |
 | `aurorahaze` | Aurora Haze | 136 |
+| `newworldquartz` | New World Quartz | 140 |
 | `fireluster` | Ignis Luster | 150 |
 | `windluster` | Ventus Luster | 150 |
 | `sephirastone` | Sephira Stone | 387 |
-| `staridean` | Star Idean | 519 |
+| `staridean` | Star Idean | 639 |
 | `starveritas` | Star Veritas | 720 |
 | `fireverum` | Fire Verum Proof | 816 |
 | `windverum` | Wind Verum Proof | 816 |
-| `lightborneastra` | Lightborne Astra | 864 |
+| `lightborneastra` | Lightborne Astra | 1104 |
 
 ### The Moon - Haaselia - Reflection of The Moon  *(water)*
 
@@ -1665,26 +1721,34 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `rainbowprism` | Rainbow Prism | 103 |
 | `genesisfragment` | Genesis Fragment | 110 |
 | `flawlessprism` | Flawless Prism | 115 |
-| `rupie` | Rupie | 127000 |
+| `rupie` | Rupie | 5227000 |
 | `frozenhellprism` | Frozen Hell Prism | 100 |
+| `tomeofesotericsecrets` | Tome of Esoteric Secrets | 15 |
 | `gabrielanima` | Gabriel Anima | 20 |
 | `wateromega2omegaanima` | Europa Omega Anima | 20 |
 | `wateromegaanima` | Leviathan Omega Anima | 30 |
 | `watert1anima` | Macula Marius Anima | 30 |
 | `watert2anima` | Grani Anima | 30 |
+| `wateromega3omegaanima` | Mare Omega Anima | 30 |
+| `waterodiousunique` | Azurn Allowater | 40 |
 | `watersixdragonjewel` | Wamdus's Jewel | 50 |
 | `watersixdragon` | Abyssal Tragedy | 60 |
+| `waterfellcore` | Nihuyvintae Fellcore | 60 |
+| `waterrevansunique` | Automagod Plating | 60 |
+| `allotropicagate` | Allotropic Agate | 1 |
 | `sephiraevolite` | Sephira Evolite | 2 |
+| `waterwheel` | Wheel of Aqua | 18 |
 | `gospelofanalipsis` | Gospel of Analipsis | 50 |
 | `bellatorfragment` | Bellator Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `newworldquartz` | New World Quartz | 120 |
+| `moonbelief` | Belief in Moon | 100 |
 | `chaotichaze` | Chaotic Haze | 136 |
+| `newworldquartz` | New World Quartz | 140 |
 | `waterluster` | Aqua Luster | 300 |
 | `sephirastone` | Sephira Stone | 387 |
-| `moonidean` | Moon Idean | 519 |
+| `moonidean` | Moon Idean | 639 |
 | `moonveritas` | Moon Veritas | 720 |
-| `aquaborneastra` | Aquaborne Astra | 864 |
+| `aquaborneastra` | Aquaborne Astra | 1104 |
 | `waterverum` | Water Verum Proof | 1632 |
 
 ### The Sun - Alanaan - Heat of The Sun  *(fire)*
@@ -1708,26 +1772,34 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `rainbowprism` | Rainbow Prism | 103 |
 | `genesisfragment` | Genesis Fragment | 110 |
 | `flawlessprism` | Flawless Prism | 115 |
-| `rupie` | Rupie | 127000 |
+| `rupie` | Rupie | 5227000 |
 | `infernalgarnet` | Infernal Garnet | 100 |
+| `tomeofesotericsecrets` | Tome of Esoteric Secrets | 15 |
 | `michaelanima` | Michael Anima | 20 |
 | `fireomega2omegaanima` | Shiva Omega Anima | 20 |
 | `fireomegaanima` | Colossus Omega Anima | 30 |
 | `firet1anima` | Twin Elements Anima | 30 |
 | `firet2anima` | Athena Anima | 30 |
+| `fireomega3omegaanima` | Ira Omega Anima | 30 |
+| `fireodiousunique` | Doomfire Missile | 40 |
 | `firesixdragonjewel` | Wilnas's Jewel | 50 |
 | `firesixdragon` | Smoldering Rubble | 60 |
+| `firefellcore` | Belmervolk Fellcore | 60 |
+| `firerevansunique` | Extinction Vestige | 60 |
+| `allotropicagate` | Allotropic Agate | 1 |
 | `sephiraevolite` | Sephira Evolite | 2 |
+| `firewheel` | Wheel of Ignis | 18 |
 | `gospelofegeiro` | Gospel of Egeiro | 50 |
 | `aquilafragment` | Aquila Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `newworldquartz` | New World Quartz | 120 |
+| `sunbelief` | Belief in Sun | 100 |
 | `aurorahaze` | Aurora Haze | 136 |
+| `newworldquartz` | New World Quartz | 140 |
 | `fireluster` | Ignis Luster | 300 |
 | `sephirastone` | Sephira Stone | 387 |
-| `sunidean` | Sun Idean | 519 |
+| `sunidean` | Sun Idean | 639 |
 | `sunveritas` | Sun Veritas | 720 |
-| `flameborneastra` | Flameborne Astra | 864 |
+| `flameborneastra` | Flameborne Astra | 1104 |
 | `fireverum` | Fire Verum Proof | 1632 |
 
 ### Judgement - Katzelia - Melody of Judgement  *(wind)*
@@ -1751,25 +1823,33 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `rainbowprism` | Rainbow Prism | 103 |
 | `genesisfragment` | Genesis Fragment | 110 |
 | `flawlessprism` | Flawless Prism | 115 |
-| `rupie` | Rupie | 127000 |
+| `rupie` | Rupie | 5227000 |
 | `horsemansplate` | Horseman's Plate | 100 |
+| `tomeofvirtuosicsecrets` | Tome of Virtuosic Secrets | 15 |
 | `raphaelanima` | Raphael Anima | 20 |
 | `windomega2omegaanima` | Grimnir Omega Anima | 20 |
 | `windomegaanima` | Tiamat Omega Anima | 30 |
 | `windt1anima` | Nezha Anima | 30 |
 | `windt2anima` | Garuda Anima | 30 |
+| `windomega3omegaanima` | Aura Omega Anima | 30 |
+| `windodiousunique` | Stone of Sealed Tempest | 40 |
 | `windsixdragonjewel` | Ewiyar's Jewel | 50 |
 | `windsixdragon` | Gale Rock | 60 |
+| `windfellcore` | Macutanmacar Fellcore | 60 |
+| `windrevansunique` | Remnants of the Star-Sea's Edge | 60 |
+| `allotropicagate` | Allotropic Agate | 1 |
 | `sephiraevolite` | Sephira Evolite | 2 |
+| `windwheel` | Wheel of Ventus | 18 |
 | `gospelofgenea` | Gospel of Genea | 50 |
 | `bellatorfragment` | Bellator Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `newworldquartz` | New World Quartz | 120 |
+| `judgementbelief` | Belief in Judgement | 100 |
 | `aurorahaze` | Aurora Haze | 136 |
+| `newworldquartz` | New World Quartz | 140 |
 | `windluster` | Ventus Luster | 300 |
 | `sephirastone` | Sephira Stone | 387 |
-| `judgementidean` | Judgement Idean | 519 |
+| `judgementidean` | Judgement Idean | 639 |
 | `judgementveritas` | Judgement Veritas | 720 |
-| `windborneastra` | Windborne Astra | 864 |
+| `windborneastra` | Windborne Astra | 1104 |
 | `windverum` | Wind Verum Proof | 1632 |
 

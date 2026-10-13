@@ -5,7 +5,7 @@
 **Raziel Ledger** is a rewrite of the [GranblueParty](https://github.com/Minimalist3/GranblueParty) project, reduced to its two long-term material-planning calculators for Granblue Fantasy:
 
 - **Eternals Calculator** (`/calceternal`) — materials needed to recruit, uncap (5★), and transcend (6★) an Eternal, using the "40 boxes" method.
-- **Evokers Calculator** (`/calcevoker`) — materials needed to obtain an Arcarum summon, recruit its Evoker, and uncap the Evoker and the New World Foundation weapon.
+- **Evokers Calculator** (`/calcevoker`) — materials needed to obtain an Arcarum summon, recruit its Evoker, uncap the Evoker and the New World Foundation weapon, and transcend the Evoker (6★, Stages 1–2 since v1.4.0).
 
 The original project is a Vue 2 SSR application (webpack + Express) backed by a PostgreSQL API with user accounts. This rewrite removes the server and account system entirely: the two calculators are fully client-side and persist their state in `localStorage`, so they can be served as a static SPA from GitHub Pages.
 
@@ -83,7 +83,8 @@ Granblue Fantasy players tracking multi-month grinds for Eternals/Evokers. They 
 raziel-ledger/
 ├── PRD.md                   ← this document (core requirements + changelog + active-series detail)
 ├── PRD/                     ← archived version-series PRDs (completed series only)
-│   └── v1.2.md              ← v1.2.x archive (2026-06-12 to 2026-06-14)
+│   ├── v1.2.md              ← v1.2.x archive (2026-06-12 to 2026-06-14)
+│   └── v1.3.md              ← v1.3.x archive (2026-06-21)
 ├── .github/workflows/deploy.yml
 ├── index.html               ← Vite entry
 ├── vite.config.js / tailwind.config.js / postcss.config.js
@@ -114,21 +115,59 @@ The original `API/` folder is **not** carried over (G3).
 
 ## 8. Changelog
 
-Each released version is summarised in the table below. The active series (v1.3.x, from 2026-06-21) is documented in this file; detailed specs for completed series are archived in [`PRD/`](PRD/):
+Each released version is summarised in the table below. The active series (v1.4.x, from 2026-10-13) is documented in this file; detailed specs for completed series are archived in [`PRD/`](PRD/):
 
 - [`PRD/v1.2.md`](PRD/v1.2.md) — v1.2.x archive (2026-06-12 to 2026-06-14)
+- [`PRD/v1.3.md`](PRD/v1.3.md) — v1.3.x archive (2026-06-21)
 
 Per the versioning policy, every release bumps `package.json` `version` to the same `x.y.z` in the same change set (single source of truth for the app version) and syncs `CLAUDE.md` / `README.md`.
 
 | Version | Date | Summary |
 |---------|------|---------|
 | 1.3.0 | 2026-06-21 | **Supplies import, per-unit "focus" & inventory UI.** Added sidebar Import view, ★ focus button, `reactive` inventory store (`src/js/inventory.js`), dismissable confirm dialog, Supplies sidebar (`InventorySidebar.vue`), navbar focus chip with Eternal-tab badge, `/import-guide` page, and What's new popup. |
+| 1.4.0 | 2026-10-13 | **Evoker Transcendence Stages 1–2.** Two new `EVOKERS_DATA.materials` steps after "Unlock 4th skill"; 38 new items (Allotropic Agate, Belief ×10 incl. 5 to-be-released placeholders, Wheel ×6, Fellcore ×6, Odious/Revans unique ×6 each, Tome of Secrets ×3) and 6 new groups (`belief`, `wheel`, `fellcore`, `odiousunique`, `revansunique`, `tomeofsecrets`). What's new popup refreshed. Detailed below. |
 
 ### 8.1 Constraints that persist
 
 - **`rustedweapon` is the single allowed unused item.** A reference walk over `supplies.js` + the three data files must report exactly **1 unused item** (`rustedweapon`), 0 unused groups, 0 dangling references — not treat it as new dead data.
 - **`silvershardgauntlet.jpg`** is the (renamed) icon for Silver Gauntlet Shard; the upstream file was `silvershardmelee.jpg`.
 - **`localStorage` keys are frozen** for back-compat: `CalcEternal-progress` (recruit/transcend), `CalcEternal-radianceProgress` (Radiance), `CalcEternal-activeTab`, `CalcEvoker-*`, shared `App-*`/UI toggles. Do not rename them.
-- **`public/img/item/` is one image per item** — `<key>.jpg`, or `<key>.gif` for the 4 animated items (`loworb`, `trueanima`, `whorl`, `rustedweapon`). `check-item-images.js` (npm `test` / `prebuild`) enforces this for all 316 items; it does not cover `favicon.svg`.
+- **`public/img/item/` is one image per item** — `<key>.jpg`, or `<key>.gif` for the 4 animated items (`loworb`, `trueanima`, `whorl`, `rustedweapon`). `check-item-images.js` (npm `test` / `prebuild`) enforces this for all 354 items; it does not cover `favicon.svg`.
+- **To-be-released placeholder items** (`towerbelief`, `starbelief`, `moonbelief`, `sunbelief`, `judgementbelief`) have no `itemId` (CDN ids 25095–25099 404 as of 2026-10-13) and their icons are copies of `justicebelief.jpg`, not manifest entries. When the real items ship: set the `itemId`, add the manifest line, and **delete the placeholder icon first** — `download()` skips existing files.
 - **`WikiParser/data/supplies.images`** is the hand-authored `URL⇥dest` manifest (no comment/blank lines — `download()` splits each on `\t`). The 4 animated `.gif` items are excluded (different source). `download(manifest, dest_dir)` skips files that already exist, so re-running is a no-op; manifest URLs are unverified against the live source. `goldbrick` and `sunlightstone` use `item/evolution/s/` (not `item/article/s/`).
 - **WikiParser is a standalone item-image fetcher** (PRD/v1.2.md, v1.2.5): `update_img.py` reads `data/supplies.images` and writes `public/img/item/`; it no longer carries the upstream DB/preview/wiki-scrape pipeline and is no longer "preserved verbatim."
+
+---
+
+## Version 1.4.0 — Evoker Transcendence Stages 1–2 (2026-10-13)
+
+### Problem
+
+Evokers can now be transcended to 6★ in five stages ([gbf.wiki/Evoker_Transcendence](https://gbf.wiki/Evoker_Transcendence)). The Evokers calculator stopped at "Unlock 4th skill", so players couldn't plan the new grind. Only Stages 1–2 are released; Stages 3–5 are still "in development".
+
+### Scope
+
+- Two `MaterialStep`s appended to `EVOKERS_DATA.materials` (after "Unlock 4th skill"):
+
+  | Step | Materials |
+  |---|---|
+  | Transcendence Stage 1 | `belief` ×40, `wheel` ×8, `idean` ×120, `allotropicagate` ×1, `newworldquartz` ×20, `fellcore` ×60, `astra` ×240, `rupie` ×100,000 |
+  | Transcendence Stage 2 | `belief` ×60, `wheel` ×10, `omega3omegaanima` ×30, `odiousunique` ×40, `revansunique` ×60, `tomeofsecrets` ×15, `rupie` ×5,000,000 |
+
+- New items in `supplies.js` (ids/names from the in-game supplies JSON, see `About items.md`): `allotropicagate` (25089); Belief `justice/hangedman/death/temperance/devil` (25090–25094) + 5 placeholders (§8.1); Wheel of Ignis/Aqua/Terra/Ventus/Solaris/Tenebrae (25100–25105); Fellcores (627–632); Odious unique items (633–638); Revans unique items (585–590); Tomes of Martial/Esoteric/Virtuosic Secrets (614/616/618).
+- New groups: `belief` (summon-keyed), `wheel`, `fellcore`, `odiousunique`, `revansunique`, `tomeofsecrets` (element-keyed). Revans mapping per user: water 585, fire 586, earth 587, wind 589, light 590, dark 588. `tomeofsecrets`: fire/water → Esoteric, earth/wind → Virtuosic, light/dark → Martial (light from the wiki's icon order; the wiki text names only the dark Evoker).
+- 33 icons fetched from the CDN via `supplies.images`; 5 placeholder icons copied locally.
+- `WhatsNew.vue` rewritten for this release (keeps the import-guide link).
+- `.claude/gen-item-totals.mjs` now resolves its read/write paths relative to itself (it hardcoded a lowercase `/home/octa/project/…` path that broke on case-sensitive filesystems).
+
+### Notes & constraints
+
+- `Calculator.vue` is unchanged; existing `CalcEvoker-progress` indices stay valid since the steps are appended.
+- Wiki gives no quantities for the Stage 1 Agate/NWQ/Ideans or either stage's Rupie; values above are from the user (in-game).
+- Stages 3–5: add as further steps when released.
+
+### Acceptance criteria
+
+1. Both steps appear at the end of the Evokers step dropdowns and resolve per Evoker element / summon id.
+2. `npm test` passes (354 icons); `npm run build` succeeds.
+3. `.claude/item-totals.*` regenerated — e.g. Justice full build: Belief in Justice 100, Wheel of Aqua 18, Rupie 5,227,000.
