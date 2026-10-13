@@ -305,12 +305,12 @@ const items = Object.freeze({
   hangedmanbelief: new Item('Belief in The Hanged Man', Categories.arcarum, '25091'),
   deathbelief: new Item('Belief in Death', Categories.arcarum, '25092'),
   temperancebelief: new Item('Belief in Temperance', Categories.arcarum, '25093'),
-  devilbelief: new Item('Belief in Devil', Categories.arcarum, '25094'),
+  devilbelief: new Item('Belief in The Devil', Categories.arcarum, '25094'),
   // To be released: placeholders (no itemId, icon is an intentionally empty .jpg so it renders as a broken image)
-  towerbelief: new Item('Belief in Tower', Categories.arcarum),
-  starbelief: new Item('Belief in Star', Categories.arcarum),
-  moonbelief: new Item('Belief in Moon', Categories.arcarum),
-  sunbelief: new Item('Belief in Sun', Categories.arcarum),
+  towerbelief: new Item('Belief in The Tower', Categories.arcarum),
+  starbelief: new Item('Belief in The Star', Categories.arcarum),
+  moonbelief: new Item('Belief in The Moon', Categories.arcarum),
+  sunbelief: new Item('Belief in The Sun', Categories.arcarum),
   judgementbelief: new Item('Belief in Judgement', Categories.arcarum),
   // Wheel
   firewheel: new Item('Wheel of Ignis', Categories.arcarum, '25100'),

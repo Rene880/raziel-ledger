@@ -1583,7 +1583,7 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `gospelofegeiro` | Gospel of Egeiro | 50 |
 | `aquilafragment` | Aquila Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `devilbelief` | Belief in Devil | 100 |
+| `devilbelief` | Belief in The Devil | 100 |
 | `aurorahaze` | Aurora Haze | 136 |
 | `newworldquartz` | New World Quartz | 140 |
 | `fireluster` | Ignis Luster | 300 |
@@ -1634,7 +1634,7 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `gospelofthysia` | Gospel of Thysia | 50 |
 | `celsusfragment` | Celsus Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `towerbelief` | Belief in Tower | 100 |
+| `towerbelief` | Belief in The Tower | 100 |
 | `chaotichaze` | Chaotic Haze | 136 |
 | `newworldquartz` | New World Quartz | 140 |
 | `earthluster` | Terra Luster | 300 |
@@ -1688,7 +1688,7 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `gospelofegeiro` | Gospel of Egeiro | 25 |
 | `celsusfragment` | Celsus Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `starbelief` | Belief in Star | 100 |
+| `starbelief` | Belief in The Star | 100 |
 | `aurorahaze` | Aurora Haze | 136 |
 | `newworldquartz` | New World Quartz | 140 |
 | `fireluster` | Ignis Luster | 150 |
@@ -1741,7 +1741,7 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `gospelofanalipsis` | Gospel of Analipsis | 50 |
 | `bellatorfragment` | Bellator Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `moonbelief` | Belief in Moon | 100 |
+| `moonbelief` | Belief in The Moon | 100 |
 | `chaotichaze` | Chaotic Haze | 136 |
 | `newworldquartz` | New World Quartz | 140 |
 | `waterluster` | Aqua Luster | 300 |
@@ -1792,7 +1792,7 @@ resolved per unit element/id and split across multi-element refs using the same 
 | `gospelofegeiro` | Gospel of Egeiro | 50 |
 | `aquilafragment` | Aquila Fragment | 90 |
 | `worldidean` | World Idean | 100 |
-| `sunbelief` | Belief in Sun | 100 |
+| `sunbelief` | Belief in The Sun | 100 |
 | `aurorahaze` | Aurora Haze | 136 |
 | `newworldquartz` | New World Quartz | 140 |
 | `fireluster` | Ignis Luster | 300 |

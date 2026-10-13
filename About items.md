@@ -315,11 +315,11 @@ Weapons use the `weapon/s/<id>.jpg` CDN path; their weapon id is carried as `ite
 | 25091 | item | Belief in The Hanged Man |
 | 25092 | item | Belief in Death |
 | 25093 | item | Belief in Temperance |
-| 25094 | item | Belief in Devil |
-| TBR | item | Belief in Tower |
-| TBR | item | Belief in Star |
-| TBR | item | Belief in Moon |
-| TBR | item | Belief in Sun |
+| 25094 | item | Belief in The Devil |
+| TBR | item | Belief in The Tower |
+| TBR | item | Belief in The Star |
+| TBR | item | Belief in The Moon |
+| TBR | item | Belief in The Sun |
 | TBR | item | Belief in Judgement |
 | 25100 | item | Wheel of Ignis |
 | 25101 | item | Wheel of Aqua |
