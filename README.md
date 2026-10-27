@@ -55,6 +55,12 @@ real enforcement is `prebuild`/CI.
 Pushing to `main` triggers [.github/workflows/deploy.yml](.github/workflows/deploy.yml), which builds the app
 and publishes `dist/` to GitHub Pages. In the repository settings, set **Pages → Source** to **GitHub Actions**.
 
+[.github/workflows/trivy.yml](.github/workflows/trivy.yml) runs a daily (03:17 UTC, or manual) Trivy
+filesystem scan of `main` for vulnerable dependencies, secrets, and misconfigurations (HIGH/CRITICAL,
+fixable only) and uploads the SARIF to **Security → Code scanning**; the job stays green on findings.
+All actions there are pinned by commit SHA, and [.github/dependabot.yml](.github/dependabot.yml) opens
+weekly update PRs for GitHub Actions.
+
 The app is built with base path `/raziel-ledger/` (see [vite.config.js](vite.config.js)); change it if the
 repository is renamed or a custom domain is used. SPA deep links work through a dedicated rafgraph
 [public/404.html](public/404.html) redirect (since v1.2.6): GitHub serves it for unknown paths, it

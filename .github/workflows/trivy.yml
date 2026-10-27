@@ -1,0 +1,44 @@
+name: Trivy
+
+on:
+  schedule:
+    - cron: '17 3 * * *'   # daily 03:17 UTC (off the hour; :00 runs get delayed)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write   # upload SARIF to code scanning
+
+concurrency:
+  group: trivy
+  cancel-in-progress: true
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: main
+          persist-credentials: false
+
+      # Installs the Trivy binary (no Docker image) and caches it plus the
+      # vulnerability DB between runs. Pinned by SHA: tags 0.0.1–0.34.2 were
+      # hijacked in March 2026 (CVE-2026-33634).
+      - name: Trivy filesystem scan
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret,misconfig
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          format: sarif
+          output: trivy-results.sarif
+          exit-code: '0'   # findings surface as code scanning alerts, not a red run
+
+      - uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
+        if: always()
+        with:
+          sarif_file: trivy-results.sarif
+          category: trivy

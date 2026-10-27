@@ -70,3 +70,5 @@ A previous Vue 3 + TypeScript app exists in git history (initial commit `e5fbb52
 ## Deployment
 
 Push to `main` runs `.github/workflows/deploy.yml` (build + `actions/deploy-pages`). Repository setting **Pages → Source** must be **GitHub Actions**.
+
+`.github/workflows/trivy.yml` runs a daily (`17 3 * * *` UTC + `workflow_dispatch`) Trivy `fs` scan of `main` (vuln/secret/misconfig, HIGH+CRITICAL, `ignore-unfixed`) via `aquasecurity/trivy-action` — a binary install with the binary and vuln DB cached by the action, no Docker image — and uploads SARIF to code scanning (`exit-code: 0`, so findings are alerts, not a red run). Every action in it is pinned by full commit SHA (trivy-action tags 0.0.1–0.34.2 were hijacked in March 2026, CVE-2026-33634); keep it that way. `.github/dependabot.yml` (github-actions, weekly) proposes SHA bumps. Intentional findings go in a scoped `.trivyignore.yaml` (rule ID + path) passed via the action's `trivyignores` input, never `skip-files`.

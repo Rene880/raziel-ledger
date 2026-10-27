@@ -69,6 +69,7 @@ Granblue Fantasy players tracking multi-month grinds for Eternals/Evokers. They 
 | Data | `supplies.js`, `supplies-common.js`, `supplies-eternals.js`, `supplies-evokers.js` carried over from GranblueParty (frozen data, no API); since v1.1, `supplies.js` is trimmed to referenced entries (§8). |
 | Images | Item images in `public/img/item/`, referenced via `import.meta.env.BASE_URL`; since v1.1, swept to the images `supplies.js` references (one `<key>.<jpg\|gif>` per item). Regenerable by WikiParser. |
 | Deploy | GitHub Actions workflow → `actions/deploy-pages` on push to `main`. Since v1.2.6 the deep-link fallback is a dedicated rafgraph `public/404.html` redirect (auto-copied to `dist/`), not a copy of `index.html` (PRD/v1.2.md, v1.2.6). |
+| Security scanning | Daily scheduled Trivy filesystem scan of `main` (`.github/workflows/trivy.yml`) → SARIF in code scanning; actions pinned by commit SHA, Dependabot for GitHub Actions. CI-only — no app version bump. |
 | License | GPL-3.0 retained (derivative work). |
 
 ### 6.1 Vue 2 → Vue 3 migration notes
